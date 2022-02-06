@@ -309,6 +309,7 @@ GameObject:
   m_Component:
   - component: {fileID: 655447486}
   - component: {fileID: 655447487}
+  - component: {fileID: 655447488}
   m_Layer: 0
   m_Name: Audio Manager
   m_TagString: Untagged
@@ -323,11 +324,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 655447485}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1302009126}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &655447487
@@ -348,13 +349,80 @@ MonoBehaviour:
     volume: 0.17
     pitch: 1
     loop: 0
+    audioMixer: {fileID: 3184677019643650906, guid: 8bd25ba5870077d4993b045ae429ebd9, type: 2}
     source: {fileID: 0}
   - name: Ambience
     clip: {fileID: 8300000, guid: 41f4a99d19ea3584fbe2ba4601cd6fb2, type: 3}
     volume: 0.37
     pitch: 1
     loop: 0
+    audioMixer: {fileID: 2114546667415191022, guid: 8bd25ba5870077d4993b045ae429ebd9, type: 2}
     source: {fileID: 0}
+  - name: GunShot
+    clip: {fileID: 8300000, guid: ea00b9cde36b566458ea1711b8c0e493, type: 3}
+    volume: 0.37
+    pitch: 1
+    loop: 0
+    audioMixer: {fileID: 2114546667415191022, guid: 8bd25ba5870077d4993b045ae429ebd9, type: 2}
+    source: {fileID: 0}
+  - name: MachineGun
+    clip: {fileID: 8300000, guid: d5d73befdc859234db8d07b15bada9a2, type: 3}
+    volume: 0.37
+    pitch: 1
+    loop: 0
+    audioMixer: {fileID: 2114546667415191022, guid: 8bd25ba5870077d4993b045ae429ebd9, type: 2}
+    source: {fileID: 0}
+  - name: LaserGun
+    clip: {fileID: 8300000, guid: 3982752dd76a716409938760482d5f32, type: 3}
+    volume: 0.37
+    pitch: 1
+    loop: 0
+    audioMixer: {fileID: 2114546667415191022, guid: 8bd25ba5870077d4993b045ae429ebd9, type: 2}
+    source: {fileID: 0}
+--- !u!114 &655447488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 655447485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33384a50b1e2462448060b38fd3a4e70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  theMixer: {fileID: 24100000, guid: 8bd25ba5870077d4993b045ae429ebd9, type: 2}
+--- !u!1 &1302009125
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1302009126}
+  m_Layer: 0
+  m_Name: Audio Tab
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1302009126
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1302009125}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 655447486}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1363467602
 GameObject:
   m_ObjectHideFlags: 0
