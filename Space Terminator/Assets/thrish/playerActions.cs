@@ -24,12 +24,13 @@ public class playerActions : MonoBehaviour
         currentPos = gameObject.transform.position;
 
         //stuffs
+        attack();
 
         previousPos = currentPos;
 
     }
 
-    public float attack(float numOfAtck)
+    public float attack()
     {
 
         //testing
