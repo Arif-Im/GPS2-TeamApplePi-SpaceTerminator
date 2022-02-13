@@ -28,7 +28,7 @@ public class PlayableMovement : TacticMove
         }
         else
         {
-            Move();
+            Move(() => { });
         }
     }
 

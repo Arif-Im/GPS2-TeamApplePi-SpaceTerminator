@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -132,7 +133,7 @@ public class TacticMove : MonoBehaviour
         }
     }
 
-    public void Move()
+    public void Move(Action onReachTarget)
     {
         //move as long as there's a path
         if (path.Count > 0)
@@ -174,6 +175,7 @@ public class TacticMove : MonoBehaviour
             RemoveSelectableGrid();
             moving = false;
             battleSystem.ChangeTurn(unit);
+            onReachTarget.Invoke();
             //fallingDown = false;
             //jumpingUp = false;
             //movingEdge = true;
