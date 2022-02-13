@@ -13,6 +13,11 @@ public class PlayableMovement : TacticMove
     // Update is called once per frame
     void Update()
     {
+        PlayerMove();
+    }
+
+    public virtual void PlayerMove()
+    {
         Debug.DrawRay(transform.position, transform.forward);
 
         if (!moving)

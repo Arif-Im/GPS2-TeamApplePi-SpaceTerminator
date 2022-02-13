@@ -109,6 +109,22 @@ public class TacticMove : MonoBehaviour
         }
     }
 
+    public List<Grid> GetSelectableGrids
+    {
+        get
+        {
+            List<Grid> selectableGrid = new List<Grid>();
+            foreach(GameObject g in grids)
+            {
+                if(g.GetComponent<Grid>().selectable)
+                {
+                    selectableGrid.Add(g.GetComponent<Grid>());
+                }
+            }
+            return selectableGrid;
+        }
+    }
+
     public void MoveToGrid(Grid grid)
     {
         path.Clear();
