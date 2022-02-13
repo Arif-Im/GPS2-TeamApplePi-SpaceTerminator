@@ -8,16 +8,20 @@ public class EnemyMovement : PlayableMovement
     [SerializeField] GameObject player;
     bool hasFoundTargetGrid = false;
     int closestGridToPlayerIndex = 0;
+    float distanceOfClosestGridToPlayer = 0;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        unit = GetComponent<Unit>();
+        //player = GameObject.FindGameObjectWithTag("Player");
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!unit.isCurrentTurn) return;
         PlayerMove();
     }
 
@@ -38,13 +42,12 @@ public class EnemyMovement : PlayableMovement
 
     private void SearchClosestGridToPlayer()
     {
-        float distanceOfClosestGridToPlayer = 0;
-
         if(!hasFoundTargetGrid)
         {
             closestGridToPlayerIndex = 0;
+            distanceOfClosestGridToPlayer = 0;
 
-            for(int i = 0; i < GetSelectableGrids.Count; i++)
+            for (int i = 0; i < GetSelectableGrids.Count; i++)
             {
                 if(i <= 0)
                 {
@@ -64,6 +67,7 @@ public class EnemyMovement : PlayableMovement
         }
         else
         {
+            Debug.Log($"Closest Grid to Player Distance: {distanceOfClosestGridToPlayer}");
             MoveToGrid(GetSelectableGrids[closestGridToPlayerIndex]);
         }
     }

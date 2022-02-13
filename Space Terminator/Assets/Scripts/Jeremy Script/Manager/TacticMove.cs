@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TacticMove : MonoBehaviour
 {
+    protected Unit unit;
+
     List<Grid> selectableGrid = new List<Grid>(); //to reset selectable tiles after moving
     GameObject[] grids;
 
@@ -11,6 +13,7 @@ public class TacticMove : MonoBehaviour
     Grid currentGrid;
 
     public bool moving = false;
+    [SerializeField] BattleSystem battleSystem;
     [SerializeField] int moveTile = 5; //can move 5 tiles per turn
     [SerializeField] float jumpHeight = 2; //can jump 2 tiles
     [SerializeField] float moveSpeed = 2;
@@ -111,18 +114,7 @@ public class TacticMove : MonoBehaviour
 
     public List<Grid> GetSelectableGrids
     {
-        get
-        {
-            List<Grid> selectableGrid = new List<Grid>();
-            foreach(GameObject g in grids)
-            {
-                if(g.GetComponent<Grid>().selectable)
-                {
-                    selectableGrid.Add(g.GetComponent<Grid>());
-                }
-            }
-            return selectableGrid;
-        }
+        get => selectableGrid;
     }
 
     public void MoveToGrid(Grid grid)
@@ -181,6 +173,7 @@ public class TacticMove : MonoBehaviour
         {
             RemoveSelectableGrid();
             moving = false;
+            battleSystem.ChangeTurn(unit);
             //fallingDown = false;
             //jumpingUp = false;
             //movingEdge = true;
