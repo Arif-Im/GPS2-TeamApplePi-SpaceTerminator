@@ -113,9 +113,19 @@ public class TacticMove : MonoBehaviour
         }
     }
 
-    public List<Grid> GetSelectableGrids
+    public List<Grid> SelectableGrids
     {
         get => selectableGrid;
+    }
+
+    public Stack<Grid> Path
+    {
+        get => path;
+    }
+
+    public bool Moving
+    {
+        get => moving;
     }
 
     public void MoveToGrid(Grid grid)

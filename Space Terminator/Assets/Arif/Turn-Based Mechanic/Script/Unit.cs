@@ -10,4 +10,12 @@ public class Unit : MonoBehaviour
     public float speed;
 
     public bool isCurrentTurn;
+
+    private void Update()
+    {
+        if(currentHealth <= 0)
+        {
+            Destroy(this.gameObject);
+        }
+    }
 }

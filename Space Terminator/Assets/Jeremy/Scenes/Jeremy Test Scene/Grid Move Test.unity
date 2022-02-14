@@ -6906,6 +6906,7 @@ GameObject:
   - component: {fileID: 1216157646}
   - component: {fileID: 1216157645}
   - component: {fileID: 1216157650}
+  - component: {fileID: 1216157651}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -7026,6 +7027,18 @@ MonoBehaviour:
   damage: 10
   speed: 10
   isCurrentTurn: 0
+--- !u!114 &1216157651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1216157644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 651f66dc79ed9d946a75ab5904d1f752, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1244217524
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11689,11 +11702,11 @@ PrefabInstance:
     - target: {fileID: 6491715316677873727, guid: 0ee859b807a99a0468ba16d38085e266, type: 3}
       propertyPath: unitList.Array.data[0]
       value: 
-      objectReference: {fileID: 2083914729}
+      objectReference: {fileID: 1216157650}
     - target: {fileID: 6491715316677873727, guid: 0ee859b807a99a0468ba16d38085e266, type: 3}
       propertyPath: unitList.Array.data[1]
       value: 
-      objectReference: {fileID: 1216157650}
+      objectReference: {fileID: 2083914729}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ee859b807a99a0468ba16d38085e266, type: 3}
 --- !u!1001 &2146154411

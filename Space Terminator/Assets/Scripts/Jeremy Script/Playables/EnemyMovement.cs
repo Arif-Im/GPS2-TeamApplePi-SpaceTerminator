@@ -35,7 +35,7 @@ public class EnemyMovement : PlayableMovement
         }
         else
         {
-            Move(()=> {
+            Move(() => {
                 hasFoundTargetGrid = false;
             });
         }
@@ -43,22 +43,22 @@ public class EnemyMovement : PlayableMovement
 
     private void SearchClosestGridToPlayer()
     {
-        if(!hasFoundTargetGrid)
+        if (!hasFoundTargetGrid)
         {
             closestGridToPlayerIndex = 0;
             distanceOfClosestGridToPlayer = 0;
 
-            for (int i = 0; i < GetSelectableGrids.Count; i++)
+            for (int i = 0; i < SelectableGrids.Count; i++)
             {
-                if(i <= 0)
+                if (i <= 0)
                 {
-                    distanceOfClosestGridToPlayer = Vector3.Distance(GetSelectableGrids[i].transform.position, player.transform.position);
+                    distanceOfClosestGridToPlayer = Vector3.Distance(SelectableGrids[i].transform.position, player.transform.position);
                 }
                 else
                 {
-                    if (Vector3.Distance(GetSelectableGrids[i].transform.position, player.transform.position) < distanceOfClosestGridToPlayer)
+                    if (Vector3.Distance(SelectableGrids[i].transform.position, player.transform.position) < distanceOfClosestGridToPlayer)
                     {
-                        distanceOfClosestGridToPlayer = Vector3.Distance(GetSelectableGrids[i].transform.position, player.transform.position);
+                        distanceOfClosestGridToPlayer = Vector3.Distance(SelectableGrids[i].transform.position, player.transform.position);
                         closestGridToPlayerIndex = i;
                     }
                 }
@@ -69,7 +69,12 @@ public class EnemyMovement : PlayableMovement
         else
         {
             Debug.Log($"Closest Grid to Player Distance: {distanceOfClosestGridToPlayer}");
-            MoveToGrid(GetSelectableGrids[closestGridToPlayerIndex]);
+            MoveToGrid(SelectableGrids[closestGridToPlayerIndex]);
         }
+    }
+
+    public Unit Player
+    {
+        get => player.GetComponent<Unit>();
     }
 }
