@@ -8,6 +8,7 @@ public class playerActions : MonoBehaviour
     private Vector3 currentPos;
     private Vector3 previousPos;
     private float numOfAtck;
+    public PointsManager pointsManager;
 
     // Start is called before the first frame update
     void Awake()
@@ -30,18 +31,17 @@ public class playerActions : MonoBehaviour
 
     }
 
-    public float attack()
+    public bool attack()
     {
 
         //testing
         if (Input.GetKeyDown(KeyCode.E))
         {
-
-            numOfAtck++;
-
+            //pointsManager.MinusPoints(pointsManager.currentPoints);
+            return true;
         }
 
-        return numOfAtck;
+        return false;
 
     }
 

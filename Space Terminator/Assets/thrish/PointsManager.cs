@@ -31,7 +31,7 @@ public class PointsManager : MonoBehaviour
     }
 
     public float maxPoints;
-    private float currentPoints;
+    public float currentPoints;
     public GameObject[] units;
     playerActions playerActions;
     public Text points;
@@ -51,18 +51,19 @@ public class PointsManager : MonoBehaviour
     private void Update()
     {
 
-        if (playerActions.attack() > 0)
+        if (playerActions.attack() == true)
         {
-            points.text = MinusPoints().ToString();
+            MinusPoints();
+            points.text = currentPoints.ToString();
         }
-
+        
+        
     }
 
-    float MinusPoints()
+    public void MinusPoints()
     {
 
         currentPoints -= 1;
-        return currentPoints;
 
     }
 

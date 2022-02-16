@@ -382,6 +382,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxPoints: 10
+  currentPoints: 0
   units:
   - {fileID: 5656443619987383936}
   points: {fileID: 241034193}
@@ -1109,6 +1110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55c1a55ead7a0754692853183a5593dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pointsManager: {fileID: 446306899}
 --- !u!1001 &7627794015579233229
 PrefabInstance:
   m_ObjectHideFlags: 0
