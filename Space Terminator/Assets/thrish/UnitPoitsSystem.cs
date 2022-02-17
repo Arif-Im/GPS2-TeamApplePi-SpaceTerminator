@@ -11,6 +11,7 @@ public class UnitPoitsSystem : MonoBehaviour
     float currentPoints;
     public Text points;
     public bool isSelected;
+    public Material unGlow;
 
     // Start is called before the first frame update
     void Awake()
@@ -18,6 +19,8 @@ public class UnitPoitsSystem : MonoBehaviour
 
         currentPoints = maxPoints;
         points.text = maxPoints.ToString();
+
+        UnitManager.onDeselectUnits += DeSelectUnit;
 
     }
 
@@ -39,6 +42,28 @@ public class UnitPoitsSystem : MonoBehaviour
     {
 
         currentPoints -= minusAmount;
+
+    }
+
+    void DeSelectUnit()
+    {
+
+        isSelected = false;
+        this.gameObject.GetComponent<MeshRenderer>().material = unGlow;
+
+    }
+
+    private void OnDestroy()
+    {
+
+        UnitManager.onDeselectUnits -= DeSelectUnit;
+
+    }
+
+    private void OnDisable()
+    {
+
+        UnitManager.onDeselectUnits -= DeSelectUnit;
 
     }
 

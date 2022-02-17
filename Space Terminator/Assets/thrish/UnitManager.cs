@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class UnitManager : MonoBehaviour
 {
 
     public Material glow;
+    public static Action onDeselectUnits;
 
     // Start is called before the first frame update
     void Awake()
@@ -18,6 +20,7 @@ public class UnitManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
+            onDeselectUnits.Invoke();
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 

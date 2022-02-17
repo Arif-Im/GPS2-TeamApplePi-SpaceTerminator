@@ -1112,6 +1112,8 @@ MonoBehaviour:
   maxPoints: 10
   minusAmount: 1
   points: {fileID: 241034193}
+  isSelected: 0
+  unGlow: {fileID: 2100000, guid: 75c096be83dae1d479d1b8fcaca345d8, type: 2}
 --- !u!114 &1533760910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1165,7 +1167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ab2f28d4d1873447a9a7e7d2213339d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  glow: {fileID: 0}
+  glow: {fileID: 2100000, guid: 82ee928c485bfb841be0b51a0ecf839b, type: 2}
 --- !u!4 &1666041557
 Transform:
   m_ObjectHideFlags: 0
@@ -1412,6 +1414,8 @@ MonoBehaviour:
   maxPoints: 10
   minusAmount: 1
   points: {fileID: 241034193}
+  isSelected: 0
+  unGlow: {fileID: 2100000, guid: 75c096be83dae1d479d1b8fcaca345d8, type: 2}
 --- !u!114 &5656443619987383945
 MonoBehaviour:
   m_ObjectHideFlags: 0
