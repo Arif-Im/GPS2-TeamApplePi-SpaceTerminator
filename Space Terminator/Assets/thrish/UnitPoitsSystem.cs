@@ -10,6 +10,7 @@ public class UnitPoitsSystem : MonoBehaviour
     [SerializeField] public float minusAmount = 1;
     float currentPoints;
     public Text points;
+    public bool isSelected;
 
     // Start is called before the first frame update
     void Awake()
@@ -26,7 +27,7 @@ public class UnitPoitsSystem : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && isSelected == true)
         {
             minusPoints();
             points.text = currentPoints.ToString();

@@ -5,12 +5,11 @@ using UnityEngine;
 public class UnitManager : MonoBehaviour
 {
 
-    public GlowManager glowManger;
+    public Material glow;
 
     // Start is called before the first frame update
     void Awake()
     {
-        glowManger = GetComponent<GlowManager>();
     }
 
     // Update is called once per frame
@@ -22,14 +21,23 @@ public class UnitManager : MonoBehaviour
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out hit, 100.0f))
+            if (Physics.Raycast(ray, out hit))
             {
-                if (hit.transform != null)
+                var selectedUnit = hit.transform;
+                if (selectedUnit.GetComponent<UnitPoitsSystem>())
                 {
-                    print(hit.transform.gameObject);
-                    glowManger.RayGlow();
+                    var selectedMesh = selectedUnit.GetComponent<MeshRenderer>();
+                    var selectedPointSystem = selectedUnit.GetComponent<UnitPoitsSystem>();
+                    if (hit.transform != null)
+                    {
+                        print(hit.transform.gameObject);
+                        //hit.transform.gameObject.GetComponent<GlowManager>().isGlowing = true;
+                        selectedMesh.material = glow;
+                        selectedPointSystem.isSelected = true;
+                    }
                 }
             }
         }
     }
+
 }

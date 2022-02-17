@@ -6,12 +6,20 @@ public class GlowManager : MonoBehaviour
 {
 
     public Material glow, nonglow;
-    public bool isGlowing = true;
+    public bool isGlowing;
+    public UnitManager unitManager;
+
+    private void Awake()
+    {
+
+        unitManager = GetComponent<UnitManager>();
+
+    }
 
     public void RayGlow()
     {
 
-        if (isGlowing)
+        if (isGlowing == true)
         {
             gameObject.GetComponent<MeshRenderer>().material = nonglow;
             isGlowing = false;
