@@ -8,6 +8,7 @@ public class Grid : MonoBehaviour
     public bool selectable = false; //selectable area for movement
     public bool walkable = true;
     public bool target = false; //where the player is moving
+    public bool isCover = false; //where the player is moving
 
     public List<Grid> adjacencyList = new List<Grid>(); //identify neighbours next to the occupied tile
 
@@ -23,6 +24,11 @@ public class Grid : MonoBehaviour
 
     void Update()
     {
+        CheckGridStatus();
+    }
+
+    public virtual void CheckGridStatus()
+    {
         if (occupied)
         {
             GetComponent<Renderer>().material.color = Color.red;
@@ -34,6 +40,10 @@ public class Grid : MonoBehaviour
         else if (selectable)
         {
             GetComponent<Renderer>().material.color = Color.yellow;
+        }
+        else if (isCover)
+        {
+            GetComponent<Renderer>().material.color = Color.blue;
         }
         else
         {

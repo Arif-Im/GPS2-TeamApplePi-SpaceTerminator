@@ -175,6 +175,10 @@ public class TacticMove : MonoBehaviour
             else
             {
                 //grid center reached
+                //if(g as Cover)
+                //{
+                //    Debug.Log("Player in Cover");
+                //}
                 transform.position = target;
                 path.Pop();
             }

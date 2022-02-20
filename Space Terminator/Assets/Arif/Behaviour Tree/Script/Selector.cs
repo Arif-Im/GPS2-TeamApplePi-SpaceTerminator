@@ -30,7 +30,7 @@ public class Selector : Node
         // Correct Answer
         Status childStatus = children[currentChild].Process();
 
-        Debug.Log($"Current Sequence: {children[currentChild].name}\nCurrent Status: {childStatus}");
+        //Debug.Log($"Current Sequence: {children[currentChild].name}\nCurrent Status: {childStatus}");
 
         if (childStatus == Status.RUNNING) return Status.RUNNING;
 

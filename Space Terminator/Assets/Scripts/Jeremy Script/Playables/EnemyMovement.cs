@@ -68,7 +68,7 @@ public class EnemyMovement : PlayableMovement
         }
         else
         {
-            Debug.Log($"Closest Grid to Player Distance: {distanceOfClosestGridToPlayer}");
+            //Debug.Log($"Closest Grid to Player Distance: {distanceOfClosestGridToPlayer}");
             MoveToGrid(SelectableGrids[closestGridToPlayerIndex]);
         }
     }
