@@ -13,7 +13,7 @@ public class Sequence : Node
     {
         Status childStatus = children[currentChild].Process();
 
-        Debug.Log($"Current Sequence: {children[currentChild].name}\nCurrent Status: {childStatus}");
+        //Debug.Log($"Current Sequence: {children[currentChild].name}\nCurrent Status: {childStatus}");
 
         if (childStatus == Status.RUNNING) return Status.RUNNING;
         if (childStatus == Status.FAILURE)
