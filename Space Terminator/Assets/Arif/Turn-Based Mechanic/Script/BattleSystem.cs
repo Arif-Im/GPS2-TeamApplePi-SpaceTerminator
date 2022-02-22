@@ -16,7 +16,7 @@ public class BattleSystem : MonoBehaviour
         unitList[0].isCurrentTurn = true;
     }
 
-    public void ChangeTurn(Unit unit)
+    public void ChangeTurn(Unit unit, float maxPoints)
     {
         int currentUnit = 0;
 
@@ -35,6 +35,7 @@ public class BattleSystem : MonoBehaviour
         }
         else
         {
+            unitList[currentUnit + 1].GetComponent<UnitPoitsSystem>().CurrentPoints = maxPoints;
             unitList[currentUnit + 1].isCurrentTurn = true;
         }
     }

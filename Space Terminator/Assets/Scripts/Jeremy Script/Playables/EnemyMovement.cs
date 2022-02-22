@@ -37,6 +37,10 @@ public class EnemyMovement : PlayableMovement
         {
             Move(() => {
                 hasFoundTargetGrid = false;
+                if (pointSystem.CurrentPoints < 1)
+                {
+                    battleSystem.ChangeTurn(this.GetComponent<Unit>(), pointSystem.maxPoints);
+                }
             });
         }
     }

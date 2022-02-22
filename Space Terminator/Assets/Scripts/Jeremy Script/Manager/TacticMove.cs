@@ -14,7 +14,8 @@ public class TacticMove : MonoBehaviour
     Grid currentGrid;
 
     public bool moving = false;
-    [SerializeField] BattleSystem battleSystem;
+    [SerializeField] protected UnitPoitsSystem pointSystem;
+    [SerializeField] protected BattleSystem battleSystem;
     [SerializeField] int moveTile = 5; //can move 5 tiles per turn
     [SerializeField] float jumpHeight = 2; //can jump 2 tiles
     [SerializeField] float moveSpeed = 2;
@@ -188,7 +189,8 @@ public class TacticMove : MonoBehaviour
         {
             RemoveSelectableGrid();
             moving = false;
-            battleSystem.ChangeTurn(unit);
+            pointSystem.minusPoints();
+            //battleSystem.ChangeTurn(unit);
             onReachTarget.Invoke();
             //fallingDown = false;
             //jumpingUp = false;

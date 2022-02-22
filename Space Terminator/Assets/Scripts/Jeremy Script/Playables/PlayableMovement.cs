@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayableMovement : TacticMove
 {
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,7 +29,12 @@ public class PlayableMovement : TacticMove
         }
         else
         {
-            Move(() => { });
+            Move(() => { 
+                if(pointSystem.CurrentPoints < 1)
+                {
+                    battleSystem.ChangeTurn(this.GetComponent<Unit>(), pointSystem.maxPoints);
+                }
+            });
         }
     }
 

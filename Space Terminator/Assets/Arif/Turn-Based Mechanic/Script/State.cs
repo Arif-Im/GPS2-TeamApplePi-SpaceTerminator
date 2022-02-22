@@ -139,7 +139,7 @@ public class Attack : State
 
     public override void Exit()
     {
-        battleSystem.ChangeTurn(unit);
+        //battleSystem.ChangeTurn(unit);
         base.Exit();
     }
 }

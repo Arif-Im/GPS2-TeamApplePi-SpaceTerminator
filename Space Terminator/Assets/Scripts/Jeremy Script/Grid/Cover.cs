@@ -17,32 +17,8 @@ public class Cover : Grid
     // Update is called once per frame
     void Update()
     {
-        //CheckGridStatus();
-    }
 
-    //public override void CheckGridStatus()
-    //{
-    //    if (occupied)
-    //    {
-    //        GetComponent<Renderer>().material.color = Color.red;
-    //    }
-    //    else if (target)
-    //    {
-    //        GetComponent<Renderer>().material.color = Color.green;
-    //    }
-    //    else if (selectable)
-    //    {
-    //        GetComponent<Renderer>().material.color = Color.yellow;
-    //    }
-    //    else if(isCover)
-    //    {
-    //        GetComponent<Renderer>().material.color = Color.blue;
-    //    }
-    //    else
-    //    {
-    //        GetComponent<Renderer>().material.color = Color.white;
-    //    }
-    //}
+    }
 
     public void CheckGrid(Vector3 dir)
     {

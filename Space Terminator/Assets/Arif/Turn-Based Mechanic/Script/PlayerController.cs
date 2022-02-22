@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
         if(Input.GetMouseButtonDown(0))
         {
             Debug.Log("Perform an Action");
-            battleSystem.ChangeTurn(unit);
+            //battleSystem.ChangeTurn(unit);
         }
     }
 }

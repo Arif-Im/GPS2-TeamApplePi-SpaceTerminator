@@ -13,12 +13,18 @@ public class UnitPoitsSystem : MonoBehaviour
     public bool isSelected;
     public Material unGlow;
 
+    public float CurrentPoints
+    {
+        get => currentPoints;
+        set => currentPoints = value;
+    }
+
     // Start is called before the first frame update
     void Awake()
     {
-
         currentPoints = maxPoints;
-        points.text = maxPoints.ToString();
+        if (points != null)
+            points.text = maxPoints.ToString();
 
         UnitManager.onDeselectUnits += DeSelectUnit;
 
