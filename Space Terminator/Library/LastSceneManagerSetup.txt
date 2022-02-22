@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Arif/Turn-Based Mechanic/Scenes/Turn Based Scene.unity
+- path: Assets/Scenes/unitChoosing.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0
