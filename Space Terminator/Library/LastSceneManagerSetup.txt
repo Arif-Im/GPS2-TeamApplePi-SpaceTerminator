@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Arif/Turn-Based Mechanic/Scenes/Turn Based Scene.unity
+- path: Assets/Scenes/Jeremy Test Scene/Grid Move Test.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0

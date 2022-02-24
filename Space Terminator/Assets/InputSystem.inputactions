@@ -1,0 +1,34 @@
+{
+    "name": "InputSystem",
+    "maps": [
+        {
+            "name": "New action map",
+            "id": "fc96c623-8048-4ad6-b8f4-118ce8d28ce5",
+            "actions": [
+                {
+                    "name": "rotateFloor",
+                    "type": "Button",
+                    "id": "7b25ffc8-20b4-4816-bf1f-59f9f8293521",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "5b21a43e-b416-4ce8-ab1e-4a9a99305d1a",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "rotateFloor",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
