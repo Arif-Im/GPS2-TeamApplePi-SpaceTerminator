@@ -29,11 +29,8 @@ public class PlayableMovement : TacticMove
         }
         else
         {
-            Move(() => { 
-                if(pointSystem.CurrentPoints < 1)
-                {
-                    battleSystem.ChangeTurn(this.GetComponent<Unit>(), pointSystem.maxPoints);
-                }
+            Move(() => {
+                unit.DeductPointsOrChangeTurn(1);
             });
         }
     }

@@ -10,9 +10,12 @@ public class EnemyMovement : PlayableMovement
     int closestGridToPlayerIndex = 0;
     float distanceOfClosestGridToPlayer = 0;
 
+    UnitPoitsSystem unitPoints;
+
     // Start is called before the first frame update
     void Start()
     {
+        unitPoints = GetComponent<UnitPoitsSystem>();
         unit = GetComponent<Unit>();
         //player = GameObject.FindGameObjectWithTag("Player");
     }
@@ -37,10 +40,7 @@ public class EnemyMovement : PlayableMovement
         {
             Move(() => {
                 hasFoundTargetGrid = false;
-                if (pointSystem.CurrentPoints < 1)
-                {
-                    battleSystem.ChangeTurn(this.GetComponent<Unit>(), pointSystem.maxPoints);
-                }
+                unit.DeductPointsOrChangeTurn(1);
             });
         }
     }

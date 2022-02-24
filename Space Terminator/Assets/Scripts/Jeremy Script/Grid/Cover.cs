@@ -2,16 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Cover : Grid
+public class Cover : MonoBehaviour
 {
     
     // Start is called before the first frame update
     void Start()
     {
-        CheckGrid(Vector3.forward); //front
-        CheckGrid(-Vector3.forward); //back
-        CheckGrid(Vector3.right); //right
-        CheckGrid(-Vector3.right); //left
+        CheckCoverPositions(Vector3.forward); //front
+        CheckCoverPositions(-Vector3.forward); //back
+        CheckCoverPositions(Vector3.right); //right
+        CheckCoverPositions(-Vector3.right); //left
     }
 
     // Update is called once per frame
@@ -20,7 +20,7 @@ public class Cover : Grid
 
     }
 
-    public void CheckGrid(Vector3 dir)
+    public void CheckCoverPositions(Vector3 dir)
     {
         Vector3 halfExtent = new Vector3(.25f, 1, .25f); //check if a tile is present (1 x 1 x 1 dimension)
         Collider[] colliders = Physics.OverlapBox(transform.position + dir, halfExtent);

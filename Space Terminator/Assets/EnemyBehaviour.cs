@@ -25,8 +25,8 @@ public class EnemyBehaviour : MonoBehaviour
         Leaf goToPlayer = new Leaf("Go To Player", GoToPlayer);
         Leaf attackPlayer = new Leaf("Attack Player", AttackPlayer);
 
-        attack.AddChild(canAttackPlayer);
         attack.AddChild(goToPlayer);
+        attack.AddChild(canAttackPlayer);
         attack.AddChild(attackPlayer);
 
         Sequence idle = new Sequence("Idle");
@@ -44,6 +44,14 @@ public class EnemyBehaviour : MonoBehaviour
         tree.PrintTree();
     }
 
+    private Node.Status ChangeTurnOnFailure()
+    {
+        unit.ChangeTurn();
+        return Node.Status.FAILURE;
+    }
+
+    #region Behaviours
+
     public Node.Status Idle()
     {
         if(unit.isCurrentTurn)
@@ -53,17 +61,13 @@ public class EnemyBehaviour : MonoBehaviour
         return Node.Status.SUCCESS;
     }
 
-    public Node.Status CanAttack()
-    {
-        if(!unit.isCurrentTurn)
-        {
-            return Node.Status.FAILURE;
-        }
-        return Node.Status.SUCCESS;
-    }
-
     public Node.Status GoToPlayer()
     {
+        if (!unit.isCurrentTurn || unit.GetUnitPoints() < 1)
+        {
+            return ChangeTurnOnFailure();
+        }
+
         if (!enemyMovement.Moving && enemyMovement.Path.Count <= 0)
         {
             return Node.Status.SUCCESS;
@@ -78,11 +82,31 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
 
+    public Node.Status CanAttack()
+    {
+        if (!unit.isCurrentTurn || unit.GetUnitPoints() < 1)
+        {
+            return ChangeTurnOnFailure();
+        }
+
+        if (Vector3.Distance(this.gameObject.transform.position, enemyMovement.Player.transform.position) > 1)
+        {
+            return Node.Status.FAILURE;
+        }
+        return Node.Status.SUCCESS;
+    }
+
     public Node.Status AttackPlayer()
     {
-        if(enemyMovement.Player.currentHealth > 0)
+        if (!unit.isCurrentTurn || unit.GetUnitPoints() < 1)
         {
-            enemyMovement.Player.currentHealth -= 2;
+            return ChangeTurnOnFailure();
+        }
+
+        if (enemyMovement.Player.currentHealth > 0)
+        {
+            enemyMovement.Player.TakeDamage(unit.damage);
+            unit.DeductPointsOrChangeTurn(1);
             return Node.Status.SUCCESS;
         }
         return Node.Status.FAILURE;
@@ -93,4 +117,6 @@ public class EnemyBehaviour : MonoBehaviour
         //if (treeStatus != Node.Status.SUCCESS)
             treeStatus = tree.Process();
     }
+
+    #endregion
 }
