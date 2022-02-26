@@ -2,14 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum AttackState { Idle, UnderAttack, FinishAttacked}
+
 public class Unit : MonoBehaviour
 {
     public float maxHealth;
     public float currentHealth;
-    public int damage;
+    public float damage;
     public float speed;
 
     BattleSystem battleSystem;
+    public AttackState state;
+    [SerializeField] float punchDamagePoint;
+    [SerializeField] GameObject floatingText;
+
+    public float Health { get => currentHealth; }
+    public float PunchDamage { get => punchDamagePoint; }
 
     public UnitPoitsSystem unitPointsSystem;
     bool isTakingCover = false;
@@ -30,6 +38,14 @@ public class Unit : MonoBehaviour
         battleSystem = FindObjectOfType<BattleSystem>();
     }
 
+    private void Update()
+    {
+        if(currentHealth <= 0)
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
     public void DeductPointsOrChangeTurn(int amount)
     {
         unitPointsSystem.minusPoints(amount);
@@ -46,16 +62,31 @@ public class Unit : MonoBehaviour
     }
 
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         currentHealth -= damage;
     }
 
-    private void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        if(currentHealth <= 0)
+        if(other.CompareTag("Bullet"))
         {
-            Destroy(this.gameObject);
+            if(gameObject.CompareTag("Player"))
+            {
+                Debug.Log("hit");
+                Destroy(other.gameObject);
+
+                if (floatingText != null)
+                {
+                    var go = Instantiate(floatingText, transform.position, Quaternion.identity, transform);
+
+                    if (other.gameObject.GetComponent<Bullet>().Damage != 0)
+                        go.GetComponent<TextMesh>().text = other.gameObject.GetComponent<Bullet>().Damage.ToString();
+                    else
+                        go.GetComponent<TextMesh>().text = "Miss";
+                }
+                TakeDamage(other.gameObject.GetComponent<Bullet>().Damage);
+            }
         }
     }
 }

@@ -20,6 +20,8 @@ public class TacticMove : MonoBehaviour
     [SerializeField] float moveSpeed = 2;
     [SerializeField] float jumpVel = 5;
 
+    [SerializeField] float rotateSpeed = 2;
+    [SerializeField] GameObject bulletPrefab;
 
     Vector3 velocity = new Vector3();
     Vector3 heading = new Vector3(); //direction going
@@ -29,6 +31,9 @@ public class TacticMove : MonoBehaviour
     //Jump variables
     bool fallingDown = false, jumpingUp = false, movingEdge = false;
     Vector3 jumpTarget;
+
+    public Grid actualTargetGrid;
+    public bool attacking;
 
     private void Awake()
     {
@@ -58,7 +63,7 @@ public class TacticMove : MonoBehaviour
         currentGrid.occupied = true;
     }
 
-    Grid GetTargetTile(GameObject target)
+    public Grid GetTargetTile(GameObject target)
     {
         RaycastHit hit;
         Grid grid = null;
@@ -71,20 +76,20 @@ public class TacticMove : MonoBehaviour
         return grid;
     }
 
-    void ComputeAdjacencyList()
+    void ComputeAdjacencyList(float jumpHeight, Grid target)
     {
         grids = GameObject.FindGameObjectsWithTag("Grid"); //find all the grids
 
         foreach (GameObject grid in grids)
         {
             Grid g = grid.GetComponent<Grid>();
-            g.FindNeighbors(jumpHeight);
+            g.FindNeighbors(jumpHeight, target);
         }
     }
 
     public void FindSelectableGrid()
     {
-        ComputeAdjacencyList();
+        ComputeAdjacencyList(jumpHeight, null);
         GetCurrentGrid();
 
         //initiate Breadth First Search, starts with first grid, then grow outward to check selectable grids
@@ -145,6 +150,45 @@ public class TacticMove : MonoBehaviour
         {
             path.Push(next);
             next = next.parent;
+        }
+    }
+
+    public IEnumerator Shoot(Grid targetEnemy)
+    {
+        gameObject.GetComponent<Unit>().state = AttackState.UnderAttack;
+        GameObject.FindGameObjectWithTag("Dice").GetComponent<Dice>().state = DiceRoll.Rolling;
+        GameObject.FindGameObjectWithTag("Dice").GetComponent<Dice>().RollDice();
+        attacking = true;
+
+        Quaternion shootRotation = Quaternion.LookRotation(targetEnemy.transform.position - transform.position);
+        float time = 0;
+        RemoveSelectableGrid();
+
+        yield return new WaitForSeconds(2f);
+
+        while(time < 1)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, shootRotation, time);
+            time += Time.deltaTime * rotateSpeed;
+        }
+
+        yield return null;
+
+        for(int x = 0; x < 3; x++)
+        {
+            if (bulletPrefab != null)
+                Instantiate(bulletPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z +0.5f), transform.rotation);
+            Debug.Log("Pew");
+            yield return new WaitForSeconds(0.1f);
+        }
+        attacking = false;
+        gameObject.GetComponent<Unit>().state = AttackState.FinishAttacked;
+
+        if(gameObject.GetComponent<Unit>().state == AttackState.FinishAttacked)
+        {
+            yield return new WaitForSeconds(0.4f);
+            gameObject.GetComponent<Unit>().state = AttackState.Idle;
+            unit.DeductPointsOrChangeTurn(1);
         }
     }
 
@@ -318,4 +362,118 @@ public class TacticMove : MonoBehaviour
             velocity.y = 1.5f; //hop
         }
     }
+
+    protected Grid FindLowestF(List<Grid> list)
+    {
+        Grid lowest = list[0];
+        foreach(Grid g in list)
+        {
+            if(g.f < lowest.f)
+            {
+                lowest = g;
+            }
+        }
+        list.Remove(lowest);
+        return lowest;
+    }
+
+    protected Grid FindEndGrid (Grid t)
+    {
+        Stack<Grid> tempPath = new Stack<Grid>();
+
+        Grid next = t.parent;
+        while (next != null)
+        {
+            tempPath.Push(next);
+            next = next.parent;
+        }
+
+        if (tempPath.Count <= moveTile)
+        {
+            return t.parent;
+        }
+
+        Grid endGrid = null;
+        for (int x = 0; x <= moveTile; x++)
+        {
+             endGrid = tempPath.Pop();
+        }
+        return endGrid;
+    }
+
+    protected void FindPath(Grid target)
+    {
+        Debug.Log($"FindPath Target: {target.name}");
+        ComputeAdjacencyList(jumpHeight, target);
+        GetCurrentGrid();
+
+        List<Grid> openList = new List<Grid>();
+        List<Grid> closedList = new List<Grid>();
+
+        openList.Add(currentGrid);
+        currentGrid.h = Vector3.Distance(currentGrid.transform.position, target.transform.position);
+        currentGrid.f = currentGrid.h;
+
+        while (openList.Count > 0)
+        {
+            Grid t = FindLowestF(openList);
+            Debug.Log($"t Name: {t.name}, target Name: {target.name}");
+            closedList.Add(t);
+
+            //if(t == null)
+            //{
+            //    Debug.Log("T is null");
+            //}
+
+            if (t == target)
+            {
+                Debug.Log($"t Name: {t.name}");
+                Debug.Log($"End Grid: {FindEndGrid(t)}");
+                actualTargetGrid = FindEndGrid(t);
+                MoveToGrid(actualTargetGrid);
+                return;
+            }
+
+            foreach (Grid grid in t.adjacencyList)
+            {
+                if (closedList.Contains(grid))
+                {
+
+                }
+                else if (openList.Contains(grid))
+                {
+                    float temp = t.g + Vector3.Distance(grid.transform.position, t.transform.position);
+                    if (temp < grid.g)
+                    {
+                        grid.parent = grid;
+                        grid.g = temp;
+                        grid.f = grid.g - grid.h;
+                    }
+                }
+                else
+                {
+                    grid.parent = t;
+                    grid.g = t.g + Vector3.Distance(grid.transform.position, t.transform.position);
+                    grid.h = Vector3.Distance(grid.transform.position, target.transform.position);
+                    grid.f = grid.g + grid.h;
+
+                    openList.Add(grid);
+                }
+            }
+        }
+
+    }
+
+    //public Grid GetTargetTile(GameObject target)
+    //{
+    //    RaycastHit hit;
+    //    Grid grid = null;
+
+    //    if(Physics.Raycast(target.transform.position, -Vector3.up, out hit, 1))
+    //    {
+    //        grid = hit.collider.GetComponent<Grid>();
+    //    }
+
+    //    return grid;
+    //}
 }

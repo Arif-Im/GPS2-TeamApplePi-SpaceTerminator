@@ -37,12 +37,12 @@ public class PlayableMovement : TacticMove
 
     void CheckInput()
     {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
         //mouse click for now to test, me hates mobile testing
         if (Input.GetMouseButtonUp(0))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {
                 if (hit.collider.tag == "Grid")
@@ -53,6 +53,19 @@ public class PlayableMovement : TacticMove
                     {
                         MoveToGrid(g);
                     }
+                }
+            }
+        }
+        if (Physics.Raycast(ray, out hit))
+        {
+            if (hit.collider.tag == "Alien" && !attacking)
+            {
+                Grid g = hit.collider.GetComponent<Grid>();
+
+                if (g.selectable)
+                {
+                    attacking = true;
+                    StartCoroutine(Shoot(g));
                 }
             }
         }

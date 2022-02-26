@@ -28,7 +28,7 @@ public class Cover : MonoBehaviour
         foreach (Collider item in colliders)
         {
             Grid grid = item.GetComponent<Grid>();
-            Debug.Log($"Grid Name: {grid}");
+            //Debug.Log($"Grid Name: {grid}");
             if (grid != null && grid.walkable) //if there's a grid and it's walkable
             {
                 RaycastHit hit;

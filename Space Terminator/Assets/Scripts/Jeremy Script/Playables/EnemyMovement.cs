@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyMovement : PlayableMovement
+public class EnemyMovement : TacticMove
 {
     [SerializeField] GameObject player;
     bool hasFoundTargetGrid = false;
@@ -23,23 +23,32 @@ public class EnemyMovement : PlayableMovement
     // Update is called once per frame
     void Update()
     {
-        if (!unit.isCurrentTurn) return;
         PlayerMove();
     }
 
-    public override void PlayerMove()
+    public void PlayerMove()
     {
         Debug.DrawRay(transform.position, transform.forward);
 
+        if (!unit.isCurrentTurn) return;
+
         if (!moving)
         {
+            FindNearestTarget();
+            CalculatePath();
             FindSelectableGrid();
-            SearchClosestGridToPlayer();
+            if(actualTargetGrid != null)
+            {
+                Debug.Log($"actualTargetGrid: {actualTargetGrid.name}");
+                actualTargetGrid.target = true;
+            }
+            //FindSelectableGrid();
+            //SearchClosestGridToPlayer();
         }
         else
         {
             Move(() => {
-                hasFoundTargetGrid = false;
+                //hasFoundTargetGrid = false;
                 unit.DeductPointsOrChangeTurn(1);
             });
         }
@@ -77,8 +86,32 @@ public class EnemyMovement : PlayableMovement
         }
     }
 
+    void CalculatePath()
+    {
+        Grid targetGrid = GetTargetTile(player);
+        FindPath(targetGrid);
+    }
+
     public Unit Player
     {
         get => player.GetComponent<Unit>();
+    }
+
+    void FindNearestTarget()
+    {
+        GameObject[] targets = GameObject.FindGameObjectsWithTag("Player");
+        GameObject nearest = null;
+        float dist = Mathf.Infinity;
+        foreach(GameObject obj in targets)
+        {
+            float d = Vector3.Distance(transform.position, obj.transform.position);
+            if(d < dist)
+            {
+                dist = d;
+                nearest = obj;
+            }
+        }
+        player = nearest;
+        Debug.Log($"Player: {player.name}");
     }
 }

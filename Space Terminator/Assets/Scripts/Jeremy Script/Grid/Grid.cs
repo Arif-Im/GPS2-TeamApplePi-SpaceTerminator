@@ -17,6 +17,10 @@ public class Grid : MonoBehaviour
     public Grid parent = null;
     public int distance = 0; //max range the player can walk
 
+    public float f = 0;
+    public float g = 0;
+    public float h = 0;
+
     void Start()
     {
 
@@ -62,21 +66,22 @@ public class Grid : MonoBehaviour
         visited = false; //tile has been walked through
         parent = null;
         distance = 0; //max range the player can walk
+        f = g = h = 0;
     }
 
     //jump height in case there's vertical 
-    public void FindNeighbors(float jumpHeight)
+    public void FindNeighbors(float jumpHeight, Grid target)
     {
         Reset(); //Reset previous variables when finding new neighbors
 
-        CheckGrid(Vector3.forward, jumpHeight); //front
-        CheckGrid(-Vector3.forward, jumpHeight); //back
-        CheckGrid(Vector3.right, jumpHeight); //right
-        CheckGrid(-Vector3.right, jumpHeight); //left
+        CheckGrid(Vector3.forward, jumpHeight, target); //front
+        CheckGrid(-Vector3.forward, jumpHeight, target); //back
+        CheckGrid(Vector3.right, jumpHeight, target); //right
+        CheckGrid(-Vector3.right, jumpHeight, target); //left
 
     }
 
-    public void CheckGrid(Vector3 dir, float jumpHeight)
+    public void CheckGrid(Vector3 dir, float jumpHeight, Grid target)
     {
         Vector3 halfExtent = new Vector3(.25f, (1 * jumpHeight) / 2f, .25f); //check if a tile is present (1 x 1 x 1 dimension)
         Collider[] colliders = Physics.OverlapBox(transform.position + dir, halfExtent);
@@ -89,7 +94,7 @@ public class Grid : MonoBehaviour
                 RaycastHit hit;
 
                 //check if there's NPC or players occupying the grid. If no, grid is walkable
-                if (!Physics.Raycast(grid.transform.position, Vector2.up, out hit, 1))
+                if (!Physics.Raycast(grid.transform.position, Vector2.up, out hit, 1) || grid == target)
                 {
                     adjacencyList.Add(grid);
                 }
