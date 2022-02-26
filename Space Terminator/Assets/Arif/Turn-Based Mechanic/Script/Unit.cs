@@ -19,6 +19,7 @@ public class Unit : MonoBehaviour
     public float Health { get => currentHealth; }
     public float PunchDamage { get => punchDamagePoint; }
 
+
     public UnitPoitsSystem unitPointsSystem;
     bool isTakingCover = false;
     public bool isCurrentTurn;
@@ -69,10 +70,12 @@ public class Unit : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Bullet"))
+        if(other.gameObject.CompareTag("Bullet"))
         {
-            if(gameObject.CompareTag("Player"))
+            if(gameObject.CompareTag("Player") || gameObject.CompareTag("Alien"))
             {
+                if (other.gameObject.GetComponent<Bullet>().Shooter == this.gameObject) return;
+
                 Debug.Log("hit");
                 Destroy(other.gameObject);
 
@@ -85,6 +88,7 @@ public class Unit : MonoBehaviour
                     else
                         go.GetComponent<TextMesh>().text = "Miss";
                 }
+                Debug.Log($"Damage: {other.gameObject.GetComponent<Bullet>().Damage}");
                 TakeDamage(other.gameObject.GetComponent<Bullet>().Damage);
             }
         }

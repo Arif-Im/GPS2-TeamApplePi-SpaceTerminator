@@ -35,6 +35,8 @@ public class TacticMove : MonoBehaviour
     public Grid actualTargetGrid;
     public bool attacking;
 
+    public int MoveTile { get => moveTile; }
+
     private void Awake()
     {
         unit = GetComponent<Unit>();
@@ -153,8 +155,12 @@ public class TacticMove : MonoBehaviour
         }
     }
 
+    //bool hasShot = false;
     public IEnumerator Shoot(Grid targetEnemy)
     {
+        //if (hasShot == true) yield break;
+        unit.DeductPointsOrChangeTurn(1);
+
         gameObject.GetComponent<Unit>().state = AttackState.UnderAttack;
         GameObject.FindGameObjectWithTag("Dice").GetComponent<Dice>().state = DiceRoll.Rolling;
         GameObject.FindGameObjectWithTag("Dice").GetComponent<Dice>().RollDice();
@@ -177,8 +183,9 @@ public class TacticMove : MonoBehaviour
         for(int x = 0; x < 3; x++)
         {
             if (bulletPrefab != null)
-                Instantiate(bulletPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z +0.5f), transform.rotation);
-            Debug.Log("Pew");
+                SpawnBullet(this.gameObject);
+                //Instantiate(bulletPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z +0.5f), transform.rotation);
+            Debug.Log($"{gameObject.name}, Pew");
             yield return new WaitForSeconds(0.1f);
         }
         attacking = false;
@@ -188,8 +195,14 @@ public class TacticMove : MonoBehaviour
         {
             yield return new WaitForSeconds(0.4f);
             gameObject.GetComponent<Unit>().state = AttackState.Idle;
-            unit.DeductPointsOrChangeTurn(1);
         }
+        //hasShot = false;
+    }
+
+    public void SpawnBullet(GameObject shooter)
+    {
+        GameObject bullet = Instantiate(bulletPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z + 0.5f), transform.rotation);
+        bullet.GetComponent<Bullet>().Shooter = shooter;
     }
 
     public void Move(Action onReachTarget)
@@ -403,7 +416,7 @@ public class TacticMove : MonoBehaviour
 
     protected void FindPath(Grid target)
     {
-        Debug.Log($"FindPath Target: {target.name}");
+        //Debug.Log($"FindPath Target: {target.name}");
         ComputeAdjacencyList(jumpHeight, target);
         GetCurrentGrid();
 
@@ -417,7 +430,7 @@ public class TacticMove : MonoBehaviour
         while (openList.Count > 0)
         {
             Grid t = FindLowestF(openList);
-            Debug.Log($"t Name: {t.name}, target Name: {target.name}");
+            //Debug.Log($"t Name: {t.name}, target Name: {target.name}");
             closedList.Add(t);
 
             //if(t == null)
@@ -427,8 +440,8 @@ public class TacticMove : MonoBehaviour
 
             if (t == target)
             {
-                Debug.Log($"t Name: {t.name}");
-                Debug.Log($"End Grid: {FindEndGrid(t)}");
+                //Debug.Log($"t Name: {t.name}");
+                //Debug.Log($"End Grid: {FindEndGrid(t)}");
                 actualTargetGrid = FindEndGrid(t);
                 MoveToGrid(actualTargetGrid);
                 return;

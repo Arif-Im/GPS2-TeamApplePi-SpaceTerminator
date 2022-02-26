@@ -41,7 +41,7 @@ public class PlayableMovement : TacticMove
         RaycastHit hit;
 
         //mouse click for now to test, me hates mobile testing
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonDown(0))
         {
             if (Physics.Raycast(ray, out hit))
             {
@@ -56,7 +56,7 @@ public class PlayableMovement : TacticMove
                 }
             }
         }
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit) && Input.GetMouseButtonDown(0))
         {
             if (hit.collider.tag == "Alien" && !attacking)
             {

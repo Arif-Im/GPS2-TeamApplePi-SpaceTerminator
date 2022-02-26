@@ -9,6 +9,7 @@ public class Bullet : MonoBehaviour
     [SerializeField] float speed;
     [SerializeField] float damagePoint = 2f;
     float damage;
+    public GameObject Shooter { get;  set; }
 
     public float Damage { get => damage; }
 
@@ -26,9 +27,9 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.CompareTag("Grid") || collision.gameObject.CompareTag("Alien"))
+        if (collision.gameObject.CompareTag("Grid"))
             Destroy(gameObject);
     }
 }

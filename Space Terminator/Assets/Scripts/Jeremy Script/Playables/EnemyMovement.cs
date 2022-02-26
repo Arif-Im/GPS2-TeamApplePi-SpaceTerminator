@@ -23,11 +23,6 @@ public class EnemyMovement : TacticMove
     // Update is called once per frame
     void Update()
     {
-        PlayerMove();
-    }
-
-    public void PlayerMove()
-    {
         Debug.DrawRay(transform.position, transform.forward);
 
         if (!unit.isCurrentTurn) return;
@@ -37,7 +32,7 @@ public class EnemyMovement : TacticMove
             FindNearestTarget();
             CalculatePath();
             FindSelectableGrid();
-            if(actualTargetGrid != null)
+            if (actualTargetGrid != null)
             {
                 Debug.Log($"actualTargetGrid: {actualTargetGrid.name}");
                 actualTargetGrid.target = true;
@@ -45,7 +40,36 @@ public class EnemyMovement : TacticMove
             //FindSelectableGrid();
             //SearchClosestGridToPlayer();
         }
-        else
+        //PlayerMove();
+    }
+
+    public void EnemyMove()
+    {
+        //Debug.DrawRay(transform.position, transform.forward);
+
+        //if (!unit.isCurrentTurn) return;
+
+        //if (!moving)
+        //{
+        //    FindNearestTarget();
+        //    CalculatePath();
+        //    FindSelectableGrid();
+        //    if(actualTargetGrid != null)
+        //    {
+        //        Debug.Log($"actualTargetGrid: {actualTargetGrid.name}");
+        //        actualTargetGrid.target = true;
+        //    }
+        //    //FindSelectableGrid();
+        //    //SearchClosestGridToPlayer();
+        //}
+        //else
+        //{
+        //    Move(() => {
+        //        //hasFoundTargetGrid = false;
+        //        unit.DeductPointsOrChangeTurn(1);
+        //    });
+        //}
+        if(moving)
         {
             Move(() => {
                 //hasFoundTargetGrid = false;
