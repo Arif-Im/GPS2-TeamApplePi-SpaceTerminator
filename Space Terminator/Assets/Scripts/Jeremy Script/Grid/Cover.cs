@@ -2,12 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Cover : MonoBehaviour
+public class Cover : Grid
 {
-    
+    [SerializeField] LayerMask whatIsGrid;
+    Grid grid;
+
     // Start is called before the first frame update
     void Start()
     {
+        if(Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 10, whatIsGrid))
+        {
+            Debug.Log(hit.collider.gameObject.GetComponent<Grid>());
+            grid = hit.collider.gameObject.GetComponent<Grid>();
+        }
+
+
         CheckCoverPositions(Vector3.forward); //front
         CheckCoverPositions(-Vector3.forward); //back
         CheckCoverPositions(Vector3.right); //right
@@ -28,7 +37,6 @@ public class Cover : MonoBehaviour
         foreach (Collider item in colliders)
         {
             Grid grid = item.GetComponent<Grid>();
-            //Debug.Log($"Grid Name: {grid}");
             if (grid != null && grid.walkable) //if there's a grid and it's walkable
             {
                 RaycastHit hit;
@@ -36,11 +44,17 @@ public class Cover : MonoBehaviour
                 //check if there's NPC or players occupying the grid. If no, grid is walkable
                 if (!Physics.Raycast(grid.transform.position, Vector2.up, out hit, 1))
                 {
-                    grid.isCover = true;
-                    //adjacencyList.Add(grid);
+                    //grid.isCover = true;
+                    SetCover(grid);
                 }
 
             }
         }
+    }
+
+    public void SetCover(Grid grid)
+    {
+        grid.CoverOrigin = this.grid;
+        grid.isCover = true;
     }
 }

@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Scenes/testThrish.unity
+- path: Assets/Jeremy/Scenes/Jeremy Test Scene/Grid Move Test.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0

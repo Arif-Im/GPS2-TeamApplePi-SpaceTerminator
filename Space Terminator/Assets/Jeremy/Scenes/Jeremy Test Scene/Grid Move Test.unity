@@ -2925,6 +2925,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15f6196e495d5cd41b4cfcccb2f00dad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  whatIsGrid:
+    serializedVersion: 2
+    m_Bits: 0
   moving: 0
   battleSystem: {fileID: 958364940}
   moveTile: 5
@@ -11351,11 +11354,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c601971bb5f08864bbcd122eb1d35399, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  directionMarker: {fileID: 0}
   occupied: 0
   selectable: 0
   walkable: 1
   target: 0
   isCover: 0
+  isCoverEffectArea: 0
   adjacencyList: []
   visited: 0
   parent: {fileID: 0}
@@ -11735,11 +11740,11 @@ PrefabInstance:
     - target: {fileID: 6491715316677873727, guid: 0ee859b807a99a0468ba16d38085e266, type: 3}
       propertyPath: unitList.Array.data[0]
       value: 
-      objectReference: {fileID: 1216157650}
+      objectReference: {fileID: 2083914729}
     - target: {fileID: 6491715316677873727, guid: 0ee859b807a99a0468ba16d38085e266, type: 3}
       propertyPath: unitList.Array.data[1]
       value: 
-      objectReference: {fileID: 2083914729}
+      objectReference: {fileID: 1216157650}
     - target: {fileID: 6491715316677873727, guid: 0ee859b807a99a0468ba16d38085e266, type: 3}
       propertyPath: unitList.Array.data[2]
       value: 
@@ -11941,6 +11946,10 @@ PrefabInstance:
       propertyPath: battleSystem
       value: 
       objectReference: {fileID: 958364940}
+    - target: {fileID: 4662047177211716485, guid: 6b4023f38ba78fa4292a8c854bec5e28, type: 3}
+      propertyPath: whatIsGrid.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 4662047177211716488, guid: 6b4023f38ba78fa4292a8c854bec5e28, type: 3}
       propertyPath: m_Enabled
       value: 1

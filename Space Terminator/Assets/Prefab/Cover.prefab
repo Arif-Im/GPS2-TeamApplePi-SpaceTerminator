@@ -108,12 +108,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df09406bb65be694f852c9735473c7c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  directionMarker: {fileID: 0}
   occupied: 0
   selectable: 0
-  walkable: 1
+  walkable: 0
   target: 0
   isCover: 0
+  isCoverEffectArea: 0
   adjacencyList: []
   visited: 0
   parent: {fileID: 0}
   distance: 0
+  f: 0
+  g: 0
+  h: 0
+  whatIsGrid:
+    serializedVersion: 2
+    m_Bits: 8

@@ -94,14 +94,12 @@ public class EnemyBehaviour : MonoBehaviour
         return Node.Status.SUCCESS;
     }
 
-    //bool hasAttacked = false;
     public Node.Status AttackPlayer()
     {
         if (enemyMovement.attacking == false)
         {
             enemyMovement.attacking = true;
             StartCoroutine(enemyMovement.Shoot(enemyMovement.Player.gameObject.GetComponent<Grid>()));
-            //hasAttacked = true;
             return Node.Status.SUCCESS;
         }
         return Node.Status.FAILURE;

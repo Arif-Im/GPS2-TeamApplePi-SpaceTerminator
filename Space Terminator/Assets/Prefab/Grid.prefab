@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1814353889494379920}
   - component: {fileID: 1774603384788924860}
   - component: {fileID: 5167298490033031813}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Grid
   m_TagString: Grid
   m_Icon: {fileID: 0}
@@ -108,12 +108,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c601971bb5f08864bbcd122eb1d35399, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  directionMarker: {fileID: 5891686741774952342, guid: 9dc485fbd885df549a678650ae152650, type: 3}
   occupied: 0
   selectable: 0
   walkable: 1
   target: 0
   isCover: 0
+  isCoverEffectArea: 0
   adjacencyList: []
   visited: 0
   parent: {fileID: 0}
   distance: 0
+  f: 0
+  g: 0
+  h: 0

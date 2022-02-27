@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class TacticMove : MonoBehaviour
 {
+    [SerializeField] LayerMask whatIsGrid;
+    Grid standingGrid;
+    Vector3 directionOfCoverEffect;
+
     protected Unit unit;
 
     List<Grid> selectableGrid = new List<Grid>(); //to reset selectable tiles after moving
@@ -49,7 +53,14 @@ public class TacticMove : MonoBehaviour
 
     void Update()
     {
+    }
 
+    public void CheckStandingGrid()
+    {
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 10, whatIsGrid))
+        {
+            standingGrid = hit.collider.gameObject.GetComponent<Grid>();
+        }
     }
 
     void Initialize()
@@ -237,10 +248,13 @@ public class TacticMove : MonoBehaviour
             else
             {
                 //grid center reached
-                //if(g as Cover)
-                //{
-                //    Debug.Log("Player in Cover");
-                //}
+                if(g.isCover)
+                {
+                    CheckStandingGrid();
+                    directionOfCoverEffect = g.SetCoverEffectArea(g.CoverOrigin.transform.position, standingGrid.transform.position);
+                    SetCoverEffect();
+                    unit.IsTakingCover = true;
+                }
                 transform.position = target;
                 path.Pop();
             }
@@ -250,12 +264,105 @@ public class TacticMove : MonoBehaviour
         {
             RemoveSelectableGrid();
             moving = false;
-            //unit.unitPointsSystem.minusPoints();
-            //battleSystem.ChangeTurn(unit);
             onReachTarget.Invoke();
             //fallingDown = false;
             //jumpingUp = false;
             //movingEdge = true;
+        }
+    }
+
+    void SetCoverEffect()
+    {
+        foreach (GameObject grid in grids)
+        {
+            grid.GetComponent<Grid>().isCoverEffectArea = false;
+        }
+
+        if (Mathf.Abs(directionOfCoverEffect.x) > 0)
+        {
+            switch(directionOfCoverEffect.x)
+            {
+                case 1:
+                    SetDiagonalCoverGrids(Vector3.back, Vector3.left, 100);
+                    break;
+                case -1:
+                    SetDiagonalCoverGrids(Vector3.back, -Vector3.left, 100);
+                    break;
+            }
+        }
+
+        if (Mathf.Abs(directionOfCoverEffect.z) > 0)
+        {
+            switch (directionOfCoverEffect.z)
+            {
+                case 1:
+                    SetDiagonalCoverGrids(Vector3.back, Vector3.left, 100);
+                    break;
+                case -1:
+                    SetDiagonalCoverGrids(-Vector3.back, Vector3.left, 100);
+                    break;
+            }
+        }
+    }
+
+    private void SetDiagonalCoverGrids(Vector3 x, Vector3 z, float amount)
+    {
+        if(Mathf.Abs(directionOfCoverEffect.x) > 0)
+        {
+            Bothways(x, z, amount);
+            Bothways(-x, z, amount);
+        }
+
+        if (Mathf.Abs(directionOfCoverEffect.z) > 0)
+        {
+            Bothways(x, z, amount);
+            Bothways(x, -z, amount);
+        }
+    }
+
+    private void Bothways(Vector3 x, Vector3 z, float amount)
+    {
+        for (int i = 0; i < amount; i++)
+        {
+            if (i <= 0)
+            {
+                FindDiagonalGrid(x, z, 5, standingGrid.transform.position);
+            }
+            else
+            {
+                if (adjacentGrid == null) continue;
+                FindDiagonalGrid(x, z, 5, diagonalGrid.transform.position);
+            }
+        }
+    }
+
+    Grid adjacentGrid;
+    Grid diagonalGrid;
+    void FindDiagonalGrid(Vector3 dir1, Vector3 dir2, float distance, Vector3 origin)
+    {
+        Vector3 absoluteDir = new Vector3(Mathf.Abs(directionOfCoverEffect.x), Mathf.Abs(directionOfCoverEffect.y), Mathf.Abs(directionOfCoverEffect.z));
+
+        Collider[] coverGrids = Physics.OverlapBox(origin + -directionOfCoverEffect * 6, new Vector3(Mathf.Abs(directionOfCoverEffect.x), Mathf.Abs(directionOfCoverEffect.y), Mathf.Abs(directionOfCoverEffect.z)) * 6);
+        foreach (Collider coverGrid in coverGrids)
+        {
+            coverGrid.GetComponent<Grid>().isCoverEffectArea = true;
+        }
+
+        if (Physics.Raycast(origin, dir1, out RaycastHit hit, distance, whatIsGrid))
+        {
+            adjacentGrid = hit.collider.gameObject.GetComponent<Grid>();
+        }
+
+        if (Physics.Raycast(adjacentGrid.transform.position, dir2, out RaycastHit hit2, distance, whatIsGrid) && adjacentGrid != null)
+        {
+            diagonalGrid = hit2.collider.gameObject.GetComponent<Grid>();
+            diagonalGrid.isCoverEffectArea = true;
+
+            coverGrids = Physics.OverlapBox(diagonalGrid.transform.position + -directionOfCoverEffect * 6, absoluteDir * 6);
+            foreach(Collider coverGrid in coverGrids)
+            {
+                coverGrid.GetComponent<Grid>().isCoverEffectArea = true;
+            }
         }
     }
 

@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class Grid : MonoBehaviour
 {
+    [SerializeField] GameObject directionMarker;
+
     public bool occupied = false;  //if NPC or player is not standing on it
     public bool selectable = false; //selectable area for movement
     public bool walkable = true;
     public bool target = false; //where the player is moving
+
     public bool isCover = false; //where the player is moving
+    public bool isCoverEffectArea = false; //where the player is moving
 
     public List<Grid> adjacencyList = new List<Grid>(); //identify neighbours next to the occupied tile
 
@@ -20,6 +24,8 @@ public class Grid : MonoBehaviour
     public float f = 0;
     public float g = 0;
     public float h = 0;
+
+    public Grid CoverOrigin { get;  set; }
 
     void Start()
     {
@@ -41,13 +47,17 @@ public class Grid : MonoBehaviour
         {
             GetComponent<Renderer>().material.color = Color.green;
         }
-        else if (selectable)
+        //else if (selectable)
+        //{
+        //    GetComponent<Renderer>().material.color = Color.yellow;
+        //}
+        //else if (isCover)
+        //{
+        //    GetComponent<Renderer>().material.color = Color.blue;
+        //}
+        else if (isCoverEffectArea)
         {
-            GetComponent<Renderer>().material.color = Color.yellow;
-        }
-        else if (isCover)
-        {
-            GetComponent<Renderer>().material.color = Color.blue;
+            GetComponent<Renderer>().material.color = Color.cyan;
         }
         else
         {
@@ -101,5 +111,12 @@ public class Grid : MonoBehaviour
 
             }
         }
+    }
+
+    public Vector3 SetCoverEffectArea(Vector3 coverGridPosition, Vector3 currentGridPosition)
+    {
+        Vector3 directionOfConfirmedCover = (currentGridPosition - coverGridPosition).normalized;
+        Debug.Log($"Direction Of Cover: {directionOfConfirmedCover}");
+        return directionOfConfirmedCover;
     }
 }
