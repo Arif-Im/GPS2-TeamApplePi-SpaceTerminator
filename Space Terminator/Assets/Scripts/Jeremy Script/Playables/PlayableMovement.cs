@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayableMovement : TacticMove
 {
+    Grid enemy;
+
 
     // Start is called before the first frame update
     void Start()
@@ -41,7 +43,7 @@ public class PlayableMovement : TacticMove
         RaycastHit hit;
 
         //mouse click for now to test, me hates mobile testing
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(1))
         {
             if (Physics.Raycast(ray, out hit))
             {
@@ -56,7 +58,7 @@ public class PlayableMovement : TacticMove
                 }
             }
         }
-        if (Physics.Raycast(ray, out hit) && Input.GetMouseButtonDown(0))
+        if (Physics.Raycast(ray, out hit) && Input.GetMouseButtonDown(1))
         {
             if (hit.collider.tag == "Alien" && !attacking)
             {
@@ -64,10 +66,17 @@ public class PlayableMovement : TacticMove
 
                 if (g.selectable)
                 {
-                    attacking = true;
-                    StartCoroutine(Shoot(g));
+                    //attacking = true;
+                    //StartCoroutine(Shoot(g));
+                    enemy = g;
                 }
             }
         }
+    }
+
+    public void InitiateAttack()
+    {
+        attacking = true;
+        StartCoroutine(Shoot(enemy));
     }
 }

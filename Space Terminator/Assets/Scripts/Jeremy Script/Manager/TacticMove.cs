@@ -340,13 +340,7 @@ public class TacticMove : MonoBehaviour
     Grid diagonalGrid;
     void FindDiagonalGrid(Vector3 dir1, Vector3 dir2, float distance, Vector3 origin)
     {
-        Vector3 absoluteDir = new Vector3(Mathf.Abs(directionOfCoverEffect.x), Mathf.Abs(directionOfCoverEffect.y), Mathf.Abs(directionOfCoverEffect.z));
-
-        Collider[] coverGrids = Physics.OverlapBox(origin + -directionOfCoverEffect * 6, new Vector3(Mathf.Abs(directionOfCoverEffect.x), Mathf.Abs(directionOfCoverEffect.y), Mathf.Abs(directionOfCoverEffect.z)) * 6);
-        foreach (Collider coverGrid in coverGrids)
-        {
-            coverGrid.GetComponent<Grid>().isCoverEffectArea = true;
-        }
+        SetAreaOfCoverEffect(origin);
 
         if (Physics.Raycast(origin, dir1, out RaycastHit hit, distance, whatIsGrid))
         {
@@ -358,11 +352,18 @@ public class TacticMove : MonoBehaviour
             diagonalGrid = hit2.collider.gameObject.GetComponent<Grid>();
             diagonalGrid.isCoverEffectArea = true;
 
-            coverGrids = Physics.OverlapBox(diagonalGrid.transform.position + -directionOfCoverEffect * 6, absoluteDir * 6);
-            foreach(Collider coverGrid in coverGrids)
-            {
-                coverGrid.GetComponent<Grid>().isCoverEffectArea = true;
-            }
+            SetAreaOfCoverEffect(diagonalGrid.transform.position);
+        }
+    }
+
+    private void SetAreaOfCoverEffect(Vector3 origin)
+    {
+        Vector3 absoluteDir = new Vector3(Mathf.Abs(directionOfCoverEffect.x), Mathf.Abs(directionOfCoverEffect.y), Mathf.Abs(directionOfCoverEffect.z));
+
+        Collider[] coverGrids = Physics.OverlapBox(origin + -directionOfCoverEffect * 6, new Vector3(absoluteDir.x, absoluteDir.y, absoluteDir.z) * 6);
+        foreach (Collider coverGrid in coverGrids)
+        {
+            coverGrid.GetComponent<Grid>().isCoverEffectArea = true;
         }
     }
 

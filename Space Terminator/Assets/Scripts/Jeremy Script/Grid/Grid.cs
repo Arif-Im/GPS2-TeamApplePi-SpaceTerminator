@@ -47,14 +47,14 @@ public class Grid : MonoBehaviour
         {
             GetComponent<Renderer>().material.color = Color.green;
         }
-        //else if (selectable)
-        //{
-        //    GetComponent<Renderer>().material.color = Color.yellow;
-        //}
-        //else if (isCover)
-        //{
-        //    GetComponent<Renderer>().material.color = Color.blue;
-        //}
+        else if (selectable)
+        {
+            GetComponent<Renderer>().material.color = Color.yellow;
+        }
+        else if (isCover)
+        {
+            GetComponent<Renderer>().material.color = Color.blue;
+        }
         else if (isCoverEffectArea)
         {
             GetComponent<Renderer>().material.color = Color.cyan;
