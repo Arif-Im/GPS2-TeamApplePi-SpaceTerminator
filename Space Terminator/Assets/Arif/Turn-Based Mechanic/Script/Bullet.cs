@@ -13,18 +13,29 @@ public class Bullet : MonoBehaviour
 
     public float Damage { get => damage; }
 
-    private void Update()
+    void Start()
     {
-        transform.position += transform.forward * speed * Time.deltaTime;
-        switch(GameObject.FindGameObjectWithTag("Dice").GetComponent<Dice>().FinalSide)
+        damage = damagePoint;
+        switch (GameObject.FindGameObjectWithTag("Dice").GetComponent<Dice>().FinalSide)
         {
-            case 1: case 3: case 5:
+            case 1:case 3:case 5:
                 damage = 0;
                 break;
-            case 2: case 4: case 6:
-                damage = damagePoint;
+
+            case 2:case 4:case 6:
+                int critSide = GameObject.FindGameObjectWithTag("Crit Dice").GetComponent<Dice>().FinalSide;
+                if (critSide == 2 || critSide == 4 || critSide == 6)
+                    damage = damagePoint * 2;
+                else
+                    damage = damagePoint;
                 break;
         }
+    }
+
+    private void Update()
+    {
+        Destroy(gameObject, 3f);
+        transform.position += transform.forward * speed * Time.deltaTime;
     }
 
     private void OnTriggerEnter(Collider collision)

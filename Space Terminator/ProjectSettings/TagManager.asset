@@ -9,6 +9,7 @@ TagManager:
   - Bullet
   - Dice
   - Alien
+  - Crit Dice
   layers:
   - Default
   - TransparentFX

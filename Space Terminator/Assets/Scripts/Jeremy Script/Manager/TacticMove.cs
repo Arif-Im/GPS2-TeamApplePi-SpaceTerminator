@@ -175,6 +175,7 @@ public class TacticMove : MonoBehaviour
         gameObject.GetComponent<Unit>().state = AttackState.UnderAttack;
         GameObject.FindGameObjectWithTag("Dice").GetComponent<Dice>().state = DiceRoll.Rolling;
         GameObject.FindGameObjectWithTag("Dice").GetComponent<Dice>().RollDice();
+        GameObject.FindGameObjectWithTag("Crit Dice").GetComponent<Dice>().RollDice();
         attacking = true;
 
         Quaternion shootRotation = Quaternion.LookRotation(targetEnemy.transform.position - transform.position);

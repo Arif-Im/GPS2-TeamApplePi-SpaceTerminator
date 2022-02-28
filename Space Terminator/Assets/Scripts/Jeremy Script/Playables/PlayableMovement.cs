@@ -66,9 +66,12 @@ public class PlayableMovement : TacticMove
 
                 if (g.selectable)
                 {
+                    Debug.Log("Shoot");
                     //attacking = true;
                     //StartCoroutine(Shoot(g));
                     enemy = g;
+                    InitiateAttack();
+
                 }
             }
         }

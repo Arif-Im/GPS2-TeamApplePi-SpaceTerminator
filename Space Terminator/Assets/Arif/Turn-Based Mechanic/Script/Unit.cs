@@ -8,6 +8,7 @@ public class Unit : MonoBehaviour
 {
     public float maxHealth;
     public float currentHealth;
+    public Healthbar healthBar;
     public float damage;
     public float speed;
 
@@ -45,14 +46,21 @@ public class Unit : MonoBehaviour
 
     private void Start()
     {
+        currentHealth = maxHealth;
         battleSystem = FindObjectOfType<BattleSystem>();
     }
 
     private void Update()
     {
-        if(currentHealth <= 0)
+        healthBar.UpdateHealth(currentHealth / maxHealth);
+
+        if (currentHealth <= 0)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
+            //unitPointsSystem.CurrentPoints = 0;
+            //GetComponent<Grid>().selectable = false;
+            //transform.gameObject.tag = "Grid";
+            //Destroy(gameObject.GetComponent<CapsuleCollider>());
         }
     }
 
@@ -85,7 +93,6 @@ public class Unit : MonoBehaviour
             {
                 if (other.gameObject.GetComponent<Bullet>().Shooter == this.gameObject) return;
 
-                Debug.Log("hit");
                 Destroy(other.gameObject);
 
                 if (floatingText != null)
@@ -98,6 +105,7 @@ public class Unit : MonoBehaviour
                         go.GetComponent<TextMesh>().text = "Miss";
                 }
                 Debug.Log($"Damage: {other.gameObject.GetComponent<Bullet>().Damage}");
+                healthBar.UpdateHealth(currentHealth / maxHealth);
                 TakeDamage(other.gameObject.GetComponent<Bullet>().Damage);
             }
         }
