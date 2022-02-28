@@ -39,6 +39,11 @@ public class TacticMove : MonoBehaviour
     public Grid actualTargetGrid;
     public bool attacking;
 
+    //temporary to be removed
+    public float attackerDamage;
+    public AttacksState attackState;
+    public bool turn = false;
+
     public int MoveTile { get => moveTile; }
 
     private void Awake()
@@ -51,9 +56,6 @@ public class TacticMove : MonoBehaviour
         Initialize();
     }
 
-    void Update()
-    {
-    }
 
     public void CheckStandingGrid()
     {
@@ -67,7 +69,7 @@ public class TacticMove : MonoBehaviour
     {
         grids = GameObject.FindGameObjectsWithTag("Grid"); //store all the gameobjects with grid into the array
         halfHeight = GetComponent<Collider>().bounds.extents.y;
-
+        TurnManager.AddUnit(this);
     }
 
     void GetCurrentGrid()
@@ -170,10 +172,11 @@ public class TacticMove : MonoBehaviour
     public IEnumerator Shoot(Grid targetEnemy)
     {
         //if (hasShot == true) yield break;
-        unit.DeductPointsOrChangeTurn(1);
+        
 
         gameObject.GetComponent<Unit>().state = AttackState.UnderAttack;
         GameObject.FindGameObjectWithTag("Dice").GetComponent<Dice>().state = DiceRoll.Rolling;
+        GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState = AttacksState.UnderAttack;
         GameObject.FindGameObjectWithTag("Dice").GetComponent<Dice>().RollDice();
         GameObject.FindGameObjectWithTag("Crit Dice").GetComponent<Dice>().RollDice();
         attacking = true;
@@ -200,14 +203,19 @@ public class TacticMove : MonoBehaviour
             Debug.Log($"{gameObject.name}, Pew");
             yield return new WaitForSeconds(0.1f);
         }
-        attacking = false;
-        gameObject.GetComponent<Unit>().state = AttackState.FinishAttacked;
 
-        if(gameObject.GetComponent<Unit>().state == AttackState.FinishAttacked)
+        //gameObject.GetComponent<Unit>().state = AttackState.FinishAttacked;
+        GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState = AttacksState.FinishAttacked;
+
+        if (GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState == AttacksState.FinishAttacked/*gameObject.GetComponent<Unit>().state == AttackState.FinishAttacked*/)
         {
-            yield return new WaitForSeconds(0.4f);
-            gameObject.GetComponent<Unit>().state = AttackState.Idle;
+            yield return new WaitForSeconds(0.5f);
+            //gameObject.GetComponent<Unit>().state = AttackState.Idle;
+            GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState = AttacksState.Idle;
         }
+
+        unit.DeductPointsOrChangeTurn(1);
+        attacking = false;
         //hasShot = false;
     }
 
@@ -584,6 +592,17 @@ public class TacticMove : MonoBehaviour
             }
         }
 
+    }
+
+    public void BeginTurn()
+    {
+        gameObject.GetComponent<UnitPoitsSystem>().CurrentPoints = gameObject.GetComponent<UnitPoitsSystem>().maxPoints;
+        turn = true;
+    }
+
+    public void EndTurn()
+    {
+        turn = false;
     }
 
     //public Grid GetTargetTile(GameObject target)

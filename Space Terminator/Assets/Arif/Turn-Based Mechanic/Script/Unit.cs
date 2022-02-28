@@ -56,7 +56,7 @@ public class Unit : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
             //unitPointsSystem.CurrentPoints = 0;
             //GetComponent<Grid>().selectable = false;
             //transform.gameObject.tag = "Grid";
@@ -68,9 +68,10 @@ public class Unit : MonoBehaviour
     {
         unitPointsSystem.minusPoints(amount);
 
-        if(unitPointsSystem.CurrentPoints < 1)
+        if(unitPointsSystem.CurrentPoints < 1 && GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState == AttacksState.Idle)
         {
-            ChangeTurn();
+            //ChangeTurn();
+            TurnManager.EndTurn();
         }
     }
 

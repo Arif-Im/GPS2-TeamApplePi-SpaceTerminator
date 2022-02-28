@@ -16,6 +16,7 @@ public class EnemyMovement : TacticMove
     void Start()
     {
         unitPoints = GetComponent<UnitPoitsSystem>();
+        TurnManager.AddUnit(this);
         unit = GetComponent<Unit>();
         //player = GameObject.FindGameObjectWithTag("Player");
     }
@@ -25,7 +26,23 @@ public class EnemyMovement : TacticMove
     {
         Debug.DrawRay(transform.position, transform.forward);
 
-        if (!unit.isCurrentTurn) return;
+        //if (!unit.isCurrentTurn) return;
+
+        if (unit.Health <= 0)
+        {
+            GetComponent<Grid>().selectable = false;
+            transform.gameObject.tag = "Grid";
+            Destroy(gameObject.GetComponent<CapsuleCollider>());
+        }
+
+        if (turn && unit.Health <= 0)
+        {
+            TurnManager.EndTurn();
+            return;
+        }
+
+        if (!turn)
+            return;
 
         if (!moving)
         {
@@ -39,7 +56,7 @@ public class EnemyMovement : TacticMove
             }
             //FindSelectableGrid();
             //SearchClosestGridToPlayer();
-        }
+        } 
         //PlayerMove();
     }
 
@@ -121,7 +138,7 @@ public class EnemyMovement : TacticMove
         get => player.GetComponent<Unit>();
     }
 
-    void FindNearestTarget()
+    public void FindNearestTarget()
     {
         GameObject[] targets = GameObject.FindGameObjectsWithTag("Player");
         GameObject nearest = null;

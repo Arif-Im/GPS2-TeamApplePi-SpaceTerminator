@@ -10,6 +10,7 @@ TagManager:
   - Dice
   - Alien
   - Crit Dice
+  - Turn Manager
   layers:
   - Default
   - TransparentFX

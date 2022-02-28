@@ -62,9 +62,9 @@ public class EnemyBehaviour : MonoBehaviour
 
     public Node.Status ChangeTurnOnFailure()
     {
-        if (!unit.isCurrentTurn || unit.GetUnitPoints() < 1)
+        if (!unit.gameObject.GetComponent<TacticMove>().turn || unit.GetUnitPoints() < 1)
         {
-            unit.ChangeTurn();
+            TurnManager.EndTurn();
             return Node.Status.FAILURE;
         }
         return Node.Status.SUCCESS;
@@ -75,7 +75,7 @@ public class EnemyBehaviour : MonoBehaviour
     #region Idle
     public Node.Status Idle()
     {
-        if(unit.isCurrentTurn)
+        if(unit.gameObject.GetComponent<TacticMove>().turn)
         {
             return Node.Status.FAILURE;
         }
@@ -108,6 +108,7 @@ public class EnemyBehaviour : MonoBehaviour
     private void Update()
     {
         //if (treeStatus != Node.Status.SUCCESS)
+        if (unit.GetComponent<TacticMove>().attacking) return;
             treeStatus = tree.Process();
     }
     #endregion

@@ -11,12 +11,14 @@ public class PlayableMovement : TacticMove
     void Start()
     {
         unit = GetComponent<Unit>();
+        TurnManager.AddUnit(this);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!unit.isCurrentTurn) return;
+        //if (!unit.isCurrentTurn) return;
+
         PlayerMove();
     }
 
@@ -24,10 +26,31 @@ public class PlayableMovement : TacticMove
     {
         Debug.DrawRay(transform.position, transform.forward);
 
+        if (unit.Health <= 0)
+        {
+            GetComponent<Grid>().selectable = false;
+            transform.gameObject.tag = "Grid";
+            Destroy(gameObject.GetComponent<CapsuleCollider>());
+        }
+
+        if (turn && unit.Health <= 0)
+        {
+            TurnManager.EndTurn();
+            return;
+        }
+
+        if (!turn)
+            return;
+
         if (!moving)
         {
             FindSelectableGrid();
-            CheckInput();
+            if (GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState == AttacksState.Idle)
+            {
+                Debug.Log("Move");
+                CheckInput();
+
+            }
         }
         else
         {
