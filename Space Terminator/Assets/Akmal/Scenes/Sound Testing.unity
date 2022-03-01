@@ -414,99 +414,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1 &655447485
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 655447486}
-  - component: {fileID: 655447487}
-  - component: {fileID: 655447488}
-  m_Layer: 0
-  m_Name: Audio Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &655447486
+--- !u!4 &655447486 stripped
 Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 2678509623513328996, guid: 1686a73d518c2b944b5584a5baf08195, type: 3}
+  m_PrefabInstance: {fileID: 2678509622958717146}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 655447485}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1302009126}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &655447487
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 655447485}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9887955c363ea1a4794306c588953acb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sounds:
-  - name: Theme
-    clip: {fileID: 8300000, guid: 8aca8bcfd1cb9804f85b474ab8c7e239, type: 3}
-    volume: 0.17
-    pitch: 1
-    loop: 0
-    audioMixer: {fileID: 3184677019643650906, guid: 8bd25ba5870077d4993b045ae429ebd9, type: 2}
-    source: {fileID: 0}
-  - name: Ambience
-    clip: {fileID: 8300000, guid: 41f4a99d19ea3584fbe2ba4601cd6fb2, type: 3}
-    volume: 0.37
-    pitch: 1
-    loop: 0
-    audioMixer: {fileID: 2114546667415191022, guid: 8bd25ba5870077d4993b045ae429ebd9, type: 2}
-    source: {fileID: 0}
-  - name: GunShot
-    clip: {fileID: 8300000, guid: ea00b9cde36b566458ea1711b8c0e493, type: 3}
-    volume: 0.37
-    pitch: 1
-    loop: 0
-    audioMixer: {fileID: 2114546667415191022, guid: 8bd25ba5870077d4993b045ae429ebd9, type: 2}
-    source: {fileID: 0}
-  - name: MachineGun
-    clip: {fileID: 8300000, guid: d5d73befdc859234db8d07b15bada9a2, type: 3}
-    volume: 0.37
-    pitch: 1
-    loop: 0
-    audioMixer: {fileID: 2114546667415191022, guid: 8bd25ba5870077d4993b045ae429ebd9, type: 2}
-    source: {fileID: 0}
-  - name: LaserGun
-    clip: {fileID: 8300000, guid: 3982752dd76a716409938760482d5f32, type: 3}
-    volume: 0.37
-    pitch: 1
-    loop: 0
-    audioMixer: {fileID: 2114546667415191022, guid: 8bd25ba5870077d4993b045ae429ebd9, type: 2}
-    source: {fileID: 0}
---- !u!114 &655447488
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 655447485}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33384a50b1e2462448060b38fd3a4e70, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  theMixer: {fileID: 24100000, guid: 8bd25ba5870077d4993b045ae429ebd9, type: 2}
 --- !u!1 &1302009125
 GameObject:
   m_ObjectHideFlags: 0
@@ -633,3 +545,60 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d890ba79c53152144a8d045f806b90c4, type: 3}
+--- !u!1001 &2678509622958717146
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1302009126}
+    m_Modifications:
+    - target: {fileID: 2678509623513328996, guid: 1686a73d518c2b944b5584a5baf08195, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2678509623513328996, guid: 1686a73d518c2b944b5584a5baf08195, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2678509623513328996, guid: 1686a73d518c2b944b5584a5baf08195, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2678509623513328996, guid: 1686a73d518c2b944b5584a5baf08195, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2678509623513328996, guid: 1686a73d518c2b944b5584a5baf08195, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2678509623513328996, guid: 1686a73d518c2b944b5584a5baf08195, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2678509623513328996, guid: 1686a73d518c2b944b5584a5baf08195, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2678509623513328996, guid: 1686a73d518c2b944b5584a5baf08195, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2678509623513328996, guid: 1686a73d518c2b944b5584a5baf08195, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2678509623513328996, guid: 1686a73d518c2b944b5584a5baf08195, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2678509623513328996, guid: 1686a73d518c2b944b5584a5baf08195, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2678509623513328999, guid: 1686a73d518c2b944b5584a5baf08195, type: 3}
+      propertyPath: m_Name
+      value: Audio Manager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1686a73d518c2b944b5584a5baf08195, type: 3}
