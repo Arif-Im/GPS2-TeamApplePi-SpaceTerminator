@@ -100,6 +100,8 @@ public class TacticMove : MonoBehaviour
             Grid g = grid.GetComponent<Grid>();
             g.FindNeighbors(jumpHeight, target);
         }
+
+      
     }
 
     public void FindSelectableGrid()
@@ -119,6 +121,15 @@ public class TacticMove : MonoBehaviour
 
             selectableGrid.Add(g);
             g.selectable = true;
+
+            //Can't stand on unit
+
+            RaycastHit hit;
+            if (Physics.Raycast(g.transform.position, Vector2.up, out hit, 1))
+            {
+                g.selectable = false;
+                //adjacencyList.Add(grid);
+            }
 
 
             if (g.distance < moveTile) //if the distance is less than the max amount of moveable tile, search moveable beighbors

@@ -18,6 +18,7 @@ public class EnemyMovement : TacticMove
         unitPoints = GetComponent<UnitPoitsSystem>();
         TurnManager.AddUnit(this);
         unit = GetComponent<Unit>();
+        gameObject.GetComponent<MeshRenderer>().enabled = false;
         //player = GameObject.FindGameObjectWithTag("Player");
     }
 

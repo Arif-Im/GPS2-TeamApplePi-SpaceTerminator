@@ -35,6 +35,7 @@ public class Grid : MonoBehaviour
     void Update()
     {
         CheckGridStatus();
+       
     }
 
     public virtual void CheckGridStatus()
@@ -68,6 +69,25 @@ public class Grid : MonoBehaviour
             //GetComponent<Renderer>().material.color = Color.white;
             GetComponent<Renderer>().material.color = new Color(1, 1, 1, 0f);
         }
+
+        //Collider[] colliders = Physics.OverlapBox(transform.position,new Vector3 (0,0,0));
+
+        //foreach (Collider item in colliders)
+        //{
+        //    Grid grid = item.GetComponent<Grid>();
+        //    if (grid != null && grid.walkable) //if there's a grid and it's walkable
+        //    {
+        //        RaycastHit hit;
+        //        adjacencyList.Add(grid);
+
+        //        if (Physics.Raycast(grid.transform.position, Vector2.up, out hit, 1) || grid == target)
+        //        {
+        //            selectable = false;
+        //            //adjacencyList.Add(grid);
+        //        }
+
+        //    }
+        //}
     }
 
     //Reset  variables
@@ -94,6 +114,7 @@ public class Grid : MonoBehaviour
         CheckGrid(Vector3.right, jumpHeight, target); //right
         CheckGrid(-Vector3.right, jumpHeight, target); //left
 
+
     }
 
     public void CheckGrid(Vector3 dir, float jumpHeight, Grid target)
@@ -107,11 +128,18 @@ public class Grid : MonoBehaviour
             if (grid != null && grid.walkable) //if there's a grid and it's walkable
             {
                 RaycastHit hit;
-
+                adjacencyList.Add(grid);
                 //check if there's NPC or players occupying the grid. If no, grid is walkable
                 if (!Physics.Raycast(grid.transform.position, Vector2.up, out hit, 1) || grid == target)
                 {
-                    adjacencyList.Add(grid);
+                    //selectable = false;
+                    //adjacencyList.Add(grid);
+                }
+
+                if (Physics.Raycast(grid.transform.position, Vector2.up, out hit, 1) || grid == target)
+                {
+                    selectable = false;
+                    //adjacencyList.Add(grid);
                 }
 
             }

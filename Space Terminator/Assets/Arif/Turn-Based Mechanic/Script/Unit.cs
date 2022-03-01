@@ -92,7 +92,7 @@ public class Unit : MonoBehaviour
         {
             if(gameObject.CompareTag("Player") || gameObject.CompareTag("Alien"))
             {
-                if (other.gameObject.GetComponent<Bullet>().Shooter == this.gameObject) return;
+                if (gameObject.tag == other.gameObject.GetComponent<Bullet>().Shooter.tag) return;
 
                 Destroy(other.gameObject);
 

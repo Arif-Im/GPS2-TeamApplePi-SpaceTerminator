@@ -11,6 +11,7 @@ public class PlayableMovement : TacticMove
     void Start()
     {
         unit = GetComponent<Unit>();
+        gameObject.GetComponent<MeshRenderer>().enabled = false;
         TurnManager.AddUnit(this);
     }
 
