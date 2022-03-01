@@ -7,12 +7,12 @@ public class leverSystem : MonoBehaviour
 {
 
     public bool isColliding;
-    public GameObject Image;
+    //public GameObject Image;
 
     // Start is called before the first frame update
     void Start()
     {
-        Image.SetActive(false);
+        //Image.SetActive(false);
     }
 
     // Update is called once per frame
@@ -27,7 +27,7 @@ public class leverSystem : MonoBehaviour
         if (collision.gameObject.GetComponent<UnitManager>())
         {
 
-            Image.SetActive(true);
+            //Image.SetActive(true);
             Debug.Log("Press 'E' ");
             isColliding = true;
             
