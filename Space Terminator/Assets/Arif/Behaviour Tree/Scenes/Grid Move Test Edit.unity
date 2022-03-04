@@ -2957,6 +2957,7 @@ MonoBehaviour:
   punchDamagePoint: 0
   floatingText: {fileID: 0}
   unitPointsSystem: {fileID: 0}
+  isTakingCover: 0
   isCurrentTurn: 1
 --- !u!114 &424915590
 MonoBehaviour:
@@ -3240,6 +3241,10 @@ PrefabInstance:
       propertyPath: battleSystem
       value: 
       objectReference: {fileID: 958364940}
+    - target: {fileID: 2685813776902128196, guid: 1adb7c5ba485c3647ae2cc36714628fa, type: 3}
+      propertyPath: whatIsGrid.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 2685813776902128197, guid: 1adb7c5ba485c3647ae2cc36714628fa, type: 3}
       propertyPath: m_Name
       value: Enemy (1)
@@ -8922,6 +8927,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 4662047177211716482, guid: 6b4023f38ba78fa4292a8c854bec5e28, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4662047177211716485, guid: 6b4023f38ba78fa4292a8c854bec5e28, type: 3}
       propertyPath: battleSystem
       value: 
@@ -12562,6 +12571,10 @@ PrefabInstance:
       propertyPath: battleSystem
       value: 
       objectReference: {fileID: 958364940}
+    - target: {fileID: 2685813776902128196, guid: 1adb7c5ba485c3647ae2cc36714628fa, type: 3}
+      propertyPath: whatIsGrid.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 2685813776902128197, guid: 1adb7c5ba485c3647ae2cc36714628fa, type: 3}
       propertyPath: m_Name
       value: Enemy

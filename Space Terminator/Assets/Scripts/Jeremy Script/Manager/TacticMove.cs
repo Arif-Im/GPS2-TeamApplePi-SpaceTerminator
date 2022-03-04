@@ -209,7 +209,7 @@ public class TacticMove : MonoBehaviour
         for(int x = 0; x < 3; x++)
         {
             if (bulletPrefab != null)
-                SpawnBullet(this.gameObject);
+                SpawnBullet(this.gameObject, targetEnemy.GetComponent<Unit>().isTakingCover, standingGrid.isCoverEffectArea);
                 //Instantiate(bulletPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z +0.5f), transform.rotation);
             Debug.Log($"{gameObject.name}, Pew");
             yield return new WaitForSeconds(0.1f);
@@ -230,9 +230,11 @@ public class TacticMove : MonoBehaviour
         //hasShot = false;
     }
 
-    public void SpawnBullet(GameObject shooter)
+    public void SpawnBullet(GameObject shooter, bool opponentInCover, bool inCoverEffect)
     {
         GameObject bullet = Instantiate(bulletPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z + 0.5f), transform.rotation);
+        bullet.GetComponent<Bullet>().OpponentInCover = opponentInCover;
+        bullet.GetComponent<Bullet>().InCoverEffect = inCoverEffect;
         bullet.GetComponent<Bullet>().Shooter = shooter;
     }
 
@@ -267,13 +269,13 @@ public class TacticMove : MonoBehaviour
             }
             else
             {
+                CheckStandingGrid();
                 //grid center reached
                 if(g.isCover)
                 {
-                    CheckStandingGrid();
                     directionOfCoverEffect = g.SetCoverEffectArea(g.CoverOrigin.transform.position, standingGrid.transform.position);
                     SetCoverEffect();
-                    unit.IsTakingCover = true;
+                    unit.isTakingCover = true;
                 }
                 transform.position = target;
                 path.Pop();

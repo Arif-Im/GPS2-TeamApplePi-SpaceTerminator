@@ -67,7 +67,7 @@ public class Grid : MonoBehaviour
         else
         {
             //GetComponent<Renderer>().material.color = Color.white;
-            GetComponent<Renderer>().material.color = new Color(1, 1, 1, 0f);
+            GetComponent<Renderer>().material.color = new Color(1, 1, 1, .55f);
         }
 
         //Collider[] colliders = Physics.OverlapBox(transform.position,new Vector3 (0,0,0));
@@ -149,6 +149,7 @@ public class Grid : MonoBehaviour
     public Vector3 SetCoverEffectArea(Vector3 coverGridPosition, Vector3 currentGridPosition)
     {
         Vector3 directionOfConfirmedCover = (currentGridPosition - coverGridPosition).normalized;
+        //Instantiate(directionMarker, transform.position/* + directionOfConfirmedCover*/, Quaternion.identity);
         Debug.Log($"Direction Of Cover: {directionOfConfirmedCover}");
         return directionOfConfirmedCover;
     }

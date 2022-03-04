@@ -22,17 +22,8 @@ public class Unit : MonoBehaviour
 
 
     public UnitPoitsSystem unitPointsSystem;
-    bool isTakingCover = false;
+    public bool isTakingCover = false;
     public bool isCurrentTurn;
-
-    public bool IsTakingCover
-    {
-        set
-        {
-            Debug.Log("Player taking cover");
-            isTakingCover = value;
-        }
-    }
 
     public float GetUnitPoints()
     {
