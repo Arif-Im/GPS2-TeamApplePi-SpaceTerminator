@@ -7,9 +7,6 @@ public class TacticCover : TacticMove
     [SerializeField] LayerMask whatIsGrid;
     Vector3 directionOfCoverEffect;
 
-    Grid adjacentGrid;
-    Grid diagonalGrid;
-
     new void Start()
     {
 
@@ -68,52 +65,36 @@ public class TacticCover : TacticMove
         }
     }
 
-    private void SetDiagonalCoverGrids(Vector3 x, Vector3 z, float amount)
+    private void SetDiagonalCoverGrids(Vector3 z, Vector3 x, float amount)
     {
         if (Mathf.Abs(directionOfCoverEffect.x) > 0)
         {
-            Bothways(x, z, amount);
-            Bothways(-x, z, amount);
+            Bothways(z, x, amount);
+            Bothways(-z, x, amount);
         }
 
         if (Mathf.Abs(directionOfCoverEffect.z) > 0)
         {
-            Bothways(x, z, amount);
-            Bothways(x, -z, amount);
+            Bothways(z, x, amount);
+            Bothways(z, -x, amount);
         }
     }
 
-    private void Bothways(Vector3 x, Vector3 z, float amount)
+    private void Bothways(Vector3 z, Vector3 x, float amount)
     {
+        Vector3 currentPos = GetTargetTile(this.gameObject).gameObject.transform.position;
+
         for (int i = 0; i < amount; i++)
         {
             if (i <= 0)
             {
-                FindDiagonalGrid(x, z, 5, GetTargetTile(this.gameObject).transform.position);
+                SetAreaOfCoverEffect(currentPos);
             }
             else
             {
-                if (adjacentGrid == null) continue;
-                FindDiagonalGrid(x, z, 5, diagonalGrid.transform.position);
+                SetAreaOfCoverEffect(currentPos + (x*i) + (z*i));
+
             }
-        }
-    }
-    void FindDiagonalGrid(Vector3 dir1, Vector3 dir2, float distance, Vector3 origin)
-    {
-        RaycastHit hit;
-        SetAreaOfCoverEffect(origin);
-
-        if (Physics.Raycast(origin, dir1, out hit, distance, whatIsGrid))
-        {
-            adjacentGrid = hit.collider.gameObject.GetComponent<Grid>();
-        }
-
-        if (Physics.Raycast(adjacentGrid.transform.position, dir2, out RaycastHit hit2, distance, whatIsGrid) && adjacentGrid != null)
-        {
-            diagonalGrid = hit2.collider.gameObject.GetComponent<Grid>();
-            diagonalGrid.isCoverEffectArea = true;
-
-            SetAreaOfCoverEffect(diagonalGrid.transform.position);
         }
     }
 
