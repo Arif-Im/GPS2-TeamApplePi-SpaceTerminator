@@ -13,14 +13,13 @@ public class EnemyMovement : TacticMove
     UnitPoitsSystem unitPoints;
 
     // Start is called before the first frame update
-    void Start()
+    new void Start()
     {
         unitPoints = GetComponent<UnitPoitsSystem>();
         TurnManager.AddUnit(this);
         unit = GetComponent<Unit>();
         //gameObject.GetComponent<MeshRenderer>().enabled = false;
         //player = GameObject.FindGameObjectWithTag("Player");
-        //FindNearestTarget();
     }
     bool isAbsolutePosition = false;
 
@@ -143,12 +142,12 @@ public class EnemyMovement : TacticMove
 
             if (dot < 0 && dot < safestPositionDot)
             {
-                if (!coverPosition.GetComponent<Grid>().playerPresent)
-                {
+                //if (!coverPosition.GetComponent<Grid>().playerPresent)
+                //{
+                //    //Debug.Log($"Cover name: {cover.name}");
+                //}
                     cover = coverPosition.gameObject;
                     safestPositionDot = dot;
-                    //Debug.Log($"Cover name: {cover.name}");
-                }
             }
         }
     }

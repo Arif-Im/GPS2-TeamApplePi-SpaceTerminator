@@ -8,7 +8,7 @@ public class PlayableMovement : TacticMove
 
 
     // Start is called before the first frame update
-    void Start()
+    new void Start()
     {
         unit = GetComponent<Unit>();
         //gameObject.GetComponent<MeshRenderer>().enabled = false;

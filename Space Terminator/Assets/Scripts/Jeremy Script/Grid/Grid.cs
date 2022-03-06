@@ -36,14 +36,14 @@ public class Grid : MonoBehaviour
 
     void Update()
     {
-        if(Physics.Raycast(transform.position, Vector3.up, out RaycastHit hit, 1, 3))
-        {
-            playerPresent = true;
-        }
-        else
-        {
-            playerPresent = false;
-        }
+        //if (Physics.Raycast(transform.position, Vector3.up, out RaycastHit hit, 1, 3))
+        //{
+        //    playerPresent = true;
+        //}
+        //else
+        //{
+        //    playerPresent = false;
+        //}
 
         CheckGridStatus();
     }
@@ -156,15 +156,9 @@ public class Grid : MonoBehaviour
         }
     }
 
-    Vector3 directionOfCoverSpotFromCover;
-
-    public Vector3 DirectionOfCoverSpotFromCover { get => directionOfCoverSpotFromCover; }
-
-
     public Vector3 GetDirectionOfCover(Vector3 coverGridPosition, Vector3 currentGridPosition)
     {
         Vector3 directionOfConfirmedCover = (currentGridPosition - coverGridPosition).normalized;
-        directionOfCoverSpotFromCover = directionOfConfirmedCover;
         //Debug.Log($"Direction Of Cover: {directionOfConfirmedCover}");
         return directionOfConfirmedCover;
     }

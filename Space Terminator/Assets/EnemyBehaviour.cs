@@ -101,6 +101,7 @@ public class EnemyBehaviour : MonoBehaviour
     #region Attack
     public Node.Status CanAttack()
     {
+        Debug.Log("Is Checking Attack");
         if (Vector3.Distance(this.gameObject.transform.position, enemyMovement.Player.transform.position) > enemyMovement.MoveTile || unit.HealthPercentage < 50)
         {
             return Node.Status.FAILURE;

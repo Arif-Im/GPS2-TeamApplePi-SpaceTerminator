@@ -2971,11 +2971,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15f6196e495d5cd41b4cfcccb2f00dad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  whatIsGrid:
-    serializedVersion: 2
-    m_Bits: 0
   moving: 0
-  battleSystem: {fileID: 958364940}
   moveTile: 5
   jumpHeight: 2
   moveSpeed: 2
@@ -3299,7 +3295,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2685813776902128219, guid: 1adb7c5ba485c3647ae2cc36714628fa, type: 3}
       propertyPath: currentHealth
-      value: 23
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7099246489891136362, guid: 1adb7c5ba485c3647ae2cc36714628fa, type: 3}
       propertyPath: m_RootOrder
@@ -8435,44 +8431,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1391568246855827250, guid: 7da1e32b02470df449e40a0150b1b27f, type: 3}
   m_PrefabInstance: {fileID: 1456005200}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1468699074 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4662047177211716482, guid: 6b4023f38ba78fa4292a8c854bec5e28, type: 3}
-  m_PrefabInstance: {fileID: 1585772029}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1468699075
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1468699074}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c601971bb5f08864bbcd122eb1d35399, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  directionMarker: {fileID: 0}
-  playerPresent: 0
-  occupied: 0
-  selectable: 0
-  walkable: 1
-  target: 0
-  isCover: 0
-  isCoverEffectArea: 0
-  adjacencyList: []
-  visited: 0
-  parent: {fileID: 0}
-  distance: 0
-  f: 0
-  g: 0
-  h: 0
 --- !u!114 &1468699078 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4662047177211716488, guid: 6b4023f38ba78fa4292a8c854bec5e28, type: 3}
   m_PrefabInstance: {fileID: 1585772029}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1468699074}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 392ef87723a87f44f8075c0242356035, type: 3}
@@ -12014,17 +11978,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1391568246855827250, guid: 7da1e32b02470df449e40a0150b1b27f, type: 3}
   m_PrefabInstance: {fileID: 2078648804}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2083914723 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4662047177211716482, guid: 6b4023f38ba78fa4292a8c854bec5e28, type: 3}
-  m_PrefabInstance: {fileID: 4662047179293532257}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2083914726 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4662047177211716485, guid: 6b4023f38ba78fa4292a8c854bec5e28, type: 3}
   m_PrefabInstance: {fileID: 4662047179293532257}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2083914723}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 15f6196e495d5cd41b4cfcccb2f00dad, type: 3}
@@ -12035,39 +11994,12 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4662047177211716488, guid: 6b4023f38ba78fa4292a8c854bec5e28, type: 3}
   m_PrefabInstance: {fileID: 4662047179293532257}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2083914723}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 392ef87723a87f44f8075c0242356035, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2083914732
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2083914723}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c601971bb5f08864bbcd122eb1d35399, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  directionMarker: {fileID: 0}
-  playerPresent: 0
-  occupied: 0
-  selectable: 0
-  walkable: 1
-  target: 0
-  isCover: 0
-  isCoverEffectArea: 0
-  adjacencyList: []
-  visited: 0
-  parent: {fileID: 0}
-  distance: 0
-  f: 0
-  g: 0
-  h: 0
 --- !u!1001 &2112927390
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12651,7 +12583,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2685813776902128219, guid: 1adb7c5ba485c3647ae2cc36714628fa, type: 3}
       propertyPath: currentHealth
-      value: 23
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7099246489891136362, guid: 1adb7c5ba485c3647ae2cc36714628fa, type: 3}
       propertyPath: m_RootOrder
