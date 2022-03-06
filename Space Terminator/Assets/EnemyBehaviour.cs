@@ -38,6 +38,11 @@ public class EnemyBehaviour : MonoBehaviour
         Leaf cannotAttack = new Leaf("Cannot Attack", CannotAttack);
         Leaf goToPlayer = new Leaf("Go To Player", GoToPlayer);
 
+        //cover sequence
+        Sequence cover = new Sequence("Cover");
+        Leaf lowHealth = new Leaf("Low Health", LowHealth);
+        Leaf getToCover = new Leaf("Get To Cover", GetToCover);
+
         //add leaves to idle sequence
         idle.AddChild(stayIdle);
 
@@ -46,17 +51,27 @@ public class EnemyBehaviour : MonoBehaviour
         attack.AddChild(canAttackPlayer);
         attack.AddChild(attackPlayer);
 
+        //add leaves to pursuit sequence
         pursuit.AddChild(checkAP);
         pursuit.AddChild(cannotAttack);
         pursuit.AddChild(goToPlayer);
 
+        //add leaves to cover sequence
+        cover.AddChild(checkAP);
+        cover.AddChild(lowHealth);
+        cover.AddChild(getToCover);
+
+        //add sequences to state selector
         Selector state = new Selector("State");
         state.AddChild(idle);
         state.AddChild(attack);
         state.AddChild(pursuit);
+        state.AddChild(cover);
 
+        //add selector to behaviour tree
         tree.AddChild(state);
 
+        //print out total states
         tree.PrintTree();
     }
 
@@ -86,7 +101,7 @@ public class EnemyBehaviour : MonoBehaviour
     #region Attack
     public Node.Status CanAttack()
     {
-        if (Vector3.Distance(this.gameObject.transform.position, enemyMovement.Player.transform.position) > enemyMovement.MoveTile && enemyMovement.Player.currentHealth > 0)
+        if (Vector3.Distance(this.gameObject.transform.position, enemyMovement.Player.transform.position) > enemyMovement.MoveTile || unit.HealthPercentage < 50)
         {
             return Node.Status.FAILURE;
         }
@@ -96,6 +111,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     public Node.Status AttackPlayer()
     {
+        //Debug.Log($"Current State: Attack");
         if (enemyMovement.attacking == false)
         {
             enemyMovement.attacking = true;
@@ -109,22 +125,24 @@ public class EnemyBehaviour : MonoBehaviour
     {
         //if (treeStatus != Node.Status.SUCCESS)
         if (unit.GetComponent<TacticMove>().attacking) return;
-            treeStatus = tree.Process();
+        treeStatus = tree.Process();
     }
     #endregion
 
     #region Pursuit
     public Node.Status CannotAttack()
     {
-        if (Vector3.Distance(this.gameObject.transform.position, enemyMovement.Player.transform.position) < enemyMovement.MoveTile)
+        if (Vector3.Distance(this.gameObject.transform.position, enemyMovement.Player.transform.position) < enemyMovement.MoveTile || unit.HealthPercentage < 50)
         {
             return Node.Status.FAILURE;
         }
+        enemyMovement.FindNearestTarget();
         return Node.Status.SUCCESS;
     }
 
     public Node.Status GoToPlayer()
     {
+        //Debug.Log($"Current State: Pursuit");
         if (!enemyMovement.Moving && enemyMovement.Path.Count <= 0)
         {
             return Node.Status.SUCCESS;
@@ -140,5 +158,40 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
     #endregion
+
+    #region Cover
+
+    public Node.Status LowHealth()
+    {
+        if(unit.HealthPercentage >= 50)
+        {
+            return Node.Status.FAILURE;
+        }
+        enemyMovement.FindClosestCoverPosition();
+        return Node.Status.SUCCESS;
+    }    
+
+    public Node.Status GetToCover()
+    {
+        //Debug.Log($"Current State: Cover");
+        
+
+        if (!enemyMovement.Moving && enemyMovement.Path.Count <= 0)
+        {
+            return Node.Status.SUCCESS;
+        }
+        else if (!enemyMovement.Moving && enemyMovement.Path.Count > 0)
+        {
+            return Node.Status.FAILURE;
+        }
+        else
+        {
+            enemyMovement.EnemyMove();
+            return Node.Status.RUNNING;
+        }
+    }
+
+    #endregion
+
     #endregion
 }

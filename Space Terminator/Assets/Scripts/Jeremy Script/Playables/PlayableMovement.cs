@@ -48,7 +48,7 @@ public class PlayableMovement : TacticMove
             FindSelectableGrid();
             if (GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState == AttacksState.Idle)
             {
-                Debug.Log("Move");
+                //Debug.Log("Move");
                 CheckInput();
 
             }

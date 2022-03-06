@@ -6,9 +6,9 @@ using UnityEngine;
 public class EnemyMovement : TacticMove
 {
     [SerializeField] GameObject player;
-    bool hasFoundTargetGrid = false;
-    int closestGridToPlayerIndex = 0;
-    float distanceOfClosestGridToPlayer = 0;
+    private GameObject cover;
+
+    private GameObject target;
 
     UnitPoitsSystem unitPoints;
 
@@ -20,7 +20,9 @@ public class EnemyMovement : TacticMove
         unit = GetComponent<Unit>();
         //gameObject.GetComponent<MeshRenderer>().enabled = false;
         //player = GameObject.FindGameObjectWithTag("Player");
+        //FindNearestTarget();
     }
+    bool isAbsolutePosition = false;
 
     // Update is called once per frame
     void Update()
@@ -47,46 +49,31 @@ public class EnemyMovement : TacticMove
 
         if (!moving)
         {
-            FindNearestTarget();
-            CalculatePath();
             FindSelectableGrid();
+            FindNearestTarget();
+            FindClosestCoverPosition();
+
+            if (unit.HealthPercentage > 50)
+            {
+                target = player;
+                isAbsolutePosition = false;
+            }
+            else
+            {
+                target = cover;
+                isAbsolutePosition = true;
+            }
+
+            CalculatePath(isAbsolutePosition);
             if (actualTargetGrid != null)
             {
-                Debug.Log($"actualTargetGrid: {actualTargetGrid.name}");
                 actualTargetGrid.target = true;
             }
-            //FindSelectableGrid();
-            //SearchClosestGridToPlayer();
         } 
-        //PlayerMove();
     }
 
     public void EnemyMove()
     {
-        //Debug.DrawRay(transform.position, transform.forward);
-
-        //if (!unit.isCurrentTurn) return;
-
-        //if (!moving)
-        //{
-        //    FindNearestTarget();
-        //    CalculatePath();
-        //    FindSelectableGrid();
-        //    if(actualTargetGrid != null)
-        //    {
-        //        Debug.Log($"actualTargetGrid: {actualTargetGrid.name}");
-        //        actualTargetGrid.target = true;
-        //    }
-        //    //FindSelectableGrid();
-        //    //SearchClosestGridToPlayer();
-        //}
-        //else
-        //{
-        //    Move(() => {
-        //        //hasFoundTargetGrid = false;
-        //        unit.DeductPointsOrChangeTurn(1);
-        //    });
-        //}
         if(moving)
         {
             Move(() => {
@@ -96,47 +83,15 @@ public class EnemyMovement : TacticMove
         }
     }
 
-    private void SearchClosestGridToPlayer()
+    void CalculatePath(bool isAbsolutePosition)
     {
-        if (!hasFoundTargetGrid)
-        {
-            closestGridToPlayerIndex = 0;
-            distanceOfClosestGridToPlayer = 0;
-
-            for (int i = 0; i < SelectableGrids.Count; i++)
-            {
-                if (i <= 0)
-                {
-                    distanceOfClosestGridToPlayer = Vector3.Distance(SelectableGrids[i].transform.position, player.transform.position);
-                }
-                else
-                {
-                    if (Vector3.Distance(SelectableGrids[i].transform.position, player.transform.position) < distanceOfClosestGridToPlayer)
-                    {
-                        distanceOfClosestGridToPlayer = Vector3.Distance(SelectableGrids[i].transform.position, player.transform.position);
-                        closestGridToPlayerIndex = i;
-                    }
-                }
-            }
-
-            hasFoundTargetGrid = true;
-        }
-        else
-        {
-            //Debug.Log($"Closest Grid to Player Distance: {distanceOfClosestGridToPlayer}");
-            MoveToGrid(SelectableGrids[closestGridToPlayerIndex]);
-        }
+        Grid targetGrid = GetTargetTile(target);
+        FindPath(targetGrid, isAbsolutePosition);
     }
 
-    void CalculatePath()
+    public Grid Player
     {
-        Grid targetGrid = GetTargetTile(player);
-        FindPath(targetGrid);
-    }
-
-    public Unit Player
-    {
-        get => player.GetComponent<Unit>();
+        get => player.GetComponent<Grid>();
     }
 
     public void FindNearestTarget()
@@ -155,5 +110,46 @@ public class EnemyMovement : TacticMove
         }
         player = nearest;
         //Debug.Log($"Player: {player.name}");
+    }
+
+    public void FindClosestCoverPosition()
+    {
+        List<Cover> covers = new List<Cover>();
+
+        float closestCoverDistance = Mathf.Infinity;
+        Cover closestCover = null;
+
+        foreach (GameObject cover in GameObject.FindGameObjectsWithTag("Cover"))
+        {
+            covers.Add(cover.GetComponent<Cover>());
+        }
+
+        foreach (Cover cover in covers)
+        {
+            if (Vector3.Distance(transform.position, cover.transform.position) < closestCoverDistance)
+            {
+                closestCover = cover;
+                closestCoverDistance = Vector3.Distance(transform.position, cover.transform.position);
+            }
+        }
+
+        List<Grid> coverPositions = closestCover.CoverPositions;
+        Vector3 directionOfPlayerFromCover = (player.transform.position - closestCover.transform.position).normalized;
+
+        float safestPositionDot = Mathf.Infinity;
+        foreach (Grid coverPosition in coverPositions)
+        {
+            float dot = Vector3.Dot(coverPosition.GetDirectionOfCover(closestCover.transform.position - new Vector3(0, 1, 0), coverPosition.transform.position), directionOfPlayerFromCover);
+
+            if (dot < 0 && dot < safestPositionDot)
+            {
+                if (!coverPosition.GetComponent<Grid>().playerPresent)
+                {
+                    cover = coverPosition.gameObject;
+                    safestPositionDot = dot;
+                    //Debug.Log($"Cover name: {cover.name}");
+                }
+            }
+        }
     }
 }

@@ -6,6 +6,8 @@ public class Grid : MonoBehaviour
 {
     [SerializeField] GameObject directionMarker;
 
+    public bool playerPresent = false;
+
     public bool occupied = false;  //if NPC or player is not standing on it
     public bool selectable = false; //selectable area for movement
     public bool walkable = true;
@@ -34,8 +36,16 @@ public class Grid : MonoBehaviour
 
     void Update()
     {
+        if(Physics.Raycast(transform.position, Vector3.up, out RaycastHit hit, 1, 3))
+        {
+            playerPresent = true;
+        }
+        else
+        {
+            playerPresent = false;
+        }
+
         CheckGridStatus();
-       
     }
 
     public virtual void CheckGridStatus()
@@ -146,11 +156,16 @@ public class Grid : MonoBehaviour
         }
     }
 
-    public Vector3 SetCoverEffectArea(Vector3 coverGridPosition, Vector3 currentGridPosition)
+    Vector3 directionOfCoverSpotFromCover;
+
+    public Vector3 DirectionOfCoverSpotFromCover { get => directionOfCoverSpotFromCover; }
+
+
+    public Vector3 GetDirectionOfCover(Vector3 coverGridPosition, Vector3 currentGridPosition)
     {
         Vector3 directionOfConfirmedCover = (currentGridPosition - coverGridPosition).normalized;
-        //Instantiate(directionMarker, transform.position/* + directionOfConfirmedCover*/, Quaternion.identity);
-        Debug.Log($"Direction Of Cover: {directionOfConfirmedCover}");
+        directionOfCoverSpotFromCover = directionOfConfirmedCover;
+        //Debug.Log($"Direction Of Cover: {directionOfConfirmedCover}");
         return directionOfConfirmedCover;
     }
 }

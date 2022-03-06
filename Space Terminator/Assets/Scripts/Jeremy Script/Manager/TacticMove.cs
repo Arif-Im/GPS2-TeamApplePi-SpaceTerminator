@@ -56,7 +56,6 @@ public class TacticMove : MonoBehaviour
         Initialize();
     }
 
-
     public void CheckStandingGrid()
     {
         if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 10, whatIsGrid))
@@ -87,6 +86,12 @@ public class TacticMove : MonoBehaviour
         {
             grid = hit.collider.GetComponent<Grid>();
         }
+        else
+        {
+            grid = target.GetComponent<Grid>();
+        }
+
+        //if (grid == null) { Debug.Log("GetTargetTile: grid = null"); }
 
         return grid;
     }
@@ -183,7 +188,8 @@ public class TacticMove : MonoBehaviour
     public IEnumerator Shoot(Grid targetEnemy)
     {
         //if (hasShot == true) yield break;
-        
+        CheckStandingGrid();
+        targetEnemy.GetComponent<TacticMove>().CheckIfCanSetCover();
 
         gameObject.GetComponent<Unit>().state = AttackState.UnderAttack;
         GameObject.FindGameObjectWithTag("Dice").GetComponent<Dice>().state = DiceRoll.Rolling;
@@ -270,13 +276,6 @@ public class TacticMove : MonoBehaviour
             else
             {
                 CheckStandingGrid();
-                //grid center reached
-                if(g.isCover)
-                {
-                    directionOfCoverEffect = g.SetCoverEffectArea(g.CoverOrigin.transform.position, standingGrid.transform.position);
-                    SetCoverEffect();
-                    unit.isTakingCover = true;
-                }
                 transform.position = target;
                 path.Pop();
             }
@@ -293,12 +292,33 @@ public class TacticMove : MonoBehaviour
         }
     }
 
+    public void CheckIfCanSetCover()
+    {
+        CheckStandingGrid();
+        if (standingGrid.CoverOrigin == null) return;
+        //grid center reached
+        if (standingGrid.isCover)
+        {
+            directionOfCoverEffect = standingGrid.GetDirectionOfCover(standingGrid.CoverOrigin.transform.position, standingGrid.transform.position);
+            SetCoverEffect();
+            unit.isTakingCover = true;
+        }
+        else
+        {
+            foreach (GameObject grid in grids)
+            {
+                grid.GetComponent<Grid>().isCoverEffectArea = false;
+            }
+        }
+    }
+
+    #region Cover
     void SetCoverEffect()
     {
-        foreach (GameObject grid in grids)
-        {
-            grid.GetComponent<Grid>().isCoverEffectArea = false;
-        }
+        //foreach (GameObject grid in grids)
+        //{
+        //    grid.GetComponent<Grid>().isCoverEffectArea = false;
+        //}
 
         if (Mathf.Abs(directionOfCoverEffect.x) > 0)
         {
@@ -389,6 +409,9 @@ public class TacticMove : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region Heading
     void CalculateHeading(Vector3 target)
     {
         heading = target - transform.position;
@@ -414,6 +437,8 @@ public class TacticMove : MonoBehaviour
         }
 
         selectableGrid.Clear();
+
+        //CheckStandingGrid();
     }
 
     void Jump(Vector3 target)
@@ -505,7 +530,9 @@ public class TacticMove : MonoBehaviour
             velocity.y = 1.5f; //hop
         }
     }
+    #endregion
 
+    #region Pathfinding
     protected Grid FindLowestF(List<Grid> list)
     {
         Grid lowest = list[0];
@@ -520,7 +547,7 @@ public class TacticMove : MonoBehaviour
         return lowest;
     }
 
-    protected Grid FindEndGrid (Grid t)
+    protected Grid FindEndGrid (Grid t, bool isAbsolutePos)
     {
         Stack<Grid> tempPath = new Stack<Grid>();
 
@@ -533,7 +560,10 @@ public class TacticMove : MonoBehaviour
 
         if (tempPath.Count <= moveTile)
         {
-            return t.parent;
+            if (isAbsolutePos)
+                return t;
+            else
+                return t.parent;
         }
 
         Grid endGrid = null;
@@ -544,9 +574,8 @@ public class TacticMove : MonoBehaviour
         return endGrid;
     }
 
-    protected void FindPath(Grid target)
+    protected void FindPath(Grid target, bool isAbsolutePosition)
     {
-        //Debug.Log($"FindPath Target: {target.name}");
         ComputeAdjacencyList(jumpHeight, target);
         GetCurrentGrid();
 
@@ -560,19 +589,11 @@ public class TacticMove : MonoBehaviour
         while (openList.Count > 0)
         {
             Grid t = FindLowestF(openList);
-            //Debug.Log($"t Name: {t.name}, target Name: {target.name}");
             closedList.Add(t);
-
-            //if(t == null)
-            //{
-            //    Debug.Log("T is null");
-            //}
 
             if (t == target)
             {
-                //Debug.Log($"t Name: {t.name}");
-                //Debug.Log($"End Grid: {FindEndGrid(t)}");
-                actualTargetGrid = FindEndGrid(t);
+                actualTargetGrid = FindEndGrid(t, isAbsolutePosition);
                 MoveToGrid(actualTargetGrid);
                 return;
             }
@@ -604,8 +625,8 @@ public class TacticMove : MonoBehaviour
                 }
             }
         }
-
     }
+    #endregion
 
     public void BeginTurn()
     {
@@ -617,17 +638,4 @@ public class TacticMove : MonoBehaviour
     {
         turn = false;
     }
-
-    //public Grid GetTargetTile(GameObject target)
-    //{
-    //    RaycastHit hit;
-    //    Grid grid = null;
-
-    //    if(Physics.Raycast(target.transform.position, -Vector3.up, out hit, 1))
-    //    {
-    //        grid = hit.collider.GetComponent<Grid>();
-    //    }
-
-    //    return grid;
-    //}
 }

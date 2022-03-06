@@ -5,6 +5,7 @@ using UnityEngine;
 public class Cover : Grid
 {
     [SerializeField] LayerMask whatIsGrid;
+    List<Grid> coverPositions = new List<Grid>();
     Grid grid;
 
     // Start is called before the first frame update
@@ -12,7 +13,7 @@ public class Cover : Grid
     {
         if(Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 10, whatIsGrid))
         {
-            Debug.Log(hit.collider.gameObject.GetComponent<Grid>());
+            //Debug.Log(hit.collider.gameObject.GetComponent<Grid>());
             grid = hit.collider.gameObject.GetComponent<Grid>();
         }
 
@@ -41,11 +42,10 @@ public class Cover : Grid
             {
                 RaycastHit hit;
 
-                //check if there's NPC or players occupying the grid. If no, grid is walkable
                 if (!Physics.Raycast(grid.transform.position, Vector2.up, out hit, 1))
                 {
-                    //grid.isCover = true;
                     SetCover(grid);
+                    coverPositions.Add(grid);
                 }
 
             }
@@ -57,4 +57,6 @@ public class Cover : Grid
         grid.CoverOrigin = this.grid;
         grid.isCover = true;
     }
+
+    public List<Grid> CoverPositions { get => coverPositions; }
 }

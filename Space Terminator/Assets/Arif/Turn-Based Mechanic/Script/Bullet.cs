@@ -66,9 +66,12 @@ public class Bullet : MonoBehaviour
         transform.position += transform.forward * speed * Time.deltaTime;
     }
 
-    private void OnTriggerEnter(Collider collision)
-    {
-        if (collision.gameObject.CompareTag("Grid"))
-            Destroy(gameObject);
-    }
+    //private void OnTriggerEnter(Collider collision)
+    //{
+    //    if (collision.gameObject.tag != Shooter.tag)
+    //    {
+    //        if (collision.gameObject.CompareTag("Grid"))
+    //            Destroy(gameObject);
+    //    }
+    //}
 }

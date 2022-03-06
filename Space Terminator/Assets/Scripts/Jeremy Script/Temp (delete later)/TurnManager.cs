@@ -77,5 +77,9 @@ public class TurnManager : MonoBehaviour
         }
 
         list.Add(unit);
+        foreach(TacticMove character in list)
+        {
+            Debug.Log($"Character: {character.name}");
+        }
     }
 }

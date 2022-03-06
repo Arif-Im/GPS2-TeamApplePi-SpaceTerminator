@@ -18,6 +18,16 @@ public class Unit : MonoBehaviour
     [SerializeField] GameObject floatingText;
 
     public float Health { get => currentHealth; }
+
+    public float HealthPercentage 
+    {
+        get
+        {
+            //Debug.Log(currentHealth / maxHealth * 100);
+            return currentHealth / maxHealth * 100;
+        }
+    }
+
     public float PunchDamage { get => punchDamagePoint; }
 
 
@@ -37,7 +47,7 @@ public class Unit : MonoBehaviour
 
     private void Start()
     {
-        currentHealth = maxHealth;
+        //currentHealth = maxHealth;
         battleSystem = FindObjectOfType<BattleSystem>();
     }
 
