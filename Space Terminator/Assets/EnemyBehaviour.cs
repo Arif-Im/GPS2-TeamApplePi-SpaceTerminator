@@ -16,6 +16,14 @@ public class EnemyBehaviour : MonoBehaviour
         enemyMovement = GetComponent<EnemyMovement>();
     }
 
+    private void SetTimeScale(float scale)
+    {
+
+        Time.timeScale = scale;
+        Time.fixedDeltaTime = scale * 0.02f;
+
+    }
+
     private void Start()
     {
         //Initialize tree
