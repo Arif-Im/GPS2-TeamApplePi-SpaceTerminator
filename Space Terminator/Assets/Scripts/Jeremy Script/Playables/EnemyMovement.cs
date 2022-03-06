@@ -18,6 +18,8 @@ public class EnemyMovement : TacticMove
         unitPoints = GetComponent<UnitPoitsSystem>();
         TurnManager.AddUnit(this);
         unit = GetComponent<Unit>();
+        FindNearestPlayer();
+        target = player;
         //gameObject.GetComponent<MeshRenderer>().enabled = false;
         //player = GameObject.FindGameObjectWithTag("Player");
     }
@@ -45,30 +47,40 @@ public class EnemyMovement : TacticMove
 
         if (!turn)
             return;
+        //IdleBehaviour();
+    }
 
+    public void ComputeTarget()
+    {
         if (!moving)
         {
             FindSelectableGrid();
-            FindNearestTarget();
-            FindClosestCoverPosition();
+            //FindNearestPlayer();
+            //FindClosestCoverPosition();
 
-            if (unit.HealthPercentage > 50)
-            {
-                target = player;
-                isAbsolutePosition = false;
-            }
-            else
-            {
-                target = cover;
-                isAbsolutePosition = true;
-            }
+            //if (unit.HealthPercentage > 50)
+            //{
+            //    target = player;
+            //    isAbsolutePosition = false;
+            //}
+            //else
+            //{
+            //    target = cover;
+            //    isAbsolutePosition = true;
+            //}
 
             CalculatePath(isAbsolutePosition);
             if (actualTargetGrid != null)
             {
                 actualTargetGrid.target = true;
             }
-        } 
+        }
+    }
+
+    public void SetTargetAndMoveCondition(Grid target, bool moveCondition)
+    {
+        this.target = target.gameObject;
+        isAbsolutePosition = moveCondition;
     }
 
     public void EnemyMove()
@@ -76,7 +88,6 @@ public class EnemyMovement : TacticMove
         if(moving)
         {
             Move(() => {
-                //hasFoundTargetGrid = false;
                 unit.DeductPointsOrChangeTurn(1);
             });
         }
@@ -93,7 +104,12 @@ public class EnemyMovement : TacticMove
         get => player.GetComponent<Grid>();
     }
 
-    public void FindNearestTarget()
+    public Grid Cover
+    {
+        get => cover.GetComponent<Grid>();
+    }
+
+    public void FindNearestPlayer()
     {
         GameObject[] targets = GameObject.FindGameObjectsWithTag("Player");
         GameObject nearest = null;

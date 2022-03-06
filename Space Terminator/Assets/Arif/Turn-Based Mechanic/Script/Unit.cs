@@ -106,7 +106,7 @@ public class Unit : MonoBehaviour
                     else
                         go.GetComponent<TextMesh>().text = "Miss";
                 }
-                Debug.Log($"Damage: {other.gameObject.GetComponent<Bullet>().Damage}");
+                //Debug.Log($"Damage: {other.gameObject.GetComponent<Bullet>().Damage}");
                 healthBar.UpdateHealth(currentHealth / maxHealth);
                 TakeDamage(other.gameObject.GetComponent<Bullet>().Damage);
             }

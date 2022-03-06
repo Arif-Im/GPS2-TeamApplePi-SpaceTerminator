@@ -7,15 +7,18 @@ public class TacticCover : TacticMove
     [SerializeField] LayerMask whatIsGrid;
     Vector3 directionOfCoverEffect;
 
+    Grid adjacentGrid;
+    Grid diagonalGrid;
+
     new void Start()
     {
 
     }
 
-    public void CheckIfCanSetCover()
+    public void ComputeConditionsToSetCover()
     {
         if (GetTargetTile(this.gameObject).CoverOrigin == null) return;
-        //grid center reached
+        
         if (GetTargetTile(this.gameObject).isCover)
         {
             directionOfCoverEffect = GetTargetTile(this.gameObject).GetDirectionOfCover(GetTargetTile(this.gameObject).CoverOrigin.transform.position, GetTargetTile(this.gameObject).transform.position);
@@ -24,10 +27,15 @@ public class TacticCover : TacticMove
         }
         else
         {
-            foreach (GameObject grid in grids)
-            {
-                grid.GetComponent<Grid>().isCoverEffectArea = false;
-            }
+            ResetCoverEffectArea();
+        }
+    }
+
+    public void ResetCoverEffectArea()
+    {
+        foreach (GameObject grid in grids)
+        {
+            grid.GetComponent<Grid>().isCoverEffectArea = false;
         }
     }
 
@@ -90,14 +98,12 @@ public class TacticCover : TacticMove
             }
         }
     }
-
-    Grid adjacentGrid;
-    Grid diagonalGrid;
     void FindDiagonalGrid(Vector3 dir1, Vector3 dir2, float distance, Vector3 origin)
     {
+        RaycastHit hit;
         SetAreaOfCoverEffect(origin);
 
-        if (Physics.Raycast(origin, dir1, out RaycastHit hit, distance, whatIsGrid))
+        if (Physics.Raycast(origin, dir1, out hit, distance, whatIsGrid))
         {
             adjacentGrid = hit.collider.gameObject.GetComponent<Grid>();
         }

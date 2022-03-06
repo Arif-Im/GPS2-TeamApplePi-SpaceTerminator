@@ -23,6 +23,7 @@ public class EnemyBehaviour : MonoBehaviour
 
         //Check if the agent has enough action points
         Leaf checkAP = new Leaf("Check AP", ChangeTurnOnFailure);
+        Leaf computeTarget = new Leaf("Compute Target", ComputeTarget);
 
         //Idle sequence
         Sequence idle = new Sequence("Idle");
@@ -36,30 +37,33 @@ public class EnemyBehaviour : MonoBehaviour
         //pursuit sequence
         Sequence pursuit = new Sequence("Pursuit");
         Leaf cannotAttack = new Leaf("Cannot Attack", CannotAttack);
-        Leaf goToPlayer = new Leaf("Go To Player", GoToPlayer);
 
         //cover sequence
         Sequence cover = new Sequence("Cover");
         Leaf lowHealth = new Leaf("Low Health", LowHealth);
-        Leaf getToCover = new Leaf("Get To Cover", GetToCover);
+
+        Leaf goToTarget = new Leaf("Go To Player", GoToTarget);
 
         //add leaves to idle sequence
         idle.AddChild(stayIdle);
 
         //add leaves to attack sequence
+        attack.AddChild(computeTarget);
         attack.AddChild(checkAP);
         attack.AddChild(canAttackPlayer);
         attack.AddChild(attackPlayer);
 
         //add leaves to pursuit sequence
+        pursuit.AddChild(computeTarget);
         pursuit.AddChild(checkAP);
         pursuit.AddChild(cannotAttack);
-        pursuit.AddChild(goToPlayer);
+        pursuit.AddChild(goToTarget);
 
         //add leaves to cover sequence
+        cover.AddChild(computeTarget);
         cover.AddChild(checkAP);
         cover.AddChild(lowHealth);
-        cover.AddChild(getToCover);
+        cover.AddChild(goToTarget);
 
         //add sequences to state selector
         Selector state = new Selector("State");
@@ -69,6 +73,7 @@ public class EnemyBehaviour : MonoBehaviour
         state.AddChild(cover);
 
         //add selector to behaviour tree
+        //tree.AddChild(computeTarget);
         tree.AddChild(state);
 
         //print out total states
@@ -84,6 +89,17 @@ public class EnemyBehaviour : MonoBehaviour
         }
         return Node.Status.SUCCESS;
     }
+
+    public Node.Status ComputeTarget()
+    {
+        if (!unit.gameObject.GetComponent<TacticMove>().turn)
+        {
+            return Node.Status.FAILURE;
+        }
+        enemyMovement.ComputeTarget();
+        return Node.Status.SUCCESS;
+    }
+
 
     #region Behaviours
 
@@ -106,13 +122,11 @@ public class EnemyBehaviour : MonoBehaviour
         {
             return Node.Status.FAILURE;
         }
-        //hasAttacked = false;
         return Node.Status.SUCCESS;
     }
 
     public Node.Status AttackPlayer()
     {
-        //Debug.Log($"Current State: Attack");
         if (enemyMovement.attacking == false)
         {
             enemyMovement.attacking = true;
@@ -124,7 +138,6 @@ public class EnemyBehaviour : MonoBehaviour
 
     private void Update()
     {
-        //if (treeStatus != Node.Status.SUCCESS)
         if (unit.GetComponent<TacticMove>().attacking) return;
         treeStatus = tree.Process();
     }
@@ -137,13 +150,13 @@ public class EnemyBehaviour : MonoBehaviour
         {
             return Node.Status.FAILURE;
         }
-        enemyMovement.FindNearestTarget();
+        enemyMovement.FindNearestPlayer();
+        enemyMovement.SetTargetAndMoveCondition(enemyMovement.Player, false);
         return Node.Status.SUCCESS;
     }
 
-    public Node.Status GoToPlayer()
+    public Node.Status GoToTarget()
     {
-        //Debug.Log($"Current State: Pursuit");
         if (!enemyMovement.Moving && enemyMovement.Path.Count <= 0)
         {
             return Node.Status.SUCCESS;
@@ -168,29 +181,11 @@ public class EnemyBehaviour : MonoBehaviour
         {
             return Node.Status.FAILURE;
         }
+        enemyMovement.FindNearestPlayer();
         enemyMovement.FindClosestCoverPosition();
+        enemyMovement.SetTargetAndMoveCondition(enemyMovement.Cover, true);
         return Node.Status.SUCCESS;
     }    
-
-    public Node.Status GetToCover()
-    {
-        //Debug.Log($"Current State: Cover");
-        
-
-        if (!enemyMovement.Moving && enemyMovement.Path.Count <= 0)
-        {
-            return Node.Status.SUCCESS;
-        }
-        else if (!enemyMovement.Moving && enemyMovement.Path.Count > 0)
-        {
-            return Node.Status.FAILURE;
-        }
-        else
-        {
-            enemyMovement.EnemyMove();
-            return Node.Status.RUNNING;
-        }
-    }
 
     #endregion
 
