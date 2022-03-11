@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Cover : Grid
 {
+    [SerializeField] public int health = 1;
     [SerializeField] LayerMask whatIsGrid;
     List<Grid> coverPositions = new List<Grid>();
     Grid grid;
@@ -30,6 +31,14 @@ public class Cover : Grid
 
     }
 
+    private void OnDisable()
+    {
+        foreach(Grid coverPosition in coverPositions)
+        {
+            coverPosition.isCover = false;
+        }
+    }
+
     public void CheckCoverPositions(Vector3 dir)
     {
         Vector3 halfExtent = new Vector3(.25f, 1, .25f); //check if a tile is present (1 x 1 x 1 dimension)
@@ -54,8 +63,19 @@ public class Cover : Grid
 
     public void SetCover(Grid grid)
     {
+        grid.CoverObject = this;
         grid.CoverOrigin = this.grid;
         grid.isCover = true;
+        coverPositions.Add(grid);
+    }
+
+    public void DamageGrid(int damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     public List<Grid> CoverPositions { get => coverPositions; }

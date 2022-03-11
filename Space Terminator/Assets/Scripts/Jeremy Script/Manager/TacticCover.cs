@@ -20,7 +20,6 @@ public class TacticCover : TacticMove
         {
             directionOfCoverEffect = GetTargetTile(this.gameObject).GetDirectionOfCover(GetTargetTile(this.gameObject).CoverOrigin.transform.position, GetTargetTile(this.gameObject).transform.position);
             SetCoverEffect();
-            unit.isTakingCover = true;
         }
         else
         {
@@ -30,6 +29,7 @@ public class TacticCover : TacticMove
 
     public void ResetCoverEffectArea()
     {
+        if (grids == null) return;
         foreach (GameObject grid in grids)
         {
             grid.GetComponent<Grid>().isCoverEffectArea = false;

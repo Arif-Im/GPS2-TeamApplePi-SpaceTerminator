@@ -7,16 +7,16 @@ using UnityEngine.UI;
 public class UnitPoitsSystem : MonoBehaviour
 {
 
-    [SerializeField] public float maxPoints;
-    [SerializeField] public float minusAmount = 1;
-    [SerializeField] float currentPoints;
+    [SerializeField] public int maxPoints;
+    [SerializeField] public int minusAmount = 1;
+    [SerializeField] int currentPoints;
     public Text points;
     public bool isSelected;
     public Material unGlow;
 
     public Action onMinusActionPoints;
 
-    public float CurrentPoints
+    public int CurrentPoints
     {
         get => currentPoints;
         set => currentPoints = value;
@@ -41,7 +41,7 @@ public class UnitPoitsSystem : MonoBehaviour
         }
     }
 
-    public void minusPoints(float minusAmount)
+    public void minusPoints(int minusAmount)
     {
         currentPoints -= minusAmount;
     }

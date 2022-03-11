@@ -13,6 +13,7 @@ public class TacticMove : MonoBehaviour
 
     Stack<Grid> path = new Stack<Grid>(); //path is calculated in reverse (from end to beginning)
     Grid currentGrid;
+    UnitPoitsSystem unitPointSystem;
 
     public bool moving = false;
     [SerializeField] int moveTile = 5; //can move 5 tiles per turn
@@ -45,20 +46,13 @@ public class TacticMove : MonoBehaviour
     private void Awake()
     {
         unit = GetComponent<Unit>();
+        unitPointSystem = GetComponent<UnitPoitsSystem>();
     }
 
     public void Start()
     {
         Initialize();
     }
-
-    //public void CheckStandingGrid()
-    //{
-    //    if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 10, whatIsGrid))
-    //    {
-    //        standingGrid = hit.collider.gameObject.GetComponent<Grid>();
-    //    }
-    //}
 
     void Initialize()
     {
@@ -183,7 +177,7 @@ public class TacticMove : MonoBehaviour
     }
 
     //bool hasShot = false;
-    public IEnumerator Shoot(Grid targetEnemy)
+    public IEnumerator Shoot(Grid targetEnemy, Action actionPoint)
     {
         //if (hasShot == true) yield break;
         //GetComponent<TacticCover>().CheckStandingGrid();
@@ -213,7 +207,7 @@ public class TacticMove : MonoBehaviour
         for(int x = 0; x < 3; x++)
         {
             if (bulletPrefab != null)
-                SpawnBullet(this.gameObject, targetEnemy.GetComponent<Unit>().isTakingCover, GetTargetTile(this.gameObject).isCoverEffectArea);
+                SpawnBullet(this.gameObject, GetTargetTile(this.gameObject).isCoverEffectArea);
                 //Instantiate(bulletPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z +0.5f), transform.rotation);
             //Debug.Log($"{gameObject.name}, Pew");
             yield return new WaitForSeconds(0.1f);
@@ -234,21 +228,28 @@ public class TacticMove : MonoBehaviour
             grid.GetComponent<Grid>().isCoverEffectArea = false;
         }
 
-        unit.DeductPointsOrChangeTurn(1);
+        targetEnemy.GetComponent<TacticMove>().unit.interrupted = false;
+        //unit.DeductPointsOrChangeTurn(unit.GetUnitPoints());
+        if (actionPoint != null)
+        {
+            actionPoint.Invoke();
+        }
         attacking = false;
         //hasShot = false;
     }
 
-    public void SpawnBullet(GameObject shooter, bool opponentInCover, bool inCoverEffect)
+    public void SpawnBullet(GameObject shooter, bool inCoverEffect)
     {
         GameObject bullet = Instantiate(bulletPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z + 0.5f), transform.rotation);
-        bullet.GetComponent<Bullet>().OpponentInCover = opponentInCover;
         bullet.GetComponent<Bullet>().InCoverEffect = inCoverEffect;
         bullet.GetComponent<Bullet>().Shooter = shooter;
     }
 
     public void Move(Action onReachTarget)
     {
+        if (unit.interrupted) return;
+        unit.isOverwatch = false;
+
         //move as long as there's a path
         if (path.Count > 0)
         {
@@ -514,6 +515,7 @@ public class TacticMove : MonoBehaviour
 
     public void BeginTurn()
     {
+        Debug.Log("Begin Turn");
         gameObject.GetComponent<UnitPoitsSystem>().CurrentPoints = gameObject.GetComponent<UnitPoitsSystem>().maxPoints;
         turn = true;
     }

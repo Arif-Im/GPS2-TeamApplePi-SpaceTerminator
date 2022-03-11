@@ -28,6 +28,7 @@ public class Grid : MonoBehaviour
     public float h = 0;
 
     public Grid CoverOrigin { get;  set; }
+    public Cover CoverObject { get; set; }
 
     void Start()
     {
@@ -36,15 +37,6 @@ public class Grid : MonoBehaviour
 
     void Update()
     {
-        //if (Physics.Raycast(transform.position, Vector3.up, out RaycastHit hit, 1, 3))
-        //{
-        //    playerPresent = true;
-        //}
-        //else
-        //{
-        //    playerPresent = false;
-        //}
-
         CheckGridStatus();
     }
 
@@ -79,25 +71,6 @@ public class Grid : MonoBehaviour
             //GetComponent<Renderer>().material.color = Color.white;
             GetComponent<Renderer>().material.color = new Color(1, 1, 1, .55f);
         }
-
-        //Collider[] colliders = Physics.OverlapBox(transform.position,new Vector3 (0,0,0));
-
-        //foreach (Collider item in colliders)
-        //{
-        //    Grid grid = item.GetComponent<Grid>();
-        //    if (grid != null && grid.walkable) //if there's a grid and it's walkable
-        //    {
-        //        RaycastHit hit;
-        //        adjacencyList.Add(grid);
-
-        //        if (Physics.Raycast(grid.transform.position, Vector2.up, out hit, 1) || grid == target)
-        //        {
-        //            selectable = false;
-        //            //adjacencyList.Add(grid);
-        //        }
-
-        //    }
-        //}
     }
 
     //Reset  variables
@@ -159,7 +132,6 @@ public class Grid : MonoBehaviour
     public Vector3 GetDirectionOfCover(Vector3 coverGridPosition, Vector3 currentGridPosition)
     {
         Vector3 directionOfConfirmedCover = (currentGridPosition - coverGridPosition).normalized;
-        //Debug.Log($"Direction Of Cover: {directionOfConfirmedCover}");
         return directionOfConfirmedCover;
     }
 }

@@ -24,7 +24,7 @@ public class Bullet : MonoBehaviour
     void Start()
     {
         damage = damagePoint;
-        if (opponentInCover)
+        if (inCoverEffect)
         {
             if (inCoverEffect)
             {
@@ -35,6 +35,8 @@ public class Bullet : MonoBehaviour
             {
                 DamageCheck(damagePoint);
             }
+            //Debug.Log("Opponent in cover");
+            //DamageCheck(0);
         }
         else
         {
@@ -47,7 +49,7 @@ public class Bullet : MonoBehaviour
         switch (GameObject.FindGameObjectWithTag("Dice").GetComponent<Dice>().FinalSide)
         {
             case 1: case 3: case 5:
-                damage = 0;
+                damage = damagePoint; // should be 0
                 break;
 
             case 2: case 4: case 6:

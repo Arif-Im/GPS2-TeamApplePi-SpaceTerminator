@@ -16,7 +16,7 @@ public class BattleSystem : MonoBehaviour
         unitList[0].isCurrentTurn = true;
     }
 
-    public void ChangeTurn(Unit unit, float maxPoints)
+    public void ChangeTurn(Unit unit, int maxPoints)
     {
         int currentUnit = 0;
 

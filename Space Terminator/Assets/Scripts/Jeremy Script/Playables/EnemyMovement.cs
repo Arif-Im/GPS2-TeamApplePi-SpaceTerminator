@@ -88,6 +88,7 @@ public class EnemyMovement : TacticMove
         if(moving)
         {
             Move(() => {
+                //unit.isDucking = false;
                 unit.DeductPointsOrChangeTurn(1);
             });
         }
@@ -127,12 +128,12 @@ public class EnemyMovement : TacticMove
         //Debug.Log($"Player: {player.name}");
     }
 
-    public void FindClosestCoverPosition()
+    public void FindClosestCoverPosition(out Cover closestCover)
     {
         List<Cover> covers = new List<Cover>();
 
         float closestCoverDistance = Mathf.Infinity;
-        Cover closestCover = null;
+        closestCover = null;
 
         foreach (GameObject cover in GameObject.FindGameObjectsWithTag("Cover"))
         {
@@ -147,6 +148,8 @@ public class EnemyMovement : TacticMove
                 closestCoverDistance = Vector3.Distance(transform.position, cover.transform.position);
             }
         }
+
+        if (closestCover == null) return;
 
         List<Grid> coverPositions = closestCover.CoverPositions;
         Vector3 directionOfPlayerFromCover = (player.transform.position - closestCover.transform.position).normalized;
