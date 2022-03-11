@@ -17425,7 +17425,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isColliding: 0
-  Image: {fileID: 0}
 --- !u!65 &903906383
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19436,6 +19435,10 @@ PrefabInstance:
     - target: {fileID: 2685813776902128197, guid: 1adb7c5ba485c3647ae2cc36714628fa, type: 3}
       propertyPath: m_Name
       value: Enemy (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2685813776902128197, guid: 1adb7c5ba485c3647ae2cc36714628fa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2685813776902128216, guid: 1adb7c5ba485c3647ae2cc36714628fa, type: 3}
       propertyPath: m_RootOrder
@@ -33163,6 +33166,10 @@ PrefabInstance:
     - target: {fileID: 2685813776902128197, guid: 1adb7c5ba485c3647ae2cc36714628fa, type: 3}
       propertyPath: m_Name
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 2685813776902128197, guid: 1adb7c5ba485c3647ae2cc36714628fa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2685813776902128216, guid: 1adb7c5ba485c3647ae2cc36714628fa, type: 3}
       propertyPath: m_RootOrder
