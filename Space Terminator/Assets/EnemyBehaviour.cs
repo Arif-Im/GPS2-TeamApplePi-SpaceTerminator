@@ -235,7 +235,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     public Node.Status GoToTarget()
     {
-        Debug.Log($"AP: {unit.GetUnitPoints()}");
+        //Debug.Log($"AP: {unit.GetUnitPoints()}");
         if (!enemyMovement.Moving && enemyMovement.Path.Count <= 0)
         {
             return Node.Status.SUCCESS;

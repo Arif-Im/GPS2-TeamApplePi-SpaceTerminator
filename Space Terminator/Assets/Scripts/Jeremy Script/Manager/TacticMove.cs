@@ -515,7 +515,7 @@ public class TacticMove : MonoBehaviour
 
     public void BeginTurn()
     {
-        Debug.Log("Begin Turn");
+        //Debug.Log("Begin Turn");
         gameObject.GetComponent<UnitPoitsSystem>().CurrentPoints = gameObject.GetComponent<UnitPoitsSystem>().maxPoints;
         turn = true;
     }
