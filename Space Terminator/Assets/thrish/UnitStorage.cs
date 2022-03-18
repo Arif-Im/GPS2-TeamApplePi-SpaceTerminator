@@ -8,6 +8,8 @@ public class UnitStorage : MonoBehaviour
 
     public StackMnager stackMnager;
     public GameObject[] units;
+    private Grid choosenGrid;
+    [SerializeField] List<Collider> Grids;
 
     private int clickCount = 0;
 
@@ -21,7 +23,8 @@ public class UnitStorage : MonoBehaviour
     private void Update()
     {
 
-        SpawnUnits();
+
+        RayCheckGrid();
 
     }
 
@@ -32,12 +35,14 @@ public class UnitStorage : MonoBehaviour
         {
 
             int code;
+            
             foreach (GameObject gameObject in units)
             {
                 code = gameObject.GetComponent<UnitCode>().UNITCODE;
                 if (stackMnager.stack.Contains(code) == true && SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Prototype Level"))
                 {
                     RayHit(gameObject);
+                    break;
                 }
             }
         }
@@ -58,20 +63,54 @@ public class UnitStorage : MonoBehaviour
                 
                 if (hit.collider.tag == "Grid")
                 {
-                    if (clickCount == 1) {
+                    if (hit.collider.GetComponent<Grid>().target == false) {
                         Grid g = hit.collider.GetComponent<Grid>();
+                        if (choosenGrid == null)
+                        {
+                            choosenGrid = g;
+                        }
+                        choosenGrid.target = false;
                         Debug.Log("Target: " + g.name);
                         g.target = true;
+                        choosenGrid = g;
                     }
-                    else if (clickCount == 2)
+                    else if (hit.collider.GetComponent<Grid>().target == true)
                     {
                         Instantiate(gameObject, hit.point, Quaternion.identity);
-                        clickCount = 0;
+                        stackMnager.stack.Pop();
+                        hit.collider.GetComponent<Grid>().target = false;
                     }
                 }
             }
         }
 
+    }
+
+    private void RayCheckGrid()
+    {
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (Physics.Raycast(ray, out hit))
+            {
+
+                if (hit.collider.tag == "Grid")
+                {
+                    foreach (Collider grid in Grids)
+                    {
+
+                        if (hit.collider.name == grid.name)
+                        {
+                            SpawnUnits();
+                        }
+
+                    }
+                }
+            }
+        }
     }
 
 }
