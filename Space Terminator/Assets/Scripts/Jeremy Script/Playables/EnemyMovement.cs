@@ -41,6 +41,7 @@ public class EnemyMovement : TacticMove
 
         if (turn && unit.Health <= 0)
         {
+            //ButtonManager.instance.ResetButtons();
             TurnManager.EndTurn();
             return;
         }

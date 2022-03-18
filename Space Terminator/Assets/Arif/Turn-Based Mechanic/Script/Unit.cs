@@ -13,15 +13,14 @@ public class Unit : MonoBehaviour
     public float damage;
     public float speed;
 
-    BattleSystem battleSystem;
     public AttackState state;
     [SerializeField] float punchDamagePoint;
     [SerializeField] GameObject floatingText;
 
+    public int rollToHit = 3;
+
     public int overwatchCooldown = 0;
     public int duckingCooldown = 0;
-    //public delegate void OverwatchAction(Grid targetEnemy);
-    //public OverwatchAction onOverWatchAction;
 
     public float Health { get => currentHealth; }
 
@@ -29,7 +28,6 @@ public class Unit : MonoBehaviour
     {
         get
         {
-            //Debug.Log(currentHealth / maxHealth * 100);
             return currentHealth / maxHealth * 100;
         }
     }
@@ -55,9 +53,8 @@ public class Unit : MonoBehaviour
 
     private void Start()
     {
-        //currentHealth = maxHealth;
+        currentHealth = maxHealth;
         overwatchCooldown = 0;
-        battleSystem = FindObjectOfType<BattleSystem>();
     }
 
     private void Update()
@@ -79,26 +76,33 @@ public class Unit : MonoBehaviour
 
     public void Overwatch()
     {
-        if (isOverwatch/* && overwatchCooldown <= 0*/)
+        if (isOverwatch)
         {
             Collider[] enemiesToDamage = Physics.OverlapSphere(transform.position, GetComponent<TacticMove>().MoveTile, whatIsEnemy);
             foreach (Collider enemy in enemiesToDamage)
             {
                 Debug.Log("Overwatch");
-                GetComponent<TacticMove>().attacking = true; // avoids repeating attack
+                //GetComponent<TacticMove>().attacking = true; // avoids repeating attack
                 StartCoroutine(GetComponent<TacticMove>().Shoot(enemy.GetComponent<Grid>(), null)); // shoot without removing AP
                 enemy.GetComponent<Unit>().interrupted = true; // stops the opponent when being attack
                 isOverwatch = false; // stops overwatch when attacking
                 break;
             }
-            //DeductPointsOrChangeTurn(unitPointsSystem.CurrentPoints);
         }
     }
 
     public void Activate(Action action)
     {
-        action.Invoke();
-        DeductPointsOrChangeTurn(GetUnitPoints());
+        if(CooldownHasEnded())
+        {
+            action.Invoke();
+            DeductPointsOrChangeTurn(GetUnitPoints());
+        }
+    }
+
+    public bool CooldownHasEnded()
+    {
+        return overwatchCooldown <= 0 || duckingCooldown <= 0;
     }
 
     public void DeductPointsOrChangeTurn(int amount)
@@ -107,7 +111,6 @@ public class Unit : MonoBehaviour
 
         if(GetUnitPoints() < 1 && GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState == AttacksState.Idle)
         {
-            //ChangeTurn();
             if(overwatchCooldown > 0)
             {
                 overwatchCooldown -= 1;
@@ -116,17 +119,9 @@ public class Unit : MonoBehaviour
             {
                 duckingCooldown -= 1;
             }
-            //else
-            //{
-            //    isOverwatch = false;
-            //}
+            //ButtonManager.instance.ResetButtons();
             TurnManager.EndTurn();
         }
-    }
-
-    public void ChangeTurn()
-    {
-        battleSystem.ChangeTurn(this, unitPointsSystem.maxPoints);
     }
 
     public void TakeDamage(float damage)

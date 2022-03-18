@@ -133,6 +133,7 @@ public class EnemyBehaviour : MonoBehaviour
         if (!unit.gameObject.GetComponent<TacticMove>().turn || unit.GetUnitPoints() <= 0)
         {
             TurnManager.EndTurn();
+            //ButtonManager.instance.ResetButtons();
             return Node.Status.FAILURE;
         }
         return Node.Status.SUCCESS;

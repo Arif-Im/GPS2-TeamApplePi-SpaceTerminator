@@ -6,14 +6,13 @@ using UnityEngine;
 public class TacticMove : MonoBehaviour
 {
 
-    protected Unit unit;
+    public Unit unit;
 
     List<Grid> selectableGrid = new List<Grid>(); //to reset selectable tiles after moving
     protected GameObject[] grids;
 
     Stack<Grid> path = new Stack<Grid>(); //path is calculated in reverse (from end to beginning)
     Grid currentGrid;
-    UnitPoitsSystem unitPointSystem;
 
     public bool moving = false;
     [SerializeField] int moveTile = 5; //can move 5 tiles per turn
@@ -46,7 +45,6 @@ public class TacticMove : MonoBehaviour
     private void Awake()
     {
         unit = GetComponent<Unit>();
-        unitPointSystem = GetComponent<UnitPoitsSystem>();
     }
 
     public void Start()
@@ -179,8 +177,7 @@ public class TacticMove : MonoBehaviour
     //bool hasShot = false;
     public IEnumerator Shoot(Grid targetEnemy, Action actionPoint)
     {
-        //if (hasShot == true) yield break;
-        //GetComponent<TacticCover>().CheckStandingGrid();
+        if (targetEnemy == null) yield break;
         targetEnemy.GetComponent<TacticCover>().ComputeConditionsToSetCover();
 
         gameObject.GetComponent<Unit>().state = AttackState.UnderAttack;
@@ -208,18 +205,14 @@ public class TacticMove : MonoBehaviour
         {
             if (bulletPrefab != null)
                 SpawnBullet(this.gameObject, GetTargetTile(this.gameObject).isCoverEffectArea);
-                //Instantiate(bulletPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z +0.5f), transform.rotation);
-            //Debug.Log($"{gameObject.name}, Pew");
             yield return new WaitForSeconds(0.1f);
         }
 
-        //gameObject.GetComponent<Unit>().state = AttackState.FinishAttacked;
         GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState = AttacksState.FinishAttacked;
 
         if (GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState == AttacksState.FinishAttacked/*gameObject.GetComponent<Unit>().state == AttackState.FinishAttacked*/)
         {
             yield return new WaitForSeconds(0.5f);
-            //gameObject.GetComponent<Unit>().state = AttackState.Idle;
             GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState = AttacksState.Idle;
         }
 
@@ -229,13 +222,11 @@ public class TacticMove : MonoBehaviour
         }
 
         targetEnemy.GetComponent<TacticMove>().unit.interrupted = false;
-        //unit.DeductPointsOrChangeTurn(unit.GetUnitPoints());
         if (actionPoint != null)
         {
             actionPoint.Invoke();
         }
         attacking = false;
-        //hasShot = false;
     }
 
     public void SpawnBullet(GameObject shooter, bool inCoverEffect)
@@ -243,6 +234,7 @@ public class TacticMove : MonoBehaviour
         GameObject bullet = Instantiate(bulletPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z + 0.5f), transform.rotation);
         bullet.GetComponent<Bullet>().InCoverEffect = inCoverEffect;
         bullet.GetComponent<Bullet>().Shooter = shooter;
+        bullet.GetComponent<Bullet>().UnitRollToHit = unit.rollToHit;
     }
 
     public void Move(Action onReachTarget)
@@ -513,7 +505,7 @@ public class TacticMove : MonoBehaviour
     }
     #endregion
 
-    public void BeginTurn()
+    public virtual void BeginTurn()
     {
         //Debug.Log("Begin Turn");
         gameObject.GetComponent<UnitPoitsSystem>().CurrentPoints = gameObject.GetComponent<UnitPoitsSystem>().maxPoints;

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class TacticCover : TacticMove
 {
-    [SerializeField] LayerMask whatIsGrid;
     Vector3 directionOfCoverEffect;
 
     new void Start()

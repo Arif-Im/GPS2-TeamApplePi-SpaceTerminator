@@ -36,6 +36,7 @@ public class PlayableMovement : TacticMove
 
         if (turn && unit.Health <= 0)
         {
+            //ButtonManager.instance.ResetButtons();
             TurnManager.EndTurn();
             return;
         }
@@ -75,6 +76,60 @@ public class PlayableMovement : TacticMove
         RaycastHit hit;
 
         //mouse click for now to test, me hates mobile testing
+        //if (Input.GetMouseButtonDown(1))
+        //{
+        //    if (Physics.Raycast(ray, out hit))
+        //    {
+        //        if (hit.collider.tag == "Grid")
+        //        {
+        //            Grid g = hit.collider.GetComponent<Grid>();
+
+        //            if (g.selectable)
+        //            {
+        //                MoveToGrid(g);
+        //            }
+        //        }
+        //    }
+        //}
+
+        //if(unit.overwatchCooldown <= 0 || unit.duckingCooldown <= 0)
+        //{
+        //    if (Physics.Raycast(ray, out hit) && Input.GetMouseButtonDown(1))
+        //    {
+        //        if (hit.collider.tag == "Alien" && !attacking)
+        //        {
+        //            Grid g = hit.collider.GetComponent<Grid>();
+
+        //            if (g.selectable)
+        //            {
+        //                Debug.Log("Shoot");
+        //                //attacking = true;
+        //                //StartCoroutine(Shoot(g));
+        //                enemy = g;
+        //                InitiateAttack();
+
+        //            }
+        //        }
+        //    }
+
+        //    if (Input.GetKeyDown(KeyCode.D))
+        //    {
+        //        if (GetTargetTile(gameObject).isCover)
+        //        {
+        //            unit.Activate(() => unit.isDucking = true);
+        //        }
+        //    }
+
+        //    if (Input.GetKeyDown(KeyCode.O))
+        //    {
+        //        unit.Activate(() =>
+        //        {
+        //            unit.isOverwatch = true;
+        //            unit.overwatchCooldown = 2;
+        //        });
+        //    }
+        //}
+
         if (Input.GetMouseButtonDown(1))
         {
             if (Physics.Raycast(ray, out hit))
@@ -91,50 +146,35 @@ public class PlayableMovement : TacticMove
             }
         }
 
-        if(unit.overwatchCooldown <= 0 || unit.duckingCooldown <= 0)
+        if (Physics.Raycast(ray, out hit) && Input.GetMouseButtonDown(1))
         {
-            if (Physics.Raycast(ray, out hit) && Input.GetMouseButtonDown(1))
+            if (hit.collider.tag == "Alien" && !attacking)
             {
-                if (hit.collider.tag == "Alien" && !attacking)
+                Grid g = hit.collider.GetComponent<Grid>();
+
+                if (g.selectable)
                 {
-                    Grid g = hit.collider.GetComponent<Grid>();
-
-                    if (g.selectable)
+                    enemy = g;
+                    if (GetComponentInChildren<Scout>() != null)
                     {
-                        Debug.Log("Shoot");
-                        //attacking = true;
-                        //StartCoroutine(Shoot(g));
-                        enemy = g;
-                        InitiateAttack();
-
+                        Scout scout = GetComponentInChildren<Scout>();
+                        scout.target = enemy.gameObject;
                     }
                 }
-            }
-            if (GetTargetTile(gameObject).isCover)
-            {
-                if (Input.GetKeyDown(KeyCode.D))
-                {
-                    unit.Activate(() => unit.isDucking = true);
-                }
-            }
-
-            if (Input.GetKeyDown(KeyCode.O))
-            {
-                unit.Activate(() =>
-                {
-                    unit.isOverwatch = true;
-                    unit.overwatchCooldown = 2;
-                });
-                //unit.isOverwatch = true;
-                //unit.DeductPointsOrChangeTurn(1);
             }
         }
     }
 
     public void InitiateAttack()
     {
-        if (unit.isDucking || unit.duckingCooldown > 0) return;
-        attacking = true;
+        //if (unit.isDucking || unit.duckingCooldown > 0) return;
+        if (attacking) return;
         StartCoroutine(Shoot(enemy, () => unit.DeductPointsOrChangeTurn(unit.GetUnitPoints())));
+    }
+
+    public override void BeginTurn()
+    {
+        base.BeginTurn();
+        ButtonManager.instance.SetButtonsToCurrentPlayer(this);
     }
 }

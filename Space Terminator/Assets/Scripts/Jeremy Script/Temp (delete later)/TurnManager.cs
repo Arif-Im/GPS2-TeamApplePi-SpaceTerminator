@@ -42,6 +42,7 @@ public class TurnManager : MonoBehaviour
     public static void EndTurn()
     {
         TacticMove unit = turnTeam.Dequeue();
+        ButtonManager.instance.ResetButtons();
         unit.EndTurn();
 
         if (turnTeam.Count > 0)
