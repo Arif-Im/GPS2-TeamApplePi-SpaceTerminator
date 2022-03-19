@@ -22,6 +22,7 @@ public class StackMnager : MonoBehaviour
 
         instance = this;
         DontDestroyOnLoad(gameObject);
+        Debug.Log(stack.Count);
 
     }
 

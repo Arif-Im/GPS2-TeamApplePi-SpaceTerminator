@@ -9,20 +9,40 @@ public class UnitStorage : MonoBehaviour
     public StackMnager stackMnager;
     public GameObject[] units;
     private Grid choosenGrid;
-    [SerializeField] List<Collider> Grids;
-
-    private int clickCount = 0;
+    [SerializeField] List<GameObject> Grids;
 
     private void Start()
     {
 
         GameObject units = new GameObject();
-
+        
     }
 
     private void Update()
     {
 
+        string gridName;
+        GameObject mainGrid;
+        foreach (GameObject grid in Grids)
+        {
+            gridName = grid.name;
+            mainGrid = GameObject.Find(gridName);
+            if (gridName != null && mainGrid != null) 
+            {
+                if (gridName == mainGrid.name)
+                {
+                    Debug.Log("gridName" + gridName);
+                    Debug.Log("mainGridName" + mainGrid);
+                    mainGrid.GetComponent<Grid>().placeable = true;
+                }
+                //else if (stackMnager.stack == null)
+                //{
+                //    mainGrid.GetComponent<Grid>().placeable = false;
+                //}
+            }
+        }
+
+        
 
         RayCheckGrid();
 
@@ -56,29 +76,27 @@ public class UnitStorage : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            clickCount++;
-            Debug.Log(clickCount);
             if (Physics.Raycast(ray, out hit))
             {
                 
                 if (hit.collider.tag == "Grid")
                 {
-                    if (hit.collider.GetComponent<Grid>().target == false) {
+                    if (hit.collider.GetComponent<Grid>().isTouched == false) {
                         Grid g = hit.collider.GetComponent<Grid>();
                         if (choosenGrid == null)
                         {
                             choosenGrid = g;
                         }
-                        choosenGrid.target = false;
+                        choosenGrid.isTouched = false;
                         Debug.Log("Target: " + g.name);
-                        g.target = true;
+                        g.isTouched = true;
                         choosenGrid = g;
                     }
-                    else if (hit.collider.GetComponent<Grid>().target == true)
+                    else if (hit.collider.GetComponent<Grid>().isTouched == true)
                     {
                         Instantiate(gameObject, hit.point, Quaternion.identity);
                         stackMnager.stack.Pop();
-                        hit.collider.GetComponent<Grid>().target = false;
+                        hit.collider.GetComponent<Grid>().isTouched = false;
                     }
                 }
             }
@@ -96,17 +114,14 @@ public class UnitStorage : MonoBehaviour
         {
             if (Physics.Raycast(ray, out hit))
             {
-
                 if (hit.collider.tag == "Grid")
                 {
-                    foreach (Collider grid in Grids)
+                    foreach (GameObject grid in Grids)
                     {
-
                         if (hit.collider.name == grid.name)
                         {
                             SpawnUnits();
                         }
-
                     }
                 }
             }

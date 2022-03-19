@@ -7,6 +7,7 @@ public class MenuScripts : MonoBehaviour
     public GameObject self;
     public Animator animator;
     public Animator nextAnim;
+    public StackMnager stackMnager;
     public void Start()
     {
         Time.timeScale = 1;
@@ -33,6 +34,14 @@ public class MenuScripts : MonoBehaviour
 
     public void gameScene()
     {
-        SceneManager.LoadScene(2);
+        if (stackMnager.stack.Count == 0)
+        {
+            Debug.Log("You must have atleast 1 unit in your squad");
+            
+        }
+        else
+        {
+            SceneManager.LoadScene(2);
+        }
     }
 }

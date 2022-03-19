@@ -10,6 +10,8 @@ public class Grid : MonoBehaviour
     public bool selectable = false; //selectable area for movement
     public bool walkable = true;
     public bool target = false; //where the player is moving
+    public bool isTouched; //Selected Grid for unit placement
+    public bool placeable;
 
     public bool isCover = false; //where the player is moving
     public bool isCoverEffectArea = false; //where the player is moving
@@ -24,11 +26,14 @@ public class Grid : MonoBehaviour
     public float f = 0;
     public float g = 0;
     public float h = 0;
-
+    
     public Grid CoverOrigin { get;  set; }
 
     void Start()
     {
+
+        isTouched = false;
+        placeable = false;
 
     }
 
@@ -64,6 +69,16 @@ public class Grid : MonoBehaviour
             //cyan
             GetComponent<Renderer>().material.color = new Color(0, 1, 1, .55f);
         }
+        else if (isTouched == true)
+        {
+            //Blue
+            GetComponent<Renderer>().material.color = new Color(0.4575472f, 0.6672957f, 1, .55f);
+        }
+        else if (placeable == true)
+        {
+            //Blue
+            GetComponent<Renderer>().material.color = Color.blue;
+        }
         else
         {
             //GetComponent<Renderer>().material.color = Color.white;
@@ -97,7 +112,6 @@ public class Grid : MonoBehaviour
         occupied = false;  //if NPC or player is not standing on it
         selectable = false; //selectable area for movement
         target = false; //where the player is moving
-
         visited = false; //tile has been walked through
         parent = null;
         distance = 0; //max range the player can walk
