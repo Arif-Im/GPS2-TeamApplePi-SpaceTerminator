@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class PlayableMovement : TacticMove
 {
-    Grid enemy;
+    protected Grid enemy;
 
 
     // Start is called before the first frame update
-    new void Start()
+    void Start()
     {
         unit = GetComponent<Unit>();
         //gameObject.GetComponent<MeshRenderer>().enabled = false;
@@ -36,7 +36,6 @@ public class PlayableMovement : TacticMove
 
         if (turn && unit.Health <= 0)
         {
-            //ButtonManager.instance.ResetButtons();
             TurnManager.EndTurn();
             return;
         }
@@ -70,66 +69,10 @@ public class PlayableMovement : TacticMove
         }
     }
 
-    void CheckInput()
+    public virtual void CheckInput()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-
-        //mouse click for now to test, me hates mobile testing
-        //if (Input.GetMouseButtonDown(1))
-        //{
-        //    if (Physics.Raycast(ray, out hit))
-        //    {
-        //        if (hit.collider.tag == "Grid")
-        //        {
-        //            Grid g = hit.collider.GetComponent<Grid>();
-
-        //            if (g.selectable)
-        //            {
-        //                MoveToGrid(g);
-        //            }
-        //        }
-        //    }
-        //}
-
-        //if(unit.overwatchCooldown <= 0 || unit.duckingCooldown <= 0)
-        //{
-        //    if (Physics.Raycast(ray, out hit) && Input.GetMouseButtonDown(1))
-        //    {
-        //        if (hit.collider.tag == "Alien" && !attacking)
-        //        {
-        //            Grid g = hit.collider.GetComponent<Grid>();
-
-        //            if (g.selectable)
-        //            {
-        //                Debug.Log("Shoot");
-        //                //attacking = true;
-        //                //StartCoroutine(Shoot(g));
-        //                enemy = g;
-        //                InitiateAttack();
-
-        //            }
-        //        }
-        //    }
-
-        //    if (Input.GetKeyDown(KeyCode.D))
-        //    {
-        //        if (GetTargetTile(gameObject).isCover)
-        //        {
-        //            unit.Activate(() => unit.isDucking = true);
-        //        }
-        //    }
-
-        //    if (Input.GetKeyDown(KeyCode.O))
-        //    {
-        //        unit.Activate(() =>
-        //        {
-        //            unit.isOverwatch = true;
-        //            unit.overwatchCooldown = 2;
-        //        });
-        //    }
-        //}
-
         if (Input.GetMouseButtonDown(1))
         {
             if (Physics.Raycast(ray, out hit))
@@ -155,11 +98,11 @@ public class PlayableMovement : TacticMove
                 if (g.selectable)
                 {
                     enemy = g;
-                    if (GetComponentInChildren<Scout>() != null)
-                    {
-                        Scout scout = GetComponentInChildren<Scout>();
-                        scout.target = enemy.gameObject;
-                    }
+                    //if (GetComponentInChildren<Scout>() != null)
+                    //{
+                    //    Scout scout = GetComponentInChildren<Scout>();
+                    //    scout.target = enemy.gameObject;
+                    //}
                 }
             }
         }

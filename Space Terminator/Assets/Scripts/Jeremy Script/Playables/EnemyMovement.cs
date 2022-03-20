@@ -13,8 +13,9 @@ public class EnemyMovement : TacticMove
     UnitPoitsSystem unitPoints;
 
     // Start is called before the first frame update
-    new void Start()
+    void Start()
     {
+        //Initialize();
         unitPoints = GetComponent<UnitPoitsSystem>();
         TurnManager.AddUnit(this);
         unit = GetComponent<Unit>();
@@ -127,6 +128,13 @@ public class EnemyMovement : TacticMove
         }
         player = nearest;
         //Debug.Log($"Player: {player.name}");
+    }
+
+    public void FindRandomPosition(out GameObject target)
+    {
+        GameObject chosenGrid = grids[UnityEngine.Random.Range(0, grids.Length)];
+        //Debug.Log($"Finding random grid: {selectableGrid[UnityEngine.Random.Range(1, selectableGrid.Count)].name}");
+        target = chosenGrid.gameObject;
     }
 
     public void FindClosestCoverPosition(out Cover closestCover)

@@ -1,15 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Scout : MonoBehaviour
 {
+    ScoutMovement scoutMovement;
     public Grenade shellPrefab;
     public GameObject shellSpawnPos;
     public GameObject target;
     float turnSpeed = 2;
     public GameObject parent;
-    float speed = 15;
+    [SerializeField] float speed = 15;
     bool canShoot = true;
     public bool activate;
 
@@ -30,40 +32,45 @@ public class Scout : MonoBehaviour
         if (canShoot)
         {
             Debug.Log("Shoot");
-            Grenade shell = Instantiate(shellPrefab, shellSpawnPos.transform.position, shellSpawnPos.transform.rotation);
+            CreateGrenade(out Grenade shell);
             shell.GetComponent<Rigidbody>().velocity = speed * this.transform.forward;
             canShoot = false;
             Invoke("CanShootAgain", 0.5f);
         }
     }
 
-    public void Activate()
+    public void Activate(GameObject o, bool b, ScoutMovement s)
     {
-        activate = true;
+        target = o;
+        activate = b;
+        scoutMovement = s;
+    }
+
+    void CreateGrenade(out Grenade shell)
+    {
+        shell = Instantiate(shellPrefab, shellSpawnPos.transform.position, shellSpawnPos.transform.rotation);
+        shell.scoutMovement = this.scoutMovement;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            activate = true;
-        }
+        if (!activate) return;
+        GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState = AttacksState.UnderAttack;
         Vector3 direction = (target.transform.position - parent.transform.position).normalized;
-        if(activate)
-        {
-            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-            parent.transform.rotation = Quaternion.Slerp(parent.transform.rotation, lookRotation, Time.deltaTime * turnSpeed);
-        }
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+        parent.transform.rotation = Quaternion.Slerp(parent.transform.rotation, lookRotation, Time.deltaTime * turnSpeed);
 
         float? angle = RotateTurret();
+        GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState = AttacksState.FinishAttacked;
 
-        if (angle != null && Vector3.Angle(direction, parent.transform.forward) < 1 && activate)
+        if (angle != null && Vector3.Angle(direction, parent.transform.forward) < 10/* && activate*/)
         {
+            //GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState = AttacksState.FinishAttacked;
+            Debug.Log("Fire Grenade");
             Fire();
         }
     }
-
 
     float? RotateTurret()
     {

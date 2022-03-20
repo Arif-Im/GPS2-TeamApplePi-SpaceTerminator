@@ -5,16 +5,21 @@ using UnityEngine;
 
 public class EnemyBehaviour : MonoBehaviour
 {
-    BehaviourTree tree;
-    EnemyMovement enemyMovement;
-    Unit unit;
+    protected BehaviourTree tree;
+    protected EnemyMovement enemyMovement;
+    protected Unit unit;
     //UnitPoitsSystem unitPointSystem;
 
-    int random = 1;
+    protected int random = 1;
 
-    Node.Status treeStatus = Node.Status.RUNNING;
+    protected Node.Status treeStatus = Node.Status.RUNNING;
 
     private void Awake()
+    {
+        Initialize();
+    }
+
+    public void Initialize()
     {
         random = 1;
         unit = GetComponent<Unit>();
@@ -24,6 +29,12 @@ public class EnemyBehaviour : MonoBehaviour
 
     private void Start()
     {
+        InitializeTree();
+    }
+
+    public virtual void InitializeTree()
+    {
+
         //Initialize tree
         tree = new BehaviourTree();
 
@@ -121,7 +132,7 @@ public class EnemyBehaviour : MonoBehaviour
         tree.PrintTree();
     }
 
-    private void Update()
+    protected void Update()
     {
         if (unit.GetComponent<TacticMove>().attacking) return;
         treeStatus = tree.Process();
@@ -229,6 +240,7 @@ public class EnemyBehaviour : MonoBehaviour
     public Node.Status StartPursuit()
     {
         //if (unit.isOverwatch) return Node.Status.FAILURE;
+        Debug.Log("Pursuit");
         enemyMovement.FindNearestPlayer();
         enemyMovement.SetTargetAndMoveCondition(enemyMovement.Player, false);
         return Node.Status.SUCCESS;
@@ -278,7 +290,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     #region Duck
 
-    private Node.Status CanDuck()
+    public Node.Status CanDuck()
     {
         if (/*unit.HealthPercentage <= 20 && */enemyMovement.GetTargetTile(gameObject).isCover && !unit.isDucking)
         {
@@ -288,7 +300,7 @@ public class EnemyBehaviour : MonoBehaviour
         return Node.Status.FAILURE;
     }
 
-    private Node.Status StartDucking()
+    public Node.Status StartDucking()
     {
         if (!unit.isDucking)
         {

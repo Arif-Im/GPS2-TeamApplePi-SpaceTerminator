@@ -45,7 +45,7 @@ public class ButtonManager : MonoBehaviour
             this.player.unit.overwatchCooldown = 2;
         }));
         duck.onClick.AddListener(() => this.player.unit.Activate(() => this.player.unit.isDucking = true));
-        grenade.onClick.AddListener(() => this.player.GetComponentInChildren<Scout>()?.Activate());
+        grenade.onClick.AddListener(() => this.player.GetComponent<ScoutMovement>()?.ActivateGrenadeMode());
     }
 
     public void ResetButtons()

@@ -8,7 +8,7 @@ public class TacticMove : MonoBehaviour
 
     public Unit unit;
 
-    List<Grid> selectableGrid = new List<Grid>(); //to reset selectable tiles after moving
+    public List<Grid> selectableGrid = new List<Grid>(); //to reset selectable tiles after moving
     protected GameObject[] grids;
 
     Stack<Grid> path = new Stack<Grid>(); //path is calculated in reverse (from end to beginning)
@@ -47,12 +47,12 @@ public class TacticMove : MonoBehaviour
         unit = GetComponent<Unit>();
     }
 
-    public void Start()
+    private void Start()
     {
         Initialize();
     }
 
-    void Initialize()
+    public void Initialize()
     {
         grids = GameObject.FindGameObjectsWithTag("Grid"); //store all the gameobjects with grid into the array
         halfHeight = GetComponent<Collider>().bounds.extents.y;
