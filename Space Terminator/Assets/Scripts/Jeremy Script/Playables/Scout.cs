@@ -55,9 +55,14 @@ public class Scout : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (!activate) return;
+
+        Vector3 targetTransform = new Vector3(target.transform.position.x, 0, target.transform.position.z);
+        Vector3 parentTransform = new Vector3(parent.transform.position.x, 0, parent.transform.position.z);
+
         GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState = AttacksState.UnderAttack;
-        Vector3 direction = (target.transform.position - parent.transform.position).normalized;
+        Vector3 direction = (targetTransform - parentTransform).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
         parent.transform.rotation = Quaternion.Slerp(parent.transform.rotation, lookRotation, Time.deltaTime * turnSpeed);
 
