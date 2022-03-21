@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayableMovement : TacticMove
 {
+    public bool overUI = false;
     protected Grid enemy;
     protected bool activate = false;
 
@@ -73,17 +74,20 @@ public class PlayableMovement : TacticMove
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (Input.GetMouseButtonDown(1))
+        if(!overUI)
         {
-            if (Physics.Raycast(ray, out hit))
+            if (Input.GetMouseButtonDown(0))
             {
-                if (hit.collider.tag == "Grid")
+                if (Physics.Raycast(ray, out hit))
                 {
-                    Grid g = hit.collider.GetComponent<Grid>();
-
-                    if (g.selectable)
+                    if (hit.collider.tag == "Grid")
                     {
-                        MoveToGrid(g);
+                        Grid g = hit.collider.GetComponent<Grid>();
+
+                        if (g.selectable)
+                        {
+                            MoveToGrid(g);
+                        }
                     }
                 }
             }

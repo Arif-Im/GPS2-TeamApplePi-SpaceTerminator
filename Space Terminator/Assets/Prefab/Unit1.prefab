@@ -160,7 +160,7 @@ MonoBehaviour:
   interrupted: 0
   whatIsEnemy:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
 --- !u!114 &4662047177211716491
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -44,7 +44,7 @@ public class Bullet : MonoBehaviour
     {
         if(Shooter.GetComponent<TacticMove>().GetTargetTile(Shooter).isCover)
         {
-            rollToHit -= 1;
+            rollToHit += 1;
             CalculateHit(failCritDamage);
         }
         else
@@ -55,7 +55,7 @@ public class Bullet : MonoBehaviour
 
     private void CalculateHit(float failCritDamage)
     {
-        if (GameObject.FindGameObjectWithTag("Dice").GetComponent<Dice>().FinalSide > rollToHit)
+        if (GameObject.FindGameObjectWithTag("Dice").GetComponent<Dice>().FinalSide <= rollToHit)
             damage = 0;
         else
         {

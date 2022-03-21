@@ -17,7 +17,7 @@ public class floorRotation : MonoBehaviour
     private void Start()
     {
 
-        Rotation = Quaternion.Euler(0, 0, 0);
+        //Rotation = Quaternion.Euler(0, 0, 0);
         audio = GetComponent<AudioSource>();
 
     }
@@ -38,8 +38,8 @@ public class floorRotation : MonoBehaviour
     void Update()
     {
 
-        //transform.rotation = Quaternion.Slerp(transform.rotation, Rotation, turning_Speed);
-        
+        transform.rotation = Quaternion.Slerp(transform.rotation, Rotation, turning_Speed);
+
 
     }
 

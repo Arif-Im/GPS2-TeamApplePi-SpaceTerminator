@@ -48,17 +48,20 @@ public class ScoutMovement : PlayableMovement
         }
         else
         {
-            if (Input.GetMouseButtonDown(1))
+            if (!overUI)
             {
-                if (Physics.Raycast(ray, out hit))
+                if (Input.GetMouseButtonDown(0))
                 {
-                    if (hit.collider.tag == "Grid")
+                    if (Physics.Raycast(ray, out hit))
                     {
-                        Grid g = hit.collider.GetComponent<Grid>();
-
-                        if (g.selectable)
+                        if (hit.collider.tag == "Grid")
                         {
-                            MoveToGrid(g);
+                            Grid g = hit.collider.GetComponent<Grid>();
+
+                            if (g.selectable)
+                            {
+                                MoveToGrid(g);
+                            }
                         }
                     }
                 }
