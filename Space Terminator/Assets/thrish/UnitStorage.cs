@@ -10,6 +10,8 @@ public class UnitStorage : MonoBehaviour
     public GameObject[] units;
     private Grid choosenGrid;
     [SerializeField] List<GameObject> Grids;
+    [SerializeField] List<GameObject> placeableGrids;
+    GameObject mainGrid;
 
     private void Start()
     {
@@ -22,7 +24,7 @@ public class UnitStorage : MonoBehaviour
     {
 
         string gridName;
-        GameObject mainGrid;
+        
         foreach (GameObject grid in Grids)
         {
             gridName = grid.name;
@@ -34,11 +36,20 @@ public class UnitStorage : MonoBehaviour
                     Debug.Log("gridName" + gridName);
                     Debug.Log("mainGridName" + mainGrid);
                     mainGrid.GetComponent<Grid>().placeable = true;
+                    if (placeableGrids.Contains(mainGrid) == false)
+                    {
+                        placeableGrids.Add(mainGrid);
+                    }
+                    foreach(GameObject gameObject in placeableGrids)
+                    {
+                        if (stackMnager.stack.Count <= 0)
+                        {
+
+                            gameObject.GetComponent<Grid>().placeable = false;
+                        }
+                    }
+                    
                 }
-                //else if (stackMnager.stack == null)
-                //{
-                //    mainGrid.GetComponent<Grid>().placeable = false;
-                //}
             }
         }
 
