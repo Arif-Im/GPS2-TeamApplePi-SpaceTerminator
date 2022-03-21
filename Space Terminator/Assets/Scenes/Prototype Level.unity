@@ -1893,6 +1893,10 @@ PrefabInstance:
       propertyPath: battleSystem
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2685813776902128196, guid: 1adb7c5ba485c3647ae2cc36714628fa, type: 3}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 6312753492171387213, guid: 82fad095f0109d245911cab209ee6e70, type: 3}
     - target: {fileID: 2685813776902128197, guid: 1adb7c5ba485c3647ae2cc36714628fa, type: 3}
       propertyPath: m_Name
       value: Enemy (5)
@@ -7104,6 +7108,10 @@ PrefabInstance:
       propertyPath: battleSystem
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2685813776902128196, guid: 1adb7c5ba485c3647ae2cc36714628fa, type: 3}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 6312753492171387213, guid: 82fad095f0109d245911cab209ee6e70, type: 3}
     - target: {fileID: 2685813776902128197, guid: 1adb7c5ba485c3647ae2cc36714628fa, type: 3}
       propertyPath: m_Name
       value: Enemy (2)
@@ -13994,6 +14002,10 @@ PrefabInstance:
       propertyPath: battleSystem
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2685813776902128196, guid: 1adb7c5ba485c3647ae2cc36714628fa, type: 3}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 6312753492171387213, guid: 82fad095f0109d245911cab209ee6e70, type: 3}
     - target: {fileID: 2685813776902128197, guid: 1adb7c5ba485c3647ae2cc36714628fa, type: 3}
       propertyPath: m_Name
       value: Enemy (3)
@@ -30737,6 +30749,10 @@ PrefabInstance:
       propertyPath: battleSystem
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2685813776902128196, guid: 1adb7c5ba485c3647ae2cc36714628fa, type: 3}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 6312753492171387213, guid: 82fad095f0109d245911cab209ee6e70, type: 3}
     - target: {fileID: 2685813776902128197, guid: 1adb7c5ba485c3647ae2cc36714628fa, type: 3}
       propertyPath: m_Name
       value: Enemy (4)

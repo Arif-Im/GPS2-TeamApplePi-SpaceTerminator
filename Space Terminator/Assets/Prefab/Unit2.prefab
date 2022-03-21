@@ -124,7 +124,7 @@ MonoBehaviour:
   moveSpeed: 2
   jumpVel: 5
   rotateSpeed: 2
-  bulletPrefab: {fileID: 269683263536249119, guid: 88bc595450eb7244e9cbfee38073a856, type: 3}
+  bulletPrefab: {fileID: 1882839498839259184, guid: d714caa563c5eb54691cecdf853334fe, type: 3}
   actualTargetGrid: {fileID: 0}
   attacking: 0
   attackerDamage: 0
