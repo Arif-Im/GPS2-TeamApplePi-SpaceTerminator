@@ -28,8 +28,10 @@ public class MenuScripts : MonoBehaviour
         nextAnim.SetBool("back", true);
         yield return new WaitForSeconds(1f);
         animator.SetBool("change", false);
+        animator.SetBool("back", false);
+        nextAnim.SetBool("change", false);
         nextAnim.SetBool("back", false);
-        
+
     }
 
     public void gameScene()
