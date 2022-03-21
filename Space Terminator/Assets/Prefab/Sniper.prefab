@@ -240,6 +240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 0}
+  selectableGrid: []
   moving: 0
   moveTile: 5
   jumpHeight: 2
@@ -265,13 +266,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 0}
+  selectableGrid: []
   moving: 0
   moveTile: 5
   jumpHeight: 2
   moveSpeed: 2
   jumpVel: 5
   rotateSpeed: 2
-  bulletPrefab: {fileID: 0}
+  bulletPrefab: {fileID: 269683263536249119, guid: 88bc595450eb7244e9cbfee38073a856, type: 3}
   actualTargetGrid: {fileID: 0}
   attacking: 0
   attackerDamage: 0
@@ -390,6 +392,7 @@ MonoBehaviour:
   shellSpawnPos: {fileID: 8359897568445972904}
   target: {fileID: 0}
   parent: {fileID: 182154905708848214}
+  speed: 15
   activate: 0
 --- !u!1001 &8936051531118267731
 PrefabInstance:

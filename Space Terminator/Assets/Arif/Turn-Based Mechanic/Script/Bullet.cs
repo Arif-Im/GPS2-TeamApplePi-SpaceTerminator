@@ -42,21 +42,6 @@ public class Bullet : MonoBehaviour
 
     private void DamageCheck(float failCritDamage)
     {
-        //switch (GameObject.FindGameObjectWithTag("Dice").GetComponent<Dice>().FinalSide)
-        //{
-            //case 1: case 3: case 5:
-            //    damage = 0; // should be 0
-            //    break;
-
-            //case 2: case 4: case 6:
-            //    int critSide = GameObject.FindGameObjectWithTag("Crit Dice").GetComponent<Dice>().FinalSide;
-            //    if (critSide == 2 || critSide == 4 || critSide == 6)
-            //        damage = damagePoint * 2;
-            //    else
-            //        damage = failCritDamage;
-            //    break;
-        //}
-
         if(Shooter.GetComponent<TacticMove>().GetTargetTile(Shooter).isCover)
         {
             rollToHit -= 1;
@@ -87,13 +72,4 @@ public class Bullet : MonoBehaviour
         Destroy(gameObject, 3f);
         transform.position += transform.forward * speed * Time.deltaTime;
     }
-
-    //private void OnTriggerEnter(Collider collision)
-    //{
-    //    if (collision.gameObject.tag != Shooter.tag)
-    //    {
-    //        if (collision.gameObject.CompareTag("Grid"))
-    //            Destroy(gameObject);
-    //    }
-    //}
 }

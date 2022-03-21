@@ -216,9 +216,12 @@ public class TacticMove : MonoBehaviour
             GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState = AttacksState.Idle;
         }
 
-        foreach (GameObject grid in grids)
+        if(grids != null)
         {
-            grid.GetComponent<Grid>().isCoverEffectArea = false;
+            foreach (GameObject grid in grids)
+            {
+                grid.GetComponent<Grid>().isCoverEffectArea = false;
+            }
         }
 
         targetEnemy.GetComponent<TacticMove>().unit.interrupted = false;
