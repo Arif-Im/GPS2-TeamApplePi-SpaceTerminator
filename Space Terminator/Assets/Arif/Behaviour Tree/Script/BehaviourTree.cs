@@ -16,6 +16,7 @@ public class BehaviourTree : Node
 
     public override Status Process()
     {
+        //Debug.Log($"Current State Name: {children[currentChild].name}");
         return children[currentChild].Process();
     }
 

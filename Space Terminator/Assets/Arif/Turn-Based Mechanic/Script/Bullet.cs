@@ -8,15 +8,13 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField] float speed;
     [SerializeField] float damagePoint = 2f;
-
-    bool opponentInCover = false;
+    int rollToHit;
     bool inCoverEffect = false;
 
     float damage;
 
     public GameObject Shooter { get;  set; }
-
-    public bool OpponentInCover { set => opponentInCover = value; }
+    public int UnitRollToHit { set => rollToHit = value; }
     public bool InCoverEffect { set => inCoverEffect = value; }
 
     public float Damage { get => damage; }
@@ -24,7 +22,7 @@ public class Bullet : MonoBehaviour
     void Start()
     {
         damage = damagePoint;
-        if (opponentInCover)
+        if (inCoverEffect)
         {
             if (inCoverEffect)
             {
@@ -44,19 +42,28 @@ public class Bullet : MonoBehaviour
 
     private void DamageCheck(float failCritDamage)
     {
-        switch (GameObject.FindGameObjectWithTag("Dice").GetComponent<Dice>().FinalSide)
+        if(Shooter.GetComponent<TacticMove>().GetTargetTile(Shooter).isCover)
         {
-            case 1: case 3: case 5:
-                damage = 0;
-                break;
+            rollToHit -= 1;
+            CalculateHit(failCritDamage);
+        }
+        else
+        {
+            CalculateHit(failCritDamage);
+        }
+    }
 
-            case 2: case 4: case 6:
-                int critSide = GameObject.FindGameObjectWithTag("Crit Dice").GetComponent<Dice>().FinalSide;
-                if (critSide == 2 || critSide == 4 || critSide == 6)
-                    damage = damagePoint * 2;
-                else
-                    damage = failCritDamage;
-                break;
+    private void CalculateHit(float failCritDamage)
+    {
+        if (GameObject.FindGameObjectWithTag("Dice").GetComponent<Dice>().FinalSide > rollToHit)
+            damage = 0;
+        else
+        {
+            int critSide = GameObject.FindGameObjectWithTag("Crit Dice").GetComponent<Dice>().FinalSide;
+            if (critSide == GameObject.FindGameObjectWithTag("Dice").GetComponent<Dice>().FinalSide)
+                damage = damagePoint * 2;
+            else
+                damage = failCritDamage;
         }
     }
 
@@ -64,11 +71,5 @@ public class Bullet : MonoBehaviour
     {
         Destroy(gameObject, 3f);
         transform.position += transform.forward * speed * Time.deltaTime;
-    }
-
-    private void OnTriggerEnter(Collider collision)
-    {
-        if (collision.gameObject.CompareTag("Grid"))
-            Destroy(gameObject);
     }
 }

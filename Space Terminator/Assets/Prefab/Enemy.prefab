@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 2685813776902128221}
   - component: {fileID: 2685813776902128220}
   - component: {fileID: 5011060660956671121}
+  - component: {fileID: 2369412465784436473}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Alien
@@ -115,11 +116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a5c0fc68c4f00c49935b129bd711f78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  whatIsGrid:
-    serializedVersion: 2
-    m_Bits: 0
   moving: 0
-  battleSystem: {fileID: 0}
   moveTile: 5
   jumpHeight: 2
   moveSpeed: 2
@@ -128,6 +125,9 @@ MonoBehaviour:
   bulletPrefab: {fileID: 269683263536249119, guid: 88bc595450eb7244e9cbfee38073a856, type: 3}
   actualTargetGrid: {fileID: 0}
   attacking: 0
+  attackerDamage: 0
+  attackState: 0
+  turn: 0
   player: {fileID: 0}
 --- !u!114 &2685813776902128219
 MonoBehaviour:
@@ -150,6 +150,7 @@ MonoBehaviour:
   punchDamagePoint: 0
   floatingText: {fileID: 6634748694765353139, guid: f5f1d941c335c27479acbfaf0ece3bdf, type: 3}
   unitPointsSystem: {fileID: 0}
+  isTakingCover: 0
   isCurrentTurn: 0
 --- !u!114 &2685813776902128218
 MonoBehaviour:
@@ -194,6 +195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   directionMarker: {fileID: 0}
+  playerPresent: 0
   occupied: 0
   selectable: 0
   walkable: 1
@@ -223,6 +225,33 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2369412465784436473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2685813776902128197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f95a0956b927581448a1dd6a2ea92ea5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moving: 0
+  moveTile: 5
+  jumpHeight: 2
+  moveSpeed: 2
+  jumpVel: 5
+  rotateSpeed: 2
+  bulletPrefab: {fileID: 269683263536249119, guid: 88bc595450eb7244e9cbfee38073a856, type: 3}
+  actualTargetGrid: {fileID: 0}
+  attacking: 0
+  attackerDamage: 0
+  attackState: 0
+  turn: 0
+  whatIsGrid:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1001 &5817336660668818722
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PlayableMovement : TacticMove
 {
-    Grid enemy;
+    protected Grid enemy;
+    protected bool activate = false;
 
 
     // Start is called before the first frame update
@@ -42,13 +43,20 @@ public class PlayableMovement : TacticMove
 
         if (!turn)
             return;
+        else
+        {
+            if(unit.isDucking)
+            {
+                unit.isDucking = false;
+            }
+        }
 
         if (!moving)
         {
             FindSelectableGrid();
             if (GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState == AttacksState.Idle)
             {
-                Debug.Log("Move");
+                //Debug.Log("Move");
                 CheckInput();
 
             }
@@ -61,12 +69,10 @@ public class PlayableMovement : TacticMove
         }
     }
 
-    void CheckInput()
+    public virtual void CheckInput()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-
-        //mouse click for now to test, me hates mobile testing
         if (Input.GetMouseButtonDown(1))
         {
             if (Physics.Raycast(ray, out hit))
@@ -82,28 +88,44 @@ public class PlayableMovement : TacticMove
                 }
             }
         }
-        if (Physics.Raycast(ray, out hit) && Input.GetMouseButtonDown(1))
+
+        if(activate)
         {
-            if (hit.collider.tag == "Alien" && !attacking)
+            if (Physics.Raycast(ray, out hit) && Input.GetMouseButtonDown(0))
             {
-                Grid g = hit.collider.GetComponent<Grid>();
-
-                if (g.selectable)
+                if (hit.collider.tag == "Alien" && !attacking)
                 {
-                    Debug.Log("Shoot");
-                    //attacking = true;
-                    //StartCoroutine(Shoot(g));
-                    enemy = g;
-                    InitiateAttack();
+                    Grid g = hit.collider.GetComponent<Grid>();
 
+                    if (g.selectable)
+                    {
+                        enemy = g;
+                        InitiateAttack();
+                    }
                 }
             }
         }
     }
 
+    public void SetEnemy()
+    {
+        activate = true;
+    }
+
     public void InitiateAttack()
     {
-        attacking = true;
-        StartCoroutine(Shoot(enemy));
+        if (attacking) return;
+        StartCoroutine(Shoot(enemy, () =>
+        {
+            enemy = null;
+            activate = false;
+            unit.DeductPointsOrChangeTurn(unit.GetUnitPoints());
+        }));
+    }
+
+    public override void BeginTurn()
+    {
+        base.BeginTurn();
+        ButtonManager.instance.SetButtonsToCurrentPlayer(this);
     }
 }

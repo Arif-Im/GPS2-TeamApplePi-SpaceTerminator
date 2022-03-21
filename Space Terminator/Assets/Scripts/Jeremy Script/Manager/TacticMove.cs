@@ -5,20 +5,16 @@ using UnityEngine;
 
 public class TacticMove : MonoBehaviour
 {
-    [SerializeField] LayerMask whatIsGrid;
-    Grid standingGrid;
-    Vector3 directionOfCoverEffect;
 
-    protected Unit unit;
+    public Unit unit;
 
-    List<Grid> selectableGrid = new List<Grid>(); //to reset selectable tiles after moving
-    GameObject[] grids;
+    public List<Grid> selectableGrid = new List<Grid>(); //to reset selectable tiles after moving
+    protected GameObject[] grids;
 
     Stack<Grid> path = new Stack<Grid>(); //path is calculated in reverse (from end to beginning)
     Grid currentGrid;
 
     public bool moving = false;
-    [SerializeField] protected BattleSystem battleSystem;
     [SerializeField] int moveTile = 5; //can move 5 tiles per turn
     [SerializeField] float jumpHeight = 2; //can jump 2 tiles
     [SerializeField] float moveSpeed = 2;
@@ -51,21 +47,12 @@ public class TacticMove : MonoBehaviour
         unit = GetComponent<Unit>();
     }
 
-    void Start()
+    private void Start()
     {
         Initialize();
     }
 
-
-    public void CheckStandingGrid()
-    {
-        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 10, whatIsGrid))
-        {
-            standingGrid = hit.collider.gameObject.GetComponent<Grid>();
-        }
-    }
-
-    void Initialize()
+    public void Initialize()
     {
         grids = GameObject.FindGameObjectsWithTag("Grid"); //store all the gameobjects with grid into the array
         halfHeight = GetComponent<Collider>().bounds.extents.y;
@@ -74,6 +61,7 @@ public class TacticMove : MonoBehaviour
 
     void GetCurrentGrid()
     {
+        //Debug.Log("Getting Current Grid");
         currentGrid = GetTargetTile(gameObject);
         currentGrid.occupied = true;
     }
@@ -87,12 +75,19 @@ public class TacticMove : MonoBehaviour
         {
             grid = hit.collider.GetComponent<Grid>();
         }
+        else
+        {
+            grid = target.GetComponent<Grid>();
+        }
+
+        //if (grid == null) { Debug.Log("GetTargetTile: grid = null"); }
 
         return grid;
     }
 
     void ComputeAdjacencyList(float jumpHeight, Grid target)
     {
+        //Debug.Log("Computing");
         grids = GameObject.FindGameObjectsWithTag("Grid"); //find all the grids
 
         foreach (GameObject grid in grids)
@@ -180,10 +175,10 @@ public class TacticMove : MonoBehaviour
     }
 
     //bool hasShot = false;
-    public IEnumerator Shoot(Grid targetEnemy)
+    public IEnumerator Shoot(Grid targetEnemy, Action actionPoint)
     {
-        //if (hasShot == true) yield break;
-        
+        if (targetEnemy == null) yield break;
+        targetEnemy.GetComponent<TacticCover>().ComputeConditionsToSetCover();
 
         gameObject.GetComponent<Unit>().state = AttackState.UnderAttack;
         GameObject.FindGameObjectWithTag("Dice").GetComponent<Dice>().state = DiceRoll.Rolling;
@@ -209,37 +204,48 @@ public class TacticMove : MonoBehaviour
         for(int x = 0; x < 3; x++)
         {
             if (bulletPrefab != null)
-                SpawnBullet(this.gameObject, targetEnemy.GetComponent<Unit>().isTakingCover, standingGrid.isCoverEffectArea);
-                //Instantiate(bulletPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z +0.5f), transform.rotation);
-            Debug.Log($"{gameObject.name}, Pew");
+                SpawnBullet(this.gameObject, GetTargetTile(this.gameObject).isCoverEffectArea);
             yield return new WaitForSeconds(0.1f);
         }
 
-        //gameObject.GetComponent<Unit>().state = AttackState.FinishAttacked;
         GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState = AttacksState.FinishAttacked;
 
         if (GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState == AttacksState.FinishAttacked/*gameObject.GetComponent<Unit>().state == AttackState.FinishAttacked*/)
         {
             yield return new WaitForSeconds(0.5f);
-            //gameObject.GetComponent<Unit>().state = AttackState.Idle;
             GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState = AttacksState.Idle;
         }
 
-        unit.DeductPointsOrChangeTurn(1);
+        if(grids != null)
+        {
+            foreach (GameObject grid in grids)
+            {
+                grid.GetComponent<Grid>().isCoverEffectArea = false;
+            }
+        }
+
+        targetEnemy.GetComponent<TacticMove>().unit.interrupted = false;
+        if (actionPoint != null)
+        {
+            actionPoint.Invoke();
+        }
         attacking = false;
-        //hasShot = false;
+        targetEnemy = null;
     }
 
-    public void SpawnBullet(GameObject shooter, bool opponentInCover, bool inCoverEffect)
+    public void SpawnBullet(GameObject shooter, bool inCoverEffect)
     {
         GameObject bullet = Instantiate(bulletPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z + 0.5f), transform.rotation);
-        bullet.GetComponent<Bullet>().OpponentInCover = opponentInCover;
         bullet.GetComponent<Bullet>().InCoverEffect = inCoverEffect;
         bullet.GetComponent<Bullet>().Shooter = shooter;
+        bullet.GetComponent<Bullet>().UnitRollToHit = unit.rollToHit;
     }
 
     public void Move(Action onReachTarget)
     {
+        if (unit.interrupted) return;
+        unit.isOverwatch = false;
+
         //move as long as there's a path
         if (path.Count > 0)
         {
@@ -269,14 +275,7 @@ public class TacticMove : MonoBehaviour
             }
             else
             {
-                CheckStandingGrid();
-                //grid center reached
-                if(g.isCover)
-                {
-                    directionOfCoverEffect = g.SetCoverEffectArea(g.CoverOrigin.transform.position, standingGrid.transform.position);
-                    SetCoverEffect();
-                    unit.isTakingCover = true;
-                }
+                //CheckStandingGrid();
                 transform.position = target;
                 path.Pop();
             }
@@ -293,102 +292,7 @@ public class TacticMove : MonoBehaviour
         }
     }
 
-    void SetCoverEffect()
-    {
-        foreach (GameObject grid in grids)
-        {
-            grid.GetComponent<Grid>().isCoverEffectArea = false;
-        }
-
-        if (Mathf.Abs(directionOfCoverEffect.x) > 0)
-        {
-            switch(directionOfCoverEffect.x)
-            {
-                case 1:
-                    SetDiagonalCoverGrids(Vector3.back, Vector3.left, 100);
-                    break;
-                case -1:
-                    SetDiagonalCoverGrids(Vector3.back, -Vector3.left, 100);
-                    break;
-            }
-        }
-
-        if (Mathf.Abs(directionOfCoverEffect.z) > 0)
-        {
-            switch (directionOfCoverEffect.z)
-            {
-                case 1:
-                    SetDiagonalCoverGrids(Vector3.back, Vector3.left, 100);
-                    break;
-                case -1:
-                    SetDiagonalCoverGrids(-Vector3.back, Vector3.left, 100);
-                    break;
-            }
-        }
-    }
-
-    private void SetDiagonalCoverGrids(Vector3 x, Vector3 z, float amount)
-    {
-        if(Mathf.Abs(directionOfCoverEffect.x) > 0)
-        {
-            Bothways(x, z, amount);
-            Bothways(-x, z, amount);
-        }
-
-        if (Mathf.Abs(directionOfCoverEffect.z) > 0)
-        {
-            Bothways(x, z, amount);
-            Bothways(x, -z, amount);
-        }
-    }
-
-    private void Bothways(Vector3 x, Vector3 z, float amount)
-    {
-        for (int i = 0; i < amount; i++)
-        {
-            if (i <= 0)
-            {
-                FindDiagonalGrid(x, z, 5, standingGrid.transform.position);
-            }
-            else
-            {
-                if (adjacentGrid == null) continue;
-                FindDiagonalGrid(x, z, 5, diagonalGrid.transform.position);
-            }
-        }
-    }
-
-    Grid adjacentGrid;
-    Grid diagonalGrid;
-    void FindDiagonalGrid(Vector3 dir1, Vector3 dir2, float distance, Vector3 origin)
-    {
-        SetAreaOfCoverEffect(origin);
-
-        if (Physics.Raycast(origin, dir1, out RaycastHit hit, distance, whatIsGrid))
-        {
-            adjacentGrid = hit.collider.gameObject.GetComponent<Grid>();
-        }
-
-        if (Physics.Raycast(adjacentGrid.transform.position, dir2, out RaycastHit hit2, distance, whatIsGrid) && adjacentGrid != null)
-        {
-            diagonalGrid = hit2.collider.gameObject.GetComponent<Grid>();
-            diagonalGrid.isCoverEffectArea = true;
-
-            SetAreaOfCoverEffect(diagonalGrid.transform.position);
-        }
-    }
-
-    private void SetAreaOfCoverEffect(Vector3 origin)
-    {
-        Vector3 absoluteDir = new Vector3(Mathf.Abs(directionOfCoverEffect.x), Mathf.Abs(directionOfCoverEffect.y), Mathf.Abs(directionOfCoverEffect.z));
-
-        Collider[] coverGrids = Physics.OverlapBox(origin + -directionOfCoverEffect * 6, new Vector3(absoluteDir.x, absoluteDir.y, absoluteDir.z) * 6);
-        foreach (Collider coverGrid in coverGrids)
-        {
-            coverGrid.GetComponent<Grid>().isCoverEffectArea = true;
-        }
-    }
-
+    #region Heading
     void CalculateHeading(Vector3 target)
     {
         heading = target - transform.position;
@@ -414,6 +318,8 @@ public class TacticMove : MonoBehaviour
         }
 
         selectableGrid.Clear();
+
+        //CheckStandingGrid();
     }
 
     void Jump(Vector3 target)
@@ -505,7 +411,9 @@ public class TacticMove : MonoBehaviour
             velocity.y = 1.5f; //hop
         }
     }
+    #endregion
 
+    #region Pathfinding
     protected Grid FindLowestF(List<Grid> list)
     {
         Grid lowest = list[0];
@@ -520,7 +428,7 @@ public class TacticMove : MonoBehaviour
         return lowest;
     }
 
-    protected Grid FindEndGrid (Grid t)
+    protected Grid FindEndGrid (Grid t, bool isAbsolutePos)
     {
         Stack<Grid> tempPath = new Stack<Grid>();
 
@@ -533,7 +441,10 @@ public class TacticMove : MonoBehaviour
 
         if (tempPath.Count <= moveTile)
         {
-            return t.parent;
+            if (isAbsolutePos)
+                return t;
+            else
+                return t.parent;
         }
 
         Grid endGrid = null;
@@ -544,9 +455,8 @@ public class TacticMove : MonoBehaviour
         return endGrid;
     }
 
-    protected void FindPath(Grid target)
+    protected void FindPath(Grid target, bool isAbsolutePosition)
     {
-        //Debug.Log($"FindPath Target: {target.name}");
         ComputeAdjacencyList(jumpHeight, target);
         GetCurrentGrid();
 
@@ -560,19 +470,11 @@ public class TacticMove : MonoBehaviour
         while (openList.Count > 0)
         {
             Grid t = FindLowestF(openList);
-            //Debug.Log($"t Name: {t.name}, target Name: {target.name}");
             closedList.Add(t);
-
-            //if(t == null)
-            //{
-            //    Debug.Log("T is null");
-            //}
 
             if (t == target)
             {
-                //Debug.Log($"t Name: {t.name}");
-                //Debug.Log($"End Grid: {FindEndGrid(t)}");
-                actualTargetGrid = FindEndGrid(t);
+                actualTargetGrid = FindEndGrid(t, isAbsolutePosition);
                 MoveToGrid(actualTargetGrid);
                 return;
             }
@@ -604,11 +506,12 @@ public class TacticMove : MonoBehaviour
                 }
             }
         }
-
     }
+    #endregion
 
-    public void BeginTurn()
+    public virtual void BeginTurn()
     {
+        //Debug.Log("Begin Turn");
         gameObject.GetComponent<UnitPoitsSystem>().CurrentPoints = gameObject.GetComponent<UnitPoitsSystem>().maxPoints;
         turn = true;
     }
@@ -617,17 +520,4 @@ public class TacticMove : MonoBehaviour
     {
         turn = false;
     }
-
-    //public Grid GetTargetTile(GameObject target)
-    //{
-    //    RaycastHit hit;
-    //    Grid grid = null;
-
-    //    if(Physics.Raycast(target.transform.position, -Vector3.up, out hit, 1))
-    //    {
-    //        grid = hit.collider.GetComponent<Grid>();
-    //    }
-
-    //    return grid;
-    //}
 }

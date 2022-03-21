@@ -42,6 +42,7 @@ public class TurnManager : MonoBehaviour
     public static void EndTurn()
     {
         TacticMove unit = turnTeam.Dequeue();
+        ButtonManager.instance.ResetButtons();
         unit.EndTurn();
 
         if (turnTeam.Count > 0)
@@ -77,5 +78,9 @@ public class TurnManager : MonoBehaviour
         }
 
         list.Add(unit);
+        //foreach(TacticMove character in list)
+        //{
+        //    Debug.Log($"Character: {character.name}");
+        //}
     }
 }

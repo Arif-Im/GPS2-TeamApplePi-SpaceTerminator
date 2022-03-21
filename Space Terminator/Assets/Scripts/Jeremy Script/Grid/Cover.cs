@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Cover : Grid
 {
+    [SerializeField] public int health = 1;
     [SerializeField] LayerMask whatIsGrid;
+    List<Grid> coverPositions = new List<Grid>();
     Grid grid;
 
     // Start is called before the first frame update
@@ -12,7 +14,7 @@ public class Cover : Grid
     {
         if(Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 10, whatIsGrid))
         {
-            Debug.Log(hit.collider.gameObject.GetComponent<Grid>());
+            //Debug.Log(hit.collider.gameObject.GetComponent<Grid>());
             grid = hit.collider.gameObject.GetComponent<Grid>();
         }
 
@@ -29,6 +31,14 @@ public class Cover : Grid
 
     }
 
+    private void OnDisable()
+    {
+        foreach(Grid coverPosition in coverPositions)
+        {
+            coverPosition.isCover = false;
+        }
+    }
+
     public void CheckCoverPositions(Vector3 dir)
     {
         Vector3 halfExtent = new Vector3(.25f, 1, .25f); //check if a tile is present (1 x 1 x 1 dimension)
@@ -41,11 +51,10 @@ public class Cover : Grid
             {
                 RaycastHit hit;
 
-                //check if there's NPC or players occupying the grid. If no, grid is walkable
                 if (!Physics.Raycast(grid.transform.position, Vector2.up, out hit, 1))
                 {
-                    //grid.isCover = true;
                     SetCover(grid);
+                    coverPositions.Add(grid);
                 }
 
             }
@@ -54,7 +63,20 @@ public class Cover : Grid
 
     public void SetCover(Grid grid)
     {
+        grid.CoverObject = this;
         grid.CoverOrigin = this.grid;
         grid.isCover = true;
+        coverPositions.Add(grid);
     }
+
+    public void DamageGrid(int damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
+    public List<Grid> CoverPositions { get => coverPositions; }
 }

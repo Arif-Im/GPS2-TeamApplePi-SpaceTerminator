@@ -6,6 +6,8 @@ public class Grid : MonoBehaviour
 {
     [SerializeField] GameObject directionMarker;
 
+    public bool playerPresent = false;
+
     public bool occupied = false;  //if NPC or player is not standing on it
     public bool selectable = false; //selectable area for movement
     public bool walkable = true;
@@ -28,6 +30,7 @@ public class Grid : MonoBehaviour
     public float h = 0;
     
     public Grid CoverOrigin { get;  set; }
+    public Cover CoverObject { get; set; }
 
     void Start()
     {
@@ -40,7 +43,6 @@ public class Grid : MonoBehaviour
     void Update()
     {
         CheckGridStatus();
-       
     }
 
     public virtual void CheckGridStatus()
@@ -50,16 +52,16 @@ public class Grid : MonoBehaviour
             //GetComponent<Renderer>().material.color = Color.red;
             GetComponent<Renderer>().material.color = new Color(1, 0, 0, .55f);
         }
-        else if (target)
-        {
-            //GetComponent<Renderer>().material.color = Color.green;
-            GetComponent<Renderer>().material.color = new Color(0, 1, 0, .55f);
-        }
-        else if (selectable)
-        {
-            //GetComponent<Renderer>().material.color = Color.yellow;
-            GetComponent<Renderer>().material.color = new Color(1, 0.92f, 0.016f, .55f);
-        }
+        //else if (target)
+        //{
+        //    //GetComponent<Renderer>().material.color = Color.green;
+        //    GetComponent<Renderer>().material.color = new Color(0, 1, 0, .55f);
+        //}
+        //else if (selectable)
+        //{
+        //    //GetComponent<Renderer>().material.color = Color.yellow;
+        //    GetComponent<Renderer>().material.color = new Color(1, 0.92f, 0.016f, .55f);
+        //}
         else if (isCover)
         {
             GetComponent<Renderer>().material.color = new Color (0, 0, 1, .55f);
@@ -84,25 +86,6 @@ public class Grid : MonoBehaviour
             //GetComponent<Renderer>().material.color = Color.white;
             GetComponent<Renderer>().material.color = new Color(1, 1, 1, .55f);
         }
-
-        //Collider[] colliders = Physics.OverlapBox(transform.position,new Vector3 (0,0,0));
-
-        //foreach (Collider item in colliders)
-        //{
-        //    Grid grid = item.GetComponent<Grid>();
-        //    if (grid != null && grid.walkable) //if there's a grid and it's walkable
-        //    {
-        //        RaycastHit hit;
-        //        adjacencyList.Add(grid);
-
-        //        if (Physics.Raycast(grid.transform.position, Vector2.up, out hit, 1) || grid == target)
-        //        {
-        //            selectable = false;
-        //            //adjacencyList.Add(grid);
-        //        }
-
-        //    }
-        //}
     }
 
     //Reset  variables
@@ -160,11 +143,9 @@ public class Grid : MonoBehaviour
         }
     }
 
-    public Vector3 SetCoverEffectArea(Vector3 coverGridPosition, Vector3 currentGridPosition)
+    public Vector3 GetDirectionOfCover(Vector3 coverGridPosition, Vector3 currentGridPosition)
     {
         Vector3 directionOfConfirmedCover = (currentGridPosition - coverGridPosition).normalized;
-        //Instantiate(directionMarker, transform.position/* + directionOfConfirmedCover*/, Quaternion.identity);
-        Debug.Log($"Direction Of Cover: {directionOfConfirmedCover}");
         return directionOfConfirmedCover;
     }
 }
