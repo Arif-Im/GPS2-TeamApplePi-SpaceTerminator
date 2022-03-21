@@ -29,7 +29,7 @@ public class ScoutMovement : PlayableMovement
 
         if(grenadeMode)
         {
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(0))
             {
                 if (Physics.Raycast(ray, out hit))
                 {
@@ -40,7 +40,6 @@ public class ScoutMovement : PlayableMovement
                         if (g.selectable)
                         {
                             scout.Activate(g.gameObject, true, this);
-                            //unit.DeductPointsOrChangeTurn(1);
                         }
                     }
                     grenadeMode = false;
@@ -65,15 +64,19 @@ public class ScoutMovement : PlayableMovement
                 }
             }
 
-            if (Physics.Raycast(ray, out hit) && Input.GetMouseButtonDown(1))
+            if (activate)
             {
-                if (hit.collider.tag == "Alien" && !attacking)
+                if (Physics.Raycast(ray, out hit) && Input.GetMouseButtonDown(0))
                 {
-                    Grid g = hit.collider.GetComponent<Grid>();
-
-                    if (g.selectable)
+                    if (hit.collider.tag == "Alien" && !attacking)
                     {
-                        enemy = g;
+                        Grid g = hit.collider.GetComponent<Grid>();
+
+                        if (g.selectable)
+                        {
+                            enemy = g;
+                            InitiateAttack();
+                        }
                     }
                 }
             }

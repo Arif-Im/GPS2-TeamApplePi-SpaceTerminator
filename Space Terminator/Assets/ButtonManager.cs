@@ -38,7 +38,7 @@ public class ButtonManager : MonoBehaviour
     {
         this.player = player;
         if (!this.player.gameObject.activeInHierarchy) return;
-        attack.onClick.AddListener(() => this.player.InitiateAttack());
+        attack.onClick.AddListener(() => this.player.SetEnemy());
         overwatch.onClick.AddListener(() => this.player.unit.Activate(() =>
         {
             this.player.unit.isOverwatch = true;

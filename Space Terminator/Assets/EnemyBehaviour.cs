@@ -10,7 +10,8 @@ public class EnemyBehaviour : MonoBehaviour
     protected Unit unit;
     //UnitPoitsSystem unitPointSystem;
 
-    protected int random = 1;
+    protected int attackOrOverwatch = 1;
+    protected int tacticOrDuck = 1;
 
     protected Node.Status treeStatus = Node.Status.RUNNING;
 
@@ -21,7 +22,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     public void Initialize()
     {
-        random = 1;
+        attackOrOverwatch = 1;
         unit = GetComponent<Unit>();
         //unitPointSystem = GetComponent<UnitPoitsSystem>();
         enemyMovement = GetComponent<EnemyMovement>();
@@ -185,14 +186,14 @@ public class EnemyBehaviour : MonoBehaviour
     {
         if (unit.overwatchCooldown > 0 || unit.duckingCooldown > 0) return Node.Status.FAILURE;
         Debug.Log("Choosing Attack Or Overwatch");
-        random = UnityEngine.Random.Range(1, 2);
-        Debug.Log($"Random: {random}");
+        attackOrOverwatch = UnityEngine.Random.Range(1, 2);
+        Debug.Log($"Random: {attackOrOverwatch}");
         return Node.Status.SUCCESS;
     }
 
     public Node.Status CanAttack()
     {
-        if (random != 1) return Node.Status.FAILURE;
+        if (attackOrOverwatch != 1 || tacticOrDuck != 1) return Node.Status.FAILURE;
 
         if (Vector3.Distance(this.gameObject.transform.position, enemyMovement.Player.transform.position) > enemyMovement.MoveTile || unit.isDucking || unit.overwatchCooldown > 0)
         {
@@ -218,7 +219,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     public Node.Status Overwatch()
     {
-        if (enemyMovement.attacking == false && random == 2)
+        if (enemyMovement.attacking == false && attackOrOverwatch == 2)
         {
             Debug.Log("Enemy Overwatch");
             //enemyMovement.attacking = true;
@@ -292,7 +293,9 @@ public class EnemyBehaviour : MonoBehaviour
 
     public Node.Status CanDuck()
     {
-        if (/*unit.HealthPercentage <= 20 && */enemyMovement.GetTargetTile(gameObject).isCover && !unit.isDucking)
+        tacticOrDuck = UnityEngine.Random.Range(1, 3);
+
+        if (tacticOrDuck == 1 && enemyMovement.GetTargetTile(gameObject).isCover && !unit.isDucking)
         {
             Debug.Log("Ducking");
             return Node.Status.SUCCESS;

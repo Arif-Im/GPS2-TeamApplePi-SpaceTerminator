@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayableMovement : TacticMove
 {
     protected Grid enemy;
+    protected bool activate = false;
 
 
     // Start is called before the first frame update
@@ -63,7 +64,6 @@ public class PlayableMovement : TacticMove
         else
         {
             Move(() => {
-                //unit.isDucking = false;
                 unit.DeductPointsOrChangeTurn(1);
             });
         }
@@ -89,30 +89,38 @@ public class PlayableMovement : TacticMove
             }
         }
 
-        if (Physics.Raycast(ray, out hit) && Input.GetMouseButtonDown(1))
+        if(activate)
         {
-            if (hit.collider.tag == "Alien" && !attacking)
+            if (Physics.Raycast(ray, out hit) && Input.GetMouseButtonDown(0))
             {
-                Grid g = hit.collider.GetComponent<Grid>();
-
-                if (g.selectable)
+                if (hit.collider.tag == "Alien" && !attacking)
                 {
-                    enemy = g;
-                    //if (GetComponentInChildren<Scout>() != null)
-                    //{
-                    //    Scout scout = GetComponentInChildren<Scout>();
-                    //    scout.target = enemy.gameObject;
-                    //}
+                    Grid g = hit.collider.GetComponent<Grid>();
+
+                    if (g.selectable)
+                    {
+                        enemy = g;
+                        InitiateAttack();
+                    }
                 }
             }
         }
     }
 
+    public void SetEnemy()
+    {
+        activate = true;
+    }
+
     public void InitiateAttack()
     {
-        //if (unit.isDucking || unit.duckingCooldown > 0) return;
         if (attacking) return;
-        StartCoroutine(Shoot(enemy, () => unit.DeductPointsOrChangeTurn(unit.GetUnitPoints())));
+        StartCoroutine(Shoot(enemy, () =>
+        {
+            enemy = null;
+            activate = false;
+            unit.DeductPointsOrChangeTurn(unit.GetUnitPoints());
+        }));
     }
 
     public override void BeginTurn()
