@@ -10,8 +10,17 @@ public class TurnManager : MonoBehaviour
     public static Queue<TacticMove> turnTeam = new Queue<TacticMove>();
     public AttacksState attackState;
 
+    bool deploymentState = true;
+
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            deploymentState = false;
+        }
+
+        if (deploymentState) return;
+
         if (turnTeam.Count == 0)
         {
             InitTeamTurnQueue();
@@ -32,7 +41,6 @@ public class TurnManager : MonoBehaviour
 
     static void StartTurn()
     {
-
         if (turnTeam.Count > 0)
         {
             turnTeam.Peek().BeginTurn();

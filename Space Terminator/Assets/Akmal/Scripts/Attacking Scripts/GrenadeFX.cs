@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Grenade : MonoBehaviour
+public class GrenadeFX : MonoBehaviour
 {
     public float delay = 3f;
     public float radius = 5f;

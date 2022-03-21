@@ -38,7 +38,7 @@ public class floorRotation : MonoBehaviour
     void Update()
     {
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, Rotation, turning_Speed);
+        //transform.rotation = Quaternion.Slerp(transform.rotation, Rotation, turning_Speed);
         
 
     }

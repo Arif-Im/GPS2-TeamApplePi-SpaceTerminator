@@ -180,10 +180,13 @@ public class EnemyBehaviour : MonoBehaviour
         {
             return Node.Status.FAILURE;
         }
+
         if (unit.isDucking)
         {
             unit.isDucking = false;
         }
+
+        //enemyMovement.FindNearestPlayer();
         return Node.Status.SUCCESS;
     }
     #endregion
@@ -194,6 +197,7 @@ public class EnemyBehaviour : MonoBehaviour
     {
         if (unit.overwatchCooldown > 0 || unit.duckingCooldown > 0) return Node.Status.FAILURE;
         Debug.Log("Choosing Attack Or Overwatch");
+        enemyMovement.FindNearestPlayer();
         attackOrOverwatch = UnityEngine.Random.Range(1, 2);
         Debug.Log($"Random: {attackOrOverwatch}");
         return Node.Status.SUCCESS;
@@ -202,6 +206,14 @@ public class EnemyBehaviour : MonoBehaviour
     public Node.Status CanAttack()
     {
         if (attackOrOverwatch != 1 || tacticOrDuck != 1) return Node.Status.FAILURE;
+
+        //if (enemyMovement.Player == null)
+        //{
+        //    return Node.Status.RUNNING;
+        //    Debug.LogError("Player is null");
+        //}
+
+        //enemyMovement.FindNearestPlayer();
 
         if (Vector3.Distance(this.gameObject.transform.position, enemyMovement.Player.transform.position) > enemyMovement.MoveTile || unit.isDucking || unit.overwatchCooldown > 0)
         {
@@ -219,6 +231,12 @@ public class EnemyBehaviour : MonoBehaviour
         if (enemyMovement.attacking == false)
         {
             //enemyMovement.attacking = true;
+            if (enemyMovement.Player.gameObject.GetComponent<Grid>() == null)
+                Debug.LogError("Player null");
+
+            if (unit == null)
+                Debug.LogError("Unit null");
+
             StartCoroutine(enemyMovement.Shoot(enemyMovement.Player.gameObject.GetComponent<Grid>(), () => unit.DeductPointsOrChangeTurn(unit.GetUnitPoints())));
             return Node.Status.SUCCESS;
         }
@@ -257,6 +275,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     public Node.Status GoToTarget()
     {
+        Debug.Log("Going to target");
         //Debug.Log($"AP: {unit.GetUnitPoints()}");
         if (!enemyMovement.Moving && enemyMovement.Path.Count <= 0)
         {

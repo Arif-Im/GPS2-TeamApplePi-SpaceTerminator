@@ -81,6 +81,7 @@ public class EnemyMovement : TacticMove
 
     public void SetTargetAndMoveCondition(Grid target, bool moveCondition)
     {
+        //if (target == null) return;
         this.target = target.gameObject;
         isAbsolutePosition = moveCondition;
     }
@@ -98,6 +99,11 @@ public class EnemyMovement : TacticMove
 
     void CalculatePath(bool isAbsolutePosition)
     {
+        if (target == null)
+        {
+            //Debug.LogError("Target is null");
+            return;
+        }
         Grid targetGrid = GetTargetTile(target);
         FindPath(targetGrid, isAbsolutePosition);
     }

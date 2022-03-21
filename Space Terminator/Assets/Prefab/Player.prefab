@@ -116,6 +116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 0}
+  selectableGrid: []
   moving: 0
   moveTile: 5
   jumpHeight: 2
@@ -148,6 +149,7 @@ MonoBehaviour:
   state: 0
   punchDamagePoint: 0
   floatingText: {fileID: 6634748694765353139, guid: f5f1d941c335c27479acbfaf0ece3bdf, type: 3}
+  rollToHit: 3
   overwatchCooldown: 0
   duckingCooldown: 0
   unitPointsSystem: {fileID: 0}
@@ -157,7 +159,7 @@ MonoBehaviour:
   interrupted: 0
   whatIsEnemy:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
 --- !u!114 &4662047177211716491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,6 +212,8 @@ MonoBehaviour:
   selectable: 0
   walkable: 1
   target: 0
+  isTouched: 0
+  placeable: 0
   isCover: 0
   isCoverEffectArea: 0
   adjacencyList: []
@@ -232,6 +236,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 0}
+  selectableGrid: []
   moving: 0
   moveTile: 5
   jumpHeight: 2
@@ -244,9 +249,6 @@ MonoBehaviour:
   attackerDamage: 0
   attackState: 0
   turn: 0
-  whatIsGrid:
-    serializedVersion: 2
-    m_Bits: 8
 --- !u!1001 &5985501950232649171
 PrefabInstance:
   m_ObjectHideFlags: 0

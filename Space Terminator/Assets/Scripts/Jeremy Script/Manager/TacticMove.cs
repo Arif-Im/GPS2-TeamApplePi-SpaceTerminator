@@ -230,7 +230,7 @@ public class TacticMove : MonoBehaviour
             actionPoint.Invoke();
         }
         attacking = false;
-        targetEnemy = null;
+        //targetEnemy = null;
     }
 
     public void SpawnBullet(GameObject shooter, bool inCoverEffect)
