@@ -34,10 +34,10 @@ public class AudioManager : MonoBehaviour
 
     void Start()
     {
-        Play("Ambience");
+        PlaySound("Ambience");
     }
 
-    public void Play (string name)
+    public void PlaySound (string name)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
         if (s == null)
