@@ -16,7 +16,7 @@ public class TurnManager : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            deploymentState = false;
+            Deploy();
         }
 
         if (deploymentState) return;
@@ -25,6 +25,11 @@ public class TurnManager : MonoBehaviour
         {
             InitTeamTurnQueue();
         }
+    }
+
+    public void Deploy()
+    {
+        deploymentState = false;
     }
 
     static void InitTeamTurnQueue()
