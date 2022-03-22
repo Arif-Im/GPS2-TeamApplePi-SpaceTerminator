@@ -11,11 +11,15 @@ public class EnemyMovement : TacticMove
     private GameObject target;
 
     UnitPoitsSystem unitPoints;
+    Animator anim;
+    public bool isWalking = false;
+
 
     // Start is called before the first frame update
     void Start()
     {
         //Initialize();
+        anim = GetComponent<Animator>();
         unitPoints = GetComponent<UnitPoitsSystem>();
         TurnManager.AddUnit(this);
         unit = GetComponent<Unit>();
@@ -42,6 +46,7 @@ public class EnemyMovement : TacticMove
 
         if (turn && unit.Health <= 0)
         {
+            GetComponent<TacticMove>().arrow.SetActive(false);
             //ButtonManager.instance.ResetButtons();
             TurnManager.EndTurn();
             return;
@@ -88,11 +93,13 @@ public class EnemyMovement : TacticMove
 
     public void EnemyMove()
     {
+        isWalking = true;
         if(moving)
         {
             Move(() => {
                 //unit.isDucking = false;
                 unit.DeductPointsOrChangeTurn(1);
+                isWalking = false;
             });
         }
     }

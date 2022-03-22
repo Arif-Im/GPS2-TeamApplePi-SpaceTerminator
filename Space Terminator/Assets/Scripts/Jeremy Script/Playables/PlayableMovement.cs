@@ -8,6 +8,9 @@ public class PlayableMovement : TacticMove
     protected Grid enemy;
     protected bool activate = false;
 
+    [SerializeField] GameObject cameraHolder;
+    [SerializeField] GameObject outOfAmmoText;
+    public bool isWalking;
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +41,7 @@ public class PlayableMovement : TacticMove
 
         if (turn && unit.Health <= 0)
         {
+            GetComponent<TacticMove>().arrow.SetActive(false);
             TurnManager.EndTurn();
             return;
         }
@@ -54,6 +58,12 @@ public class PlayableMovement : TacticMove
 
         if (!moving)
         {
+            if (relocateCam)
+            {
+                StartCoroutine(MoveCamera(transform.position, .5f));
+            }
+            
+
             FindSelectableGrid();
             if (GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState == AttacksState.Idle)
             {
@@ -64,8 +74,10 @@ public class PlayableMovement : TacticMove
         }
         else
         {
+            isWalking = true;
             Move(() => {
                 unit.DeductPointsOrChangeTurn(1);
+                isWalking = false;
             });
         }
     }
@@ -103,8 +115,28 @@ public class PlayableMovement : TacticMove
 
                     if (g.selectable)
                     {
-                        enemy = g;
-                        InitiateAttack();
+                        //enemy = g;
+                        //InitiateAttack();
+
+                        if (ammoCount >= 0)
+                        {
+                            attacking = true;
+                            enemy = g;
+                            InitiateAttack();
+
+                        }
+                        else
+                        {
+                            if (Vector3.Distance(g.transform.position, transform.position) <= 1.2f)
+                            {
+                                InitiatePunch();
+                            }
+                            else
+                            {
+                                Instantiate(outOfAmmoText, transform.position, Quaternion.identity, transform);
+
+                            }
+                        }
                     }
                 }
             }
@@ -120,6 +152,17 @@ public class PlayableMovement : TacticMove
     {
         if (attacking) return;
         StartCoroutine(Shoot(enemy, () =>
+        {
+            enemy = null;
+            activate = false;
+            unit.DeductPointsOrChangeTurn(unit.GetUnitPoints());
+        }));
+    }
+
+    public void InitiatePunch()
+    {
+        if (attacking) return;
+        StartCoroutine(Punch(enemy, () =>
         {
             enemy = null;
             activate = false;

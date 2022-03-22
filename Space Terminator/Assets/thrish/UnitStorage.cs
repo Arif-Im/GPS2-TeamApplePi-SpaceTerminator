@@ -33,8 +33,8 @@ public class UnitStorage : MonoBehaviour
             {
                 if (gridName == mainGrid.name)
                 {
-                    Debug.Log("gridName" + gridName);
-                    Debug.Log("mainGridName" + mainGrid);
+                    //Debug.Log("gridName" + gridName);
+                    //Debug.Log("mainGridName" + mainGrid);
                     mainGrid.GetComponent<Grid>().placeable = true;
                     if (placeableGrids.Contains(mainGrid) == false)
                     {

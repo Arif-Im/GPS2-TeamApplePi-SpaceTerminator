@@ -3,6 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum StatusID
+{
+    none, burn, intoxicated
+}
+
+
 public class TacticMove : MonoBehaviour
 {
 
@@ -16,12 +22,14 @@ public class TacticMove : MonoBehaviour
 
     public bool moving = false;
     [SerializeField] int moveTile = 5; //can move 5 tiles per turn
+    [SerializeField] int originalMoveTile = 5; //can move 5 tiles per turn
     [SerializeField] float jumpHeight = 2; //can jump 2 tiles
     [SerializeField] float moveSpeed = 2;
     [SerializeField] float jumpVel = 5;
 
     [SerializeField] float rotateSpeed = 2;
     [SerializeField] GameObject bulletPrefab;
+    [SerializeField] GameObject punchPrefab;
 
     Vector3 velocity = new Vector3();
     Vector3 heading = new Vector3(); //direction going
@@ -39,8 +47,15 @@ public class TacticMove : MonoBehaviour
     public float attackerDamage;
     public AttacksState attackState;
     public bool turn = false;
+    public GameObject arrow;
+    public StatusID currentStatus;
+    public int ammoCount = 3;
 
+    int statusCount;
+    public bool relocateCam = true;
     public int MoveTile { get => moveTile; }
+
+    public bool isAttack;
 
     private void Awake()
     {
@@ -200,6 +215,7 @@ public class TacticMove : MonoBehaviour
         }
 
         yield return null;
+        isAttack = true;
 
         for(int x = 0; x < 3; x++)
         {
@@ -209,7 +225,7 @@ public class TacticMove : MonoBehaviour
         }
 
         GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState = AttacksState.FinishAttacked;
-
+        isAttack = false;
         if (GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState == AttacksState.FinishAttacked/*gameObject.GetComponent<Unit>().state == AttackState.FinishAttacked*/)
         {
             yield return new WaitForSeconds(0.5f);
@@ -231,6 +247,55 @@ public class TacticMove : MonoBehaviour
         }
         attacking = false;
         //targetEnemy = null;
+    }
+
+    public IEnumerator Punch(Grid targetEnemy, Action actionPoint)
+    {
+        RemoveSelectableGrid();
+        GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState = AttacksState.UnderAttack;
+        GameObject.FindGameObjectWithTag("Dice").GetComponent<Dice>().state = DiceRoll.Rolling;
+        GameObject.FindGameObjectWithTag("Dice").GetComponent<Dice>().RollDice();
+        GameObject.FindGameObjectWithTag("Crit Dice").GetComponent<Dice>().RollDice();
+
+        attacking = true;
+        Quaternion shootRotation = Quaternion.LookRotation(targetEnemy.transform.position - transform.position);
+        float time = 0;
+        yield return new WaitForSeconds(2f);
+
+        while (time < 1)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, shootRotation, time);
+            time += Time.deltaTime * rotateSpeed;
+        }
+
+        yield return null;
+
+        Instantiate(punchPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z + 0.5f), transform.rotation);
+
+        attacking = false;
+        GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState = AttacksState.FinishAttacked;
+
+        if (GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState == AttacksState.FinishAttacked)
+        {
+            yield return new WaitForSeconds(0.8f);
+            GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState = AttacksState.Idle;
+          
+        }
+
+
+        if (grids != null)
+        {
+            foreach (GameObject grid in grids)
+            {
+                grid.GetComponent<Grid>().isCoverEffectArea = false;
+            }
+        }
+
+        targetEnemy.GetComponent<TacticMove>().unit.interrupted = false;
+        if (actionPoint != null)
+        {
+            actionPoint.Invoke();
+        }
     }
 
     public void SpawnBullet(GameObject shooter, bool inCoverEffect)
@@ -285,6 +350,7 @@ public class TacticMove : MonoBehaviour
         {
             RemoveSelectableGrid();
             moving = false;
+                 
             onReachTarget.Invoke();
             //fallingDown = false;
             //jumpingUp = false;
@@ -513,11 +579,58 @@ public class TacticMove : MonoBehaviour
     {
         //Debug.Log("Begin Turn");
         gameObject.GetComponent<UnitPoitsSystem>().CurrentPoints = gameObject.GetComponent<UnitPoitsSystem>().maxPoints;
+
+        moveTile = originalMoveTile;
+        if (currentStatus == StatusID.intoxicated)
+        {
+            moveTile /= 2;
+            statusCount--;
+        }
+
+        relocateCam = true;
+        if (arrow != null)
+            arrow.SetActive(true);
         turn = true;
     }
 
     public void EndTurn()
     {
+        if (statusCount == 0)
+        {
+            moveTile = originalMoveTile;
+            currentStatus = StatusID.none;
+            turn = false;
+            return;
+        }
+
+        if (currentStatus == StatusID.burn)
+        {
+            GetComponent<Unit>().BurnDamage();
+            statusCount--;
+        }
+
         turn = false;
+    }
+
+    public IEnumerator MoveCamera(Vector3 pos, float timeToMove)
+    {
+        Vector3 cameraPos = GameObject.FindGameObjectWithTag("MainCamera").transform.position;
+        Vector3 newPos = cameraPos;
+        Vector3 offset = new Vector3(0, 0, -7f);
+
+        var t = 0f;
+        while (t < 1)
+        {
+            t += Time.deltaTime / timeToMove;
+
+            newPos.x = Mathf.Lerp(cameraPos.x, transform.localPosition.x, t);
+            newPos.z = Mathf.Lerp(cameraPos.z, transform.localPosition.z + offset.z, t);
+
+
+            GameObject.FindGameObjectWithTag("MainCamera").transform.position = newPos;
+            yield return null;
+        }
+
+        relocateCam = false;
     }
 }

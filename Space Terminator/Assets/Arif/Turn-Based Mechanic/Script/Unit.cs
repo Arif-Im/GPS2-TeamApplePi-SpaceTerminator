@@ -120,6 +120,7 @@ public class Unit : MonoBehaviour
                 duckingCooldown -= 1;
             }
             //ButtonManager.instance.ResetButtons();
+            GetComponent<TacticMove>().arrow.SetActive(false);
             TurnManager.EndTurn();
         }
     }
@@ -173,5 +174,16 @@ public class Unit : MonoBehaviour
             Gizmos.color = Color.red;
             Gizmos.DrawSphere(transform.position, GetComponent<TacticMove>().MoveTile);
         }
+    }
+
+    public void BurnDamage()
+    {
+        Debug.Log("floating text");
+        var go = Instantiate(floatingText, transform.position, Quaternion.identity, transform);
+        go.GetComponent<TextMesh>().text = 3.ToString();
+        currentHealth -= 3;
+        if (healthBar != null && floatingText != null)
+          healthBar.UpdateHealth(currentHealth / maxHealth);
+    
     }
 }
