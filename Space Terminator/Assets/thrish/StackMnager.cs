@@ -22,7 +22,7 @@ public class StackMnager : MonoBehaviour
 
         instance = this;
         DontDestroyOnLoad(gameObject);
-        Debug.Log(stack.Count);
+        //Debug.Log(stack.Count);
 
     }
 
@@ -48,14 +48,14 @@ public class StackMnager : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("Found same code");
+                        //Debug.Log("Found same code");
                     }
 
-                    foreach (int CODE in stack)
-                    {
-                        Debug.Log("Element in stack: " + CODE + "\n");
-                        Debug.Log("Number of elements in stack: " + stack.Count + "\n");
-                    }
+                    //foreach (int CODE in stack)
+                    //{
+                        //Debug.Log("Element in stack: " + CODE + "\n");
+                        //Debug.Log("Number of elements in stack: " + stack.Count + "\n");
+                    //}
                 }
             }
         }

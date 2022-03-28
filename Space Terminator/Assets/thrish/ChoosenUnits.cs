@@ -12,7 +12,7 @@ public class ChoosenUnits : MonoBehaviour, IDropHandler
     public void OnDrop(PointerEventData eventData)
     {
 
-        Debug.Log("OnDrop");
+        //Debug.Log("OnDrop");
         if(eventData.pointerDrag != null && isUsed == false)
         {
             eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;

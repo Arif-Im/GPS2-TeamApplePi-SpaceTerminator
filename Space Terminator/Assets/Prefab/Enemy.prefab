@@ -171,7 +171,7 @@ MonoBehaviour:
   interrupted: 0
   whatIsEnemy:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
 --- !u!114 &2685813776902128218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,7 +268,7 @@ MonoBehaviour:
   moveSpeed: 2
   jumpVel: 5
   rotateSpeed: 2
-  bulletPrefab: {fileID: 269683263536249119, guid: 88bc595450eb7244e9cbfee38073a856, type: 3}
+  bulletPrefab: {fileID: 0}
   punchPrefab: {fileID: 0}
   actualTargetGrid: {fileID: 0}
   attacking: 0

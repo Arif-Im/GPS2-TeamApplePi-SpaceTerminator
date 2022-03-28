@@ -62,7 +62,7 @@ public class TacticMove : MonoBehaviour
         unit = GetComponent<Unit>();
     }
 
-    private void Start()
+    protected void Start()
     {
         Initialize();
     }

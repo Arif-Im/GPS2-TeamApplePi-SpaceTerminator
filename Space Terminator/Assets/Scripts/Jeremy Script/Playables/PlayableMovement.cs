@@ -120,9 +120,10 @@ public class PlayableMovement : TacticMove
 
                         if (ammoCount >= 0)
                         {
-                            attacking = true;
+                            Debug.Log("Initiate Attack");
                             enemy = g;
                             InitiateAttack();
+                            attacking = true;
 
                         }
                         else
@@ -134,7 +135,6 @@ public class PlayableMovement : TacticMove
                             else
                             {
                                 Instantiate(outOfAmmoText, transform.position, Quaternion.identity, transform);
-
                             }
                         }
                     }
@@ -145,6 +145,7 @@ public class PlayableMovement : TacticMove
 
     public void SetEnemy()
     {
+        Debug.Log("Activate = true");
         activate = true;
     }
 
