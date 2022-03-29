@@ -21,11 +21,6 @@ public class CanvasController : MonoBehaviour
     void Start()
     {
         onSpawnImage.Invoke();
-        //consoleImages.Add(onSpawnImage.Invoke());
-        //foreach (Image consoleImage in consoleImages)
-        //{
-        //    consoleImage.transform.parent = this.transform;
-        //}
     }
 
     // Update is called once per frame

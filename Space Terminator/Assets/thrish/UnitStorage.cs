@@ -99,7 +99,6 @@ public class UnitStorage : MonoBehaviour
                             choosenGrid = g;
                         }
                         choosenGrid.isTouched = false;
-                        //Debug.Log("Target: " + g.name);
                         g.isTouched = true;
                         choosenGrid = g;
                     }

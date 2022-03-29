@@ -32,10 +32,10 @@ public class leverSystem : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
 
-        if (collision.gameObject.GetComponent<UnitManager>())
+        if (collision.gameObject.GetComponent<Unit>())
         {
 
             //Image.SetActive(true);

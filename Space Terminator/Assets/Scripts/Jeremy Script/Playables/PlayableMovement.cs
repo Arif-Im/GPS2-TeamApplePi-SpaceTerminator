@@ -13,7 +13,7 @@ public class PlayableMovement : TacticMove
     public bool isWalking;
 
     // Start is called before the first frame update
-    void Start()
+    new void Start()
     {
         unit = GetComponent<Unit>();
         //gameObject.GetComponent<MeshRenderer>().enabled = false;
@@ -86,26 +86,41 @@ public class PlayableMovement : TacticMove
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if(!overUI)
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                if (Physics.Raycast(ray, out hit))
-                {
-                    if (hit.collider.tag == "Grid")
-                    {
-                        Grid g = hit.collider.GetComponent<Grid>();
+        //if(!overUI)
+        //{
+        //    if (Input.GetMouseButtonDown(0))
+        //    {
+        //        if (Physics.Raycast(ray, out hit))
+        //        {
+        //            if (hit.collider.tag == "Grid")
+        //            {
+        //                Grid g = hit.collider.GetComponent<Grid>();
 
-                        if (g.selectable)
-                        {
-                            MoveToGrid(g);
-                        }
+        //                if (g.selectable)
+        //                {
+        //                    MoveToGrid(g);
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (Physics.Raycast(ray, out hit))
+            {
+                if (hit.collider.tag == "Grid")
+                {
+                    Grid g = hit.collider.GetComponent<Grid>();
+
+                    if (g.selectable)
+                    {
+                        MoveToGrid(g);
                     }
                 }
             }
         }
 
-        if(activate)
+        if (activate)
         {
             if (Physics.Raycast(ray, out hit) && Input.GetMouseButtonDown(0))
             {
@@ -115,19 +130,17 @@ public class PlayableMovement : TacticMove
 
                     if (g.selectable)
                     {
-                        //enemy = g;
-                        //InitiateAttack();
-
                         if (ammoCount >= 0)
                         {
                             Debug.Log("Initiate Attack");
                             enemy = g;
                             InitiateAttack();
-                            attacking = true;
+                            //attacking = true;
 
                         }
                         else
                         {
+                            //Debug.Log("No Ammo");
                             if (Vector3.Distance(g.transform.position, transform.position) <= 1.2f)
                             {
                                 InitiatePunch();
@@ -138,20 +151,32 @@ public class PlayableMovement : TacticMove
                             }
                         }
                     }
+                    else
+                    {
+                        Debug.Log("G not selectable");
+                    }
                 }
+                //else
+                //{
+                //    Debug.LogError("Still Not Found...");
+                //}
             }
         }
     }
 
     public void SetEnemy()
     {
-        Debug.Log("Activate = true");
+        //Debug.Log("Activate = true");
         activate = true;
     }
 
     public void InitiateAttack()
     {
-        if (attacking) return;
+        if (attacking)
+        {
+            //Debug.Log("Still Attacking...");
+            return;
+        }
         StartCoroutine(Shoot(enemy, () =>
         {
             enemy = null;

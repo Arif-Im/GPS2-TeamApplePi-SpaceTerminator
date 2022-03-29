@@ -31,6 +31,8 @@ public class TacticMove : MonoBehaviour
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] GameObject punchPrefab;
 
+    [SerializeField] LayerMask whatIsGrid;
+
     Vector3 velocity = new Vector3();
     Vector3 heading = new Vector3(); //direction going
 
@@ -86,7 +88,7 @@ public class TacticMove : MonoBehaviour
         RaycastHit hit;
         Grid grid = null;
 
-        if (Physics.Raycast(target.transform.position, -Vector3.up, out hit, 1))
+        if (Physics.Raycast(target.transform.position, -Vector3.up, out hit, 1, whatIsGrid))
         {
             grid = hit.collider.GetComponent<Grid>();
         }
@@ -351,7 +353,7 @@ public class TacticMove : MonoBehaviour
             RemoveSelectableGrid();
             moving = false;
                  
-            onReachTarget.Invoke();
+            onReachTarget?.Invoke();
             //fallingDown = false;
             //jumpingUp = false;
             //movingEdge = true;

@@ -11,6 +11,7 @@ public class TurnManager : MonoBehaviour
     public AttacksState attackState;
 
     bool deploymentState = true;
+    bool speedUp = false;
 
     void Update()
     {
@@ -18,6 +19,11 @@ public class TurnManager : MonoBehaviour
         {
             Deploy();
         }
+
+        if(speedUp)
+            SetTimeScale(5);
+        else
+            SetTimeScale(1);
 
         if (deploymentState) return;
 
@@ -30,6 +36,11 @@ public class TurnManager : MonoBehaviour
     public void Deploy()
     {
         deploymentState = false;
+    }
+
+    public void SpeedUp()
+    {
+        speedUp = !speedUp;
     }
 
     static void InitTeamTurnQueue()
@@ -91,9 +102,13 @@ public class TurnManager : MonoBehaviour
         }
 
         list.Add(unit);
-        //foreach(TacticMove character in list)
-        //{
-        //    Debug.Log($"Character: {character.name}");
-        //}
+    }
+
+    private void SetTimeScale(float scale)
+    {
+
+        Time.timeScale = scale;
+        Time.fixedDeltaTime = scale * 0.02f;
+
     }
 }

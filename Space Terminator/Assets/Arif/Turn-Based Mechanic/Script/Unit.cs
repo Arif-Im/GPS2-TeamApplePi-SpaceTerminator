@@ -81,7 +81,7 @@ public class Unit : MonoBehaviour
             Collider[] enemiesToDamage = Physics.OverlapSphere(transform.position, GetComponent<TacticMove>().MoveTile, whatIsEnemy);
             foreach (Collider enemy in enemiesToDamage)
             {
-                Debug.Log("Overwatch");
+                //Debug.Log("Overwatch");
                 //GetComponent<TacticMove>().attacking = true; // avoids repeating attack
                 StartCoroutine(GetComponent<TacticMove>().Shoot(enemy.GetComponent<Grid>(), null)); // shoot without removing AP
                 enemy.GetComponent<Unit>().interrupted = true; // stops the opponent when being attack
@@ -139,7 +139,7 @@ public class Unit : MonoBehaviour
 
         if (other.gameObject.CompareTag("Bullet"))
         {
-            Debug.Log("Hit Bullet");
+            //Debug.Log("Hit Bullet");
             if(gameObject.CompareTag("Player") || gameObject.CompareTag("Alien"))
             {
                 if (gameObject.tag == other.gameObject.GetComponent<Bullet>().Shooter.tag) return;
@@ -173,7 +173,7 @@ public class Unit : MonoBehaviour
         if (isOverwatch)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawSphere(transform.position, GetComponent<TacticMove>().MoveTile);
+            Gizmos.DrawWireSphere(transform.position, GetComponent<TacticMove>().MoveTile);
         }
     }
 

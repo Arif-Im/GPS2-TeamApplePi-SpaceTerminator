@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 1448836253344189682}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2.5, y: 1, z: 2.5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -109,10 +109,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   directionMarker: {fileID: 5891686741774952342, guid: 9dc485fbd885df549a678650ae152650, type: 3}
+  playerPresent: 0
   occupied: 0
   selectable: 0
   walkable: 1
   target: 0
+  isTouched: 0
+  placeable: 0
   isCover: 0
   isCoverEffectArea: 0
   adjacencyList: []
@@ -122,3 +125,6 @@ MonoBehaviour:
   f: 0
   g: 0
   h: 0
+  whatGrid:
+    serializedVersion: 2
+    m_Bits: 8

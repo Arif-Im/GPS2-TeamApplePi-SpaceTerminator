@@ -129,12 +129,10 @@ public class EnemyBehaviour : MonoBehaviour
         state.AddChild(idle);
         state.AddChild(duck);
         state.AddChild(cover);
-        //state.AddChild(attack);
         state.AddChild(tactic);
         state.AddChild(pursuit);
 
         //add selector to behaviour tree
-        //tree.AddChild(computeTarget);
         tree.AddChild(state);
 
         //print out total states
@@ -153,7 +151,6 @@ public class EnemyBehaviour : MonoBehaviour
         if (!unit.gameObject.GetComponent<TacticMove>().turn || unit.GetUnitPoints() <= 0)
         {
             TurnManager.EndTurn();
-            //ButtonManager.instance.ResetButtons();
             return Node.Status.FAILURE;
         }
         return Node.Status.SUCCESS;
@@ -165,7 +162,6 @@ public class EnemyBehaviour : MonoBehaviour
         {
             return Node.Status.FAILURE;
         }
-        //if (!enemyMovement.GetTargetTile(gameObject).isCover) unit.isDucking = false;
         enemyMovement.ComputeTarget();
         return Node.Status.SUCCESS;
     }
@@ -186,7 +182,6 @@ public class EnemyBehaviour : MonoBehaviour
             unit.isDucking = false;
         }
 
-        //enemyMovement.FindNearestPlayer();
         return Node.Status.SUCCESS;
     }
     #endregion
@@ -196,24 +191,14 @@ public class EnemyBehaviour : MonoBehaviour
     public Node.Status ChooseAttackOrOverwatch()
     {
         if (unit.overwatchCooldown > 0 || unit.duckingCooldown > 0) return Node.Status.FAILURE;
-        //Debug.Log("Choosing Attack Or Overwatch");
         enemyMovement.FindNearestPlayer();
-        attackOrOverwatch = UnityEngine.Random.Range(1, 2);
-        //Debug.Log($"Random: {attackOrOverwatch}");
+        attackOrOverwatch = UnityEngine.Random.Range(1, 3);
         return Node.Status.SUCCESS;
     }
 
     public Node.Status CanAttack()
     {
         if (attackOrOverwatch != 1 || tacticOrDuck != 1) return Node.Status.FAILURE;
-
-        //if (enemyMovement.Player == null)
-        //{
-        //    return Node.Status.RUNNING;
-        //    Debug.LogError("Player is null");
-        //}
-
-        //enemyMovement.FindNearestPlayer();
 
         if (Vector3.Distance(this.gameObject.transform.position, enemyMovement.Player.transform.position) > enemyMovement.MoveTile || unit.isDucking || unit.overwatchCooldown > 0)
         {
@@ -222,7 +207,6 @@ public class EnemyBehaviour : MonoBehaviour
 
         if (unit.interrupted) return Node.Status.RUNNING;
 
-        //Debug.Log("Is Checking Attack");
         return Node.Status.SUCCESS;
     }
 
@@ -230,13 +214,6 @@ public class EnemyBehaviour : MonoBehaviour
     {
         if (enemyMovement.attacking == false)
         {
-            //enemyMovement.attacking = true;
-            //if (enemyMovement.Player.gameObject.GetComponent<Grid>() == null)
-            //    Debug.LogError("Player null");
-
-            //if (unit == null)
-            //    Debug.LogError("Unit null");
-
             StartCoroutine(enemyMovement.Shoot(enemyMovement.Player.gameObject.GetComponent<Grid>(), () => unit.DeductPointsOrChangeTurn(unit.GetUnitPoints())));
             return Node.Status.SUCCESS;
         }
@@ -247,15 +224,11 @@ public class EnemyBehaviour : MonoBehaviour
     {
         if (enemyMovement.attacking == false && attackOrOverwatch == 2)
         {
-            //Debug.Log("Enemy Overwatch");
-            //enemyMovement.attacking = true;
-            //unit.isOverwatch = true;
             unit.Activate(() =>
             {
                 unit.isOverwatch = true;
                 unit.overwatchCooldown = 2;
             });
-            //Debug.Log($"AP: {unit.GetUnitPoints()}");
             return Node.Status.SUCCESS;
         }
         return Node.Status.FAILURE;
@@ -266,8 +239,6 @@ public class EnemyBehaviour : MonoBehaviour
     #region Pursuit
     public Node.Status StartPursuit()
     {
-        //if (unit.isOverwatch) return Node.Status.FAILURE;
-        //Debug.Log("Pursuit");
         enemyMovement.FindNearestPlayer();
         enemyMovement.SetTargetAndMoveCondition(enemyMovement.Player, false);
         return Node.Status.SUCCESS;
@@ -275,8 +246,6 @@ public class EnemyBehaviour : MonoBehaviour
 
     public Node.Status GoToTarget()
     {
-        //Debug.Log("Going to target");
-        //Debug.Log($"AP: {unit.GetUnitPoints()}");
         if (!enemyMovement.Moving && enemyMovement.Path.Count <= 0)
         {
             return Node.Status.SUCCESS;
@@ -306,7 +275,6 @@ public class EnemyBehaviour : MonoBehaviour
 
         if (closestCover == null)
         {
-            //Debug.Log("No Close Cover");
             return Node.Status.FAILURE;
         }
 
@@ -324,7 +292,6 @@ public class EnemyBehaviour : MonoBehaviour
 
         if (tacticOrDuck == 1 && enemyMovement.GetTargetTile(gameObject).isCover && !unit.isDucking)
         {
-            Debug.Log("Ducking");
             return Node.Status.SUCCESS;
         }
         return Node.Status.FAILURE;
@@ -335,7 +302,6 @@ public class EnemyBehaviour : MonoBehaviour
         if (!unit.isDucking)
         {
             unit.Activate(() => unit.isDucking = true);
-            //unit.DeductPointsOrChangeTurn(unitPointSystem.CurrentPoints);
             return Node.Status.SUCCESS;
         }
         return Node.Status.FAILURE;
