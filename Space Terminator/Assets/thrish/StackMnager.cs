@@ -7,7 +7,7 @@ public class StackMnager : MonoBehaviour
 {
 
     private static StackMnager instance;
-    public Stack<int> stack = new Stack<int>();
+    public Queue<int> stack = new Queue<int>();
 
     public List<GameObject> slots = new List<GameObject>();
 
@@ -44,7 +44,7 @@ public class StackMnager : MonoBehaviour
                     int code = gameObject.GetComponent<ChoosenUnits>().unitCode;
                     if (stack.Contains(code) == false)
                     {
-                        stack.Push(code);
+                        stack.Enqueue(code);
                     }
                     else
                     {

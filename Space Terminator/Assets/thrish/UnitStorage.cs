@@ -105,7 +105,7 @@ public class UnitStorage : MonoBehaviour
                     else if (hit.collider.GetComponent<Grid>().isTouched == true)
                     {
                         Instantiate(gameObject, hit.collider.transform.position + new Vector3(0, 1.28f, 0), Quaternion.identity);
-                        stackMnager.stack.Pop();
+                        stackMnager.stack.Dequeue();
                         hit.collider.GetComponent<Grid>().isTouched = false;
                     }
                 }

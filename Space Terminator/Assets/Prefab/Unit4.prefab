@@ -225,12 +225,15 @@ MonoBehaviour:
   rotateSpeed: 2
   bulletPrefab: {fileID: 1882839498839259184, guid: d714caa563c5eb54691cecdf853334fe, type: 3}
   punchPrefab: {fileID: 2807907003269891355, guid: df81cf372dc805745ba8b9bc7f9dae8b, type: 3}
+  whatIsGrid:
+    serializedVersion: 2
+    m_Bits: 8
   actualTargetGrid: {fileID: 0}
   attacking: 0
   attackerDamage: 0
   attackState: 0
   turn: 0
-  arrow: {fileID: 4352789673033945824}
+  arrow: {fileID: 4669023863867616700, guid: 4c944dee7f2f65148a71479db3a08477, type: 3}
   currentStatus: 0
   ammoCount: 2
   relocateCam: 1
@@ -369,12 +372,15 @@ MonoBehaviour:
   rotateSpeed: 2
   bulletPrefab: {fileID: 269683263536249119, guid: 88bc595450eb7244e9cbfee38073a856, type: 3}
   punchPrefab: {fileID: 0}
+  whatIsGrid:
+    serializedVersion: 2
+    m_Bits: 0
   actualTargetGrid: {fileID: 0}
   attacking: 0
   attackerDamage: 0
   attackState: 0
   turn: 0
-  arrow: {fileID: 0}
+  arrow: {fileID: 4352789673033945824}
   currentStatus: 0
   ammoCount: 3
   relocateCam: 1

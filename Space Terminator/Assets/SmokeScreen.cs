@@ -2,20 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Grenade : MonoBehaviour
+public class SmokeScreen : Grenade
 {
-    public ScoutMovement scoutMovement;
+    public GameObject setSmokePrefab;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Grid")
         {
             Collider[] enemies = Physics.OverlapSphere(transform.position, 2);
-            foreach(Collider enemy in enemies)
+            foreach (Collider enemy in enemies)
             {
-                if (enemy.GetComponent<Unit>())
+                if (enemy.GetComponent<Grid>())
                 {
-                    enemy.GetComponent<Unit>().TakeDamage(10);
+                    enemy.GetComponent<Grid>().isCoverEffectArea = true;
                 }
             }
             GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState = AttacksState.Idle;

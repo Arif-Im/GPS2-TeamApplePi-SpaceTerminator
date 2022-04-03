@@ -52,16 +52,16 @@ public class Grid : MonoBehaviour
             //GetComponent<Renderer>().material.color = Color.red;
             GetComponent<Renderer>().material.color = new Color(1, 0, 0, .55f);
         }
-        else if (target)
-        {
-            //GetComponent<Renderer>().material.color = Color.green;
-            GetComponent<Renderer>().material.color = new Color(0, 1, 0, .55f);
-        }
-        else if (selectable)
-        {
-            //GetComponent<Renderer>().material.color = Color.yellow;
-            GetComponent<Renderer>().material.color = new Color(1, 0.92f, 0.016f, .55f);
-        }
+        //else if (target)
+        //{
+        //    //GetComponent<Renderer>().material.color = Color.green;
+        //    GetComponent<Renderer>().material.color = new Color(0, 1, 0, .55f);
+        //}
+        //else if (selectable)
+        //{
+        //    //GetComponent<Renderer>().material.color = Color.yellow;
+        //    GetComponent<Renderer>().material.color = new Color(1, 0.92f, 0.016f, .55f);
+        //}
         else if (isCover)
         {
             GetComponent<Renderer>().material.color = new Color (0, 0, 1, .55f);

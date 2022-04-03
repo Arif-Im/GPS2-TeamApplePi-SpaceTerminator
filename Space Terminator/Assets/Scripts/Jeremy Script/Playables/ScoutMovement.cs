@@ -8,7 +8,7 @@ public class ScoutMovement : PlayableMovement
     public bool grenadeMode = false;
 
     // Start is called before the first frame update
-    void Start()
+    new void Start()
     {
         unit = GetComponent<Unit>();
         scout = GetComponentInChildren<Scout>();
@@ -48,20 +48,17 @@ public class ScoutMovement : PlayableMovement
         }
         else
         {
-            if (!overUI)
+            if (Input.GetMouseButtonDown(0))
             {
-                if (Input.GetMouseButtonDown(0))
+                if (Physics.Raycast(ray, out hit))
                 {
-                    if (Physics.Raycast(ray, out hit))
+                    if (hit.collider.tag == "Grid")
                     {
-                        if (hit.collider.tag == "Grid")
-                        {
-                            Grid g = hit.collider.GetComponent<Grid>();
+                        Grid g = hit.collider.GetComponent<Grid>();
 
-                            if (g.selectable)
-                            {
-                                MoveToGrid(g);
-                            }
+                        if (g.selectable)
+                        {
+                            MoveToGrid(g);
                         }
                     }
                 }
