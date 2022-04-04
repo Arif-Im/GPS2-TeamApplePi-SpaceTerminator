@@ -85,6 +85,7 @@ public class TurnManager : MonoBehaviour
     public static void AddUnit(TacticMove unit)
     {
         List<TacticMove> list;
+        Debug.Log($"ADD: {unit.name}");
 
         if (!units.ContainsKey(unit.tag))
         {

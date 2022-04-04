@@ -5,15 +5,17 @@ using UnityEngine;
 
 public class EnemyMovement : TacticMove
 {
-    [SerializeField] GameObject player;
+    [SerializeField] protected GameObject player;
     private GameObject cover;
 
-    private GameObject target;
+    protected GameObject target;
 
-    UnitPoitsSystem unitPoints;
-    Animator anim;
+    protected UnitPoitsSystem unitPoints;
+    protected Animator anim;
     public bool isWalking = false;
 
+    bool isAbsolutePosition = false;
+    public bool useRoom = false;
 
     new void Start()
     {
@@ -24,7 +26,6 @@ public class EnemyMovement : TacticMove
         FindNearestPlayer();
         target = player;
     }
-    bool isAbsolutePosition = false;
 
     void Update()
     {
@@ -79,7 +80,7 @@ public class EnemyMovement : TacticMove
         }
     }
 
-    void CalculatePath(bool isAbsolutePosition)
+    public void CalculatePath(bool isAbsolutePosition)
     {
         if (target == null)
         {
@@ -158,6 +159,24 @@ public class EnemyMovement : TacticMove
                 cover = coverPosition.gameObject;
                 safestPositionDot = dot;
             }
+        }
+    }
+
+    public override void ComputeAdjacencyList(float jumpHeight, Grid target)
+    {
+        //Debug.Log("Computing");
+        grids = GameObject.FindGameObjectsWithTag("Grid"); //find all the grids
+
+        foreach (GameObject grid in grids)
+        {
+            Grid g = grid.GetComponent<Grid>();
+            if(useRoom)
+            {
+                if (g.room)
+                    g.FindNeighbors(jumpHeight, target);
+            }
+            else
+                g.FindNeighbors(jumpHeight, target);
         }
     }
 }

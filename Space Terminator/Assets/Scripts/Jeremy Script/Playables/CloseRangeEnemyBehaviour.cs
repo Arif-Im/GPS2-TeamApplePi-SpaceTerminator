@@ -15,6 +15,14 @@ public class CloseRangeEnemyBehaviour : EnemyBehaviour
         InitializeTree();
     }
 
+    //public override void Initialize()
+    //{
+    //    attackOrOverwatch = 1;
+    //    unit = GetComponent<Unit>();
+    //    //unitPointSystem = GetComponent<UnitPoitsSystem>();
+    //    enemyMovement = GetComponent<EnemyRoomMovement>();
+    //}
+
     public override void InitializeTree()
     {
 

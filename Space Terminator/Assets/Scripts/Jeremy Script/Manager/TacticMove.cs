@@ -102,7 +102,7 @@ public class TacticMove : MonoBehaviour
         return grid;
     }
 
-    void ComputeAdjacencyList(float jumpHeight, Grid target)
+    public virtual void ComputeAdjacencyList(float jumpHeight, Grid target)
     {
         //Debug.Log("Computing");
         grids = GameObject.FindGameObjectsWithTag("Grid"); //find all the grids
@@ -112,8 +112,6 @@ public class TacticMove : MonoBehaviour
             Grid g = grid.GetComponent<Grid>();
             g.FindNeighbors(jumpHeight, target);
         }
-
-      
     }
 
     public void FindSelectableGrid()

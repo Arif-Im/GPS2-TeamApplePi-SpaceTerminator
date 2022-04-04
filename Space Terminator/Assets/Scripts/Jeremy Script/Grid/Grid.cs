@@ -17,6 +17,7 @@ public class Grid : MonoBehaviour
 
     public bool isCover = false; //where the player is moving
     public bool isCoverEffectArea = false; //where the player is moving
+    public bool room = false;
 
     public List<Grid> adjacencyList = new List<Grid>(); //identify neighbours next to the occupied tile
 
@@ -52,16 +53,6 @@ public class Grid : MonoBehaviour
             //GetComponent<Renderer>().material.color = Color.red;
             GetComponent<Renderer>().material.color = new Color(1, 0, 0, .55f);
         }
-        //else if (target)
-        //{
-        //    //GetComponent<Renderer>().material.color = Color.green;
-        //    GetComponent<Renderer>().material.color = new Color(0, 1, 0, .55f);
-        //}
-        //else if (selectable)
-        //{
-        //    //GetComponent<Renderer>().material.color = Color.yellow;
-        //    GetComponent<Renderer>().material.color = new Color(1, 0.92f, 0.016f, .55f);
-        //}
         else if (isCover)
         {
             GetComponent<Renderer>().material.color = new Color (0, 0, 1, .55f);
@@ -70,6 +61,20 @@ public class Grid : MonoBehaviour
         {
             //cyan
             GetComponent<Renderer>().material.color = new Color(0, 1, 1, .55f);
+        }
+        else if(room)
+        {
+            GetComponent<Renderer>().material.color = new Color(.35f, .35f, .5f, .55f);
+        }
+        else if (target)
+        {
+            //GetComponent<Renderer>().material.color = Color.green;
+            GetComponent<Renderer>().material.color = new Color(0, 1, 0, .55f);
+        }
+        else if (selectable)
+        {
+            //GetComponent<Renderer>().material.color = Color.yellow;
+            GetComponent<Renderer>().material.color = new Color(1, 0.92f, 0.016f, .55f);
         }
         else if (isTouched == true)
         {

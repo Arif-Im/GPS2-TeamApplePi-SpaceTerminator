@@ -20,7 +20,7 @@ public class EnemyBehaviour : MonoBehaviour
         Initialize();
     }
 
-    public void Initialize()
+    public virtual void Initialize()
     {
         attackOrOverwatch = 1;
         unit = GetComponent<Unit>();
