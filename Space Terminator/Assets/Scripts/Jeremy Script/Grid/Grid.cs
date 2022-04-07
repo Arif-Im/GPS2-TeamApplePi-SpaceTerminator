@@ -17,7 +17,6 @@ public class Grid : MonoBehaviour
 
     public bool isCover = false; //where the player is moving
     public bool isCoverEffectArea = false; //where the player is moving
-    public bool room = false;
 
     public List<Grid> adjacencyList = new List<Grid>(); //identify neighbours next to the occupied tile
 
@@ -61,10 +60,6 @@ public class Grid : MonoBehaviour
         {
             //cyan
             GetComponent<Renderer>().material.color = new Color(0, 1, 1, .55f);
-        }
-        else if(room)
-        {
-            GetComponent<Renderer>().material.color = new Color(.35f, .35f, .5f, .55f);
         }
         else if (target)
         {

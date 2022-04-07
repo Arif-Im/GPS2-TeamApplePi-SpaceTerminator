@@ -120,29 +120,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unit: {fileID: 0}
   selectableGrid: []
-  moving: 0
   moveTile: 5
   originalMoveTile: 5
   jumpHeight: 2
+  whatIsGrid:
+    serializedVersion: 2
+    m_Bits: 8
+  moving: 0
+  actualTargetGrid: {fileID: 0}
+  attacking: 0
   moveSpeed: 2
   jumpVel: 5
   rotateSpeed: 2
   bulletPrefab: {fileID: 1882839498839259184, guid: d714caa563c5eb54691cecdf853334fe, type: 3}
   punchPrefab: {fileID: 2807907003269891355, guid: df81cf372dc805745ba8b9bc7f9dae8b, type: 3}
-  whatIsGrid:
-    serializedVersion: 2
-    m_Bits: 8
-  actualTargetGrid: {fileID: 0}
-  attacking: 0
   attackerDamage: 0
   attackState: 0
-  turn: 0
   arrow: {fileID: 4669023863867616700}
   currentStatus: 0
   ammoCount: 2
+  turn: 0
   relocateCam: 1
   isAttack: 0
-  overUI: 0
   cameraHolder: {fileID: 0}
   outOfAmmoText: {fileID: 8587314200757589567, guid: e0ffd5ada89f69944bb9e0288bb22ab8, type: 3}
   isWalking: 0
@@ -246,6 +245,7 @@ MonoBehaviour:
   placeable: 0
   isCover: 0
   isCoverEffectArea: 0
+  room: 0
   adjacencyList: []
   visited: 0
   parent: {fileID: 0}
@@ -267,26 +267,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unit: {fileID: 0}
   selectableGrid: []
-  moving: 0
   moveTile: 5
   originalMoveTile: 5
   jumpHeight: 2
+  whatIsGrid:
+    serializedVersion: 2
+    m_Bits: 0
+  moving: 0
+  actualTargetGrid: {fileID: 0}
+  attacking: 0
   moveSpeed: 2
   jumpVel: 5
   rotateSpeed: 2
   bulletPrefab: {fileID: 269683263536249119, guid: 88bc595450eb7244e9cbfee38073a856, type: 3}
   punchPrefab: {fileID: 0}
-  whatIsGrid:
-    serializedVersion: 2
-    m_Bits: 0
-  actualTargetGrid: {fileID: 0}
-  attacking: 0
   attackerDamage: 0
   attackState: 0
-  turn: 0
   arrow: {fileID: 4669023863867616700}
   currentStatus: 0
   ammoCount: 3
+  turn: 0
   relocateCam: 1
   isAttack: 0
 --- !u!1 &4669023863867616700
@@ -306,7 +306,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7262990479653465346
 Transform:
   m_ObjectHideFlags: 0

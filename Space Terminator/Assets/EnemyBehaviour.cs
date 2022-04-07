@@ -82,41 +82,43 @@ public class EnemyBehaviour : MonoBehaviour
         Leaf canDuck = new Leaf("Can Duck", CanDuck);
         Leaf startDucking = new Leaf("Start Ducking", StartDucking);
 
+        Sequence tactic = new Sequence("Tactic");
+        Leaf chooseAttackOrOverwatch = new Leaf("Choose Attack Or Overwatch", ChooseAttackOrOverwatch);
+
+        Selector choose = new Selector("Choose");
+        Selector state = new Selector("State");
+
         //add leaves to idle sequence
         idle.AddChild(stayIdle);
 
         //add leaves to attack sequence
-        attack.AddChild(computeTarget);
         attack.AddChild(checkAP);
         attack.AddChild(canAttackPlayer);
+        attack.AddChild(computeTarget);
         attack.AddChild(attackPlayer);
 
         //add leaves to overwatch sequence
         overwatch.AddChild(startOverwatch);
 
         //add leaves to pursuit sequence
-        pursuit.AddChild(computeTarget);
         pursuit.AddChild(checkAP);
         pursuit.AddChild(startPursuit);
+        pursuit.AddChild(computeTarget);
         pursuit.AddChild(goToTarget);
 
         //add leaves to cover sequence
-        cover.AddChild(computeTarget);
         cover.AddChild(checkAP);
         cover.AddChild(lowHealth);
+        cover.AddChild(computeTarget);
         cover.AddChild(goToTarget);
 
         //add leaves to duck sequence
-        duck.AddChild(computeTarget);
         duck.AddChild(checkAP);
         duck.AddChild(canDuck);
+        duck.AddChild(computeTarget);
         duck.AddChild(startDucking);
 
         //choose attack or overwatch
-        Sequence tactic = new Sequence("Tactic");
-        Leaf chooseAttackOrOverwatch = new Leaf("Choose Attack Or Overwatch", ChooseAttackOrOverwatch);
-
-        Selector choose = new Selector("Choose");
         choose.AddChild(attack);
         choose.AddChild(overwatch);
 
@@ -125,7 +127,6 @@ public class EnemyBehaviour : MonoBehaviour
         tactic.AddChild(choose);
 
         //add sequences to state selector
-        Selector state = new Selector("State");
         state.AddChild(idle);
         state.AddChild(duck);
         state.AddChild(cover);
@@ -196,7 +197,7 @@ public class EnemyBehaviour : MonoBehaviour
         return Node.Status.SUCCESS;
     }
 
-    public Node.Status CanAttack()
+    public virtual Node.Status CanAttack()
     {
         if (attackOrOverwatch != 1 || tacticOrDuck != 1) return Node.Status.FAILURE;
 
@@ -237,7 +238,7 @@ public class EnemyBehaviour : MonoBehaviour
     #endregion
 
     #region Pursuit
-    public Node.Status StartPursuit()
+    public virtual Node.Status StartPursuit()
     {
         enemyMovement.FindNearestPlayer();
         enemyMovement.SetTargetAndMoveCondition(enemyMovement.Player, false);
@@ -286,7 +287,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     #region Duck
 
-    public Node.Status CanDuck()
+    public virtual Node.Status CanDuck()
     {
         tacticOrDuck = UnityEngine.Random.Range(1, 3);
 

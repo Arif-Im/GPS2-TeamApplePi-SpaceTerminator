@@ -71,7 +71,6 @@ public class Scout : MonoBehaviour
 
         if (angle != null && Vector3.Angle(direction, parent.transform.forward) < 10/* && activate*/)
         {
-            //GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState = AttacksState.FinishAttacked;
             Debug.Log("Fire Grenade");
             Fire();
         }

@@ -15,10 +15,10 @@ public class EnemyMovement : TacticMove
     public bool isWalking = false;
 
     bool isAbsolutePosition = false;
-    public bool useRoom = false;
 
     new void Start()
     {
+        //base.Start();
         anim = GetComponent<Animator>();
         unitPoints = GetComponent<UnitPoitsSystem>();
         TurnManager.AddUnit(this);
@@ -159,24 +159,6 @@ public class EnemyMovement : TacticMove
                 cover = coverPosition.gameObject;
                 safestPositionDot = dot;
             }
-        }
-    }
-
-    public override void ComputeAdjacencyList(float jumpHeight, Grid target)
-    {
-        //Debug.Log("Computing");
-        grids = GameObject.FindGameObjectsWithTag("Grid"); //find all the grids
-
-        foreach (GameObject grid in grids)
-        {
-            Grid g = grid.GetComponent<Grid>();
-            if(useRoom)
-            {
-                if (g.room)
-                    g.FindNeighbors(jumpHeight, target);
-            }
-            else
-                g.FindNeighbors(jumpHeight, target);
         }
     }
 }

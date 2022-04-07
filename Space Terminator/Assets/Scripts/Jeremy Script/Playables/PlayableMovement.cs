@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class PlayableMovement : TacticMove
 {
-    public bool overUI = false;
     protected Grid enemy;
     protected bool activate = false;
 
+    [Header("UI")]
     [SerializeField] GameObject cameraHolder;
     [SerializeField] GameObject outOfAmmoText;
     public bool isWalking;
@@ -16,15 +16,12 @@ public class PlayableMovement : TacticMove
     new void Start()
     {
         unit = GetComponent<Unit>();
-        //gameObject.GetComponent<MeshRenderer>().enabled = false;
         TurnManager.AddUnit(this);
     }
 
     // Update is called once per frame
     void Update()
     {
-        //if (!unit.isCurrentTurn) return;
-
         PlayerMove();
     }
 
@@ -65,9 +62,9 @@ public class PlayableMovement : TacticMove
             
 
             FindSelectableGrid();
+
             if (GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState == AttacksState.Idle)
             {
-                //Debug.Log("Move");
                 CheckInput();
 
             }
@@ -86,87 +83,57 @@ public class PlayableMovement : TacticMove
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        //if(!overUI)
-        //{
-        //    if (Input.GetMouseButtonDown(0))
-        //    {
-        //        if (Physics.Raycast(ray, out hit))
-        //        {
-        //            if (hit.collider.tag == "Grid")
-        //            {
-        //                Grid g = hit.collider.GetComponent<Grid>();
 
-        //                if (g.selectable)
-        //                {
-        //                    MoveToGrid(g);
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && Physics.Raycast(ray, out hit))
         {
-            if (Physics.Raycast(ray, out hit))
+            if (hit.collider.tag == "Grid")
             {
-                if (hit.collider.tag == "Grid")
-                {
-                    Grid g = hit.collider.GetComponent<Grid>();
+                Grid g = hit.collider.GetComponent<Grid>();
 
-                    if (g.selectable)
-                    {
-                        MoveToGrid(g);
-                    }
+                if (g.selectable)
+                {
+                    MoveToGrid(g);
                 }
             }
         }
 
-        if (activate)
+        if (activate && Input.GetMouseButtonDown(0) && Physics.Raycast(ray, out hit))
         {
-            if (Physics.Raycast(ray, out hit) && Input.GetMouseButtonDown(0))
+            if (hit.collider.tag == "Alien" && !attacking)
             {
-                if (hit.collider.tag == "Alien" && !attacking)
+                Grid g = hit.collider.GetComponent<Grid>();
+
+                if (g.selectable)
                 {
-                    Grid g = hit.collider.GetComponent<Grid>();
-
-                    if (g.selectable)
+                    if (ammoCount >= 0)
                     {
-                        if (ammoCount >= 0)
-                        {
-                            Debug.Log("Initiate Attack");
-                            enemy = g;
-                            InitiateAttack();
-                            //attacking = true;
+                        Debug.Log("Initiate Attack");
+                        enemy = g;
+                        InitiateAttack();
 
-                        }
-                        else
-                        {
-                            //Debug.Log("No Ammo");
-                            if (Vector3.Distance(g.transform.position, transform.position) <= 1.2f)
-                            {
-                                InitiatePunch();
-                            }
-                            else
-                            {
-                                Instantiate(outOfAmmoText, transform.position, Quaternion.identity, transform);
-                            }
-                        }
                     }
                     else
                     {
-                        Debug.Log("G not selectable");
+                        if (Vector3.Distance(g.transform.position, transform.position) <= 1.2f)
+                        {
+                            InitiatePunch();
+                        }
+                        else
+                        {
+                            Instantiate(outOfAmmoText, transform.position, Quaternion.identity, transform);
+                        }
                     }
                 }
-                //else
-                //{
-                //    Debug.LogError("Still Not Found...");
-                //}
+                else
+                {
+                    Debug.Log("G not selectable");
+                }
             }
         }
     }
 
     public void SetEnemy()
     {
-        //Debug.Log("Activate = true");
         activate = true;
     }
 

@@ -85,6 +85,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoutMovement: {fileID: 0}
+  VFX: {fileID: 939103234117519065, guid: e0c2c541aa9d03b4bb57276d11ca2ca1, type: 3}
   setSmokePrefab: {fileID: 6660273942671669696, guid: 16a1414188027cc40803d3f2faaf4054, type: 3}
 --- !u!1001 &5182381001663839409
 PrefabInstance:

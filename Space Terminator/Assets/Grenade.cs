@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Grenade : MonoBehaviour
 {
-    public ScoutMovement scoutMovement;
+    [HideInInspector] public ScoutMovement scoutMovement;
+    public GameObject VFX;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -20,6 +21,7 @@ public class Grenade : MonoBehaviour
             }
             GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState = AttacksState.Idle;
             scoutMovement.unit.DeductPointsOrChangeTurn(scoutMovement.unit.GetUnitPoints());
+            Instantiate(VFX, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
         }
     }

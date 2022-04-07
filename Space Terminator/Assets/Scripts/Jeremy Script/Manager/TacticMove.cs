@@ -12,49 +12,69 @@ public enum StatusID
 public class TacticMove : MonoBehaviour
 {
 
-    public Unit unit;
-
-    public List<Grid> selectableGrid = new List<Grid>(); //to reset selectable tiles after moving
+    [HideInInspector] public Unit unit;
+    [HideInInspector] public List<Grid> selectableGrid = new List<Grid>(); //to reset selectable tiles after moving
     protected GameObject[] grids;
 
     Stack<Grid> path = new Stack<Grid>(); //path is calculated in reverse (from end to beginning)
     Grid currentGrid;
 
-    public bool moving = false;
+
+    [Header("Grid")]
     [SerializeField] int moveTile = 5; //can move 5 tiles per turn
     [SerializeField] int originalMoveTile = 5; //can move 5 tiles per turn
     [SerializeField] float jumpHeight = 2; //can jump 2 tiles
-    [SerializeField] float moveSpeed = 2;
-    [SerializeField] float jumpVel = 5;
-
-    [SerializeField] float rotateSpeed = 2;
-    [SerializeField] GameObject bulletPrefab;
-    [SerializeField] GameObject punchPrefab;
-
     [SerializeField] LayerMask whatIsGrid;
-
-    Vector3 velocity = new Vector3();
-    Vector3 heading = new Vector3(); //direction going
-
-    float halfHeight = 0;
-
-    //Jump variables
-    bool fallingDown = false, jumpingUp = false, movingEdge = false;
-    Vector3 jumpTarget;
-
+    public bool moving = false;
     public Grid actualTargetGrid;
     public bool attacking;
 
+    [Space]
+
+    [Header("Movements")]
+    [SerializeField] float moveSpeed = 2;
+    [SerializeField] float jumpVel = 5;
+    [SerializeField] float rotateSpeed = 2;
+    Vector3 velocity = new Vector3();
+    Vector3 heading = new Vector3(); //direction going
+
+    [Space]
+
+    [Header("Attack VFX")]
+    [SerializeField] GameObject bulletPrefab;
+    [SerializeField] GameObject punchPrefab;
+
+    [Space]
+
+    [Header("Attack Stats")]
     //temporary to be removed
     public float attackerDamage;
     public AttacksState attackState;
-    public bool turn = false;
     public GameObject arrow;
     public StatusID currentStatus;
     public int ammoCount = 3;
 
+    [Space]
+
+    [Header("Turn")]
+    public bool turn = false;
+
+    [Space]
+
+    [Header("Jump")]
+    //Jump variables
+    bool fallingDown = false, jumpingUp = false, movingEdge = false;
+    Vector3 jumpTarget;
+    float halfHeight = 0;
+
     int statusCount;
+
+    [Space]
+
+    [Header("Camera")]
     public bool relocateCam = true;
+
+
     public int MoveTile { get => moveTile; }
 
     public bool isAttack;
@@ -176,6 +196,10 @@ public class TacticMove : MonoBehaviour
 
     public void MoveToGrid(Grid grid)
     {
+        if(grid == null)
+        {
+            unit.DeductPointsOrChangeTurn(unit.GetUnitPoints());
+        }
         path.Clear();
         grid.target = true;
         moving = true;

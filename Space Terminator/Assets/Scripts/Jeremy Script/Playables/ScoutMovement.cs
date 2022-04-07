@@ -27,48 +27,36 @@ public class ScoutMovement : PlayableMovement
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if(grenadeMode)
+        if (Input.GetMouseButtonDown(0))
         {
-            if (Input.GetMouseButtonDown(0))
+            if (grenadeMode)
             {
-                if (Physics.Raycast(ray, out hit))
+                if (Physics.Raycast(ray, out hit) && hit.collider.tag == "Grid")
                 {
-                    if (hit.collider.GetComponent<Grid>())
-                    {
-                        Grid g = hit.collider.GetComponent<Grid>();
+                    Grid g = hit.collider.GetComponent<Grid>();
 
-                        if (g.selectable)
-                        {
-                            scout.Activate(g.gameObject, true, this);
-                        }
+                    if (g.selectable)
+                    {
+                        scout.Activate(g.gameObject, true, this);
                     }
                     grenadeMode = false;
                 }
             }
-        }
-        else
-        {
-            if (Input.GetMouseButtonDown(0))
+            else
             {
-                if (Physics.Raycast(ray, out hit))
+                if (Physics.Raycast(ray, out hit) && hit.collider.tag == "Grid")
                 {
-                    if (hit.collider.tag == "Grid")
-                    {
-                        Grid g = hit.collider.GetComponent<Grid>();
+                    Grid g = hit.collider.GetComponent<Grid>();
 
-                        if (g.selectable)
-                        {
-                            MoveToGrid(g);
-                        }
+                    if (g.selectable)
+                    {
+                        MoveToGrid(g);
                     }
                 }
-            }
 
-            if (activate)
-            {
-                if (Physics.Raycast(ray, out hit) && Input.GetMouseButtonDown(0))
+                if (activate)
                 {
-                    if (hit.collider.tag == "Alien" && !attacking)
+                    if (Physics.Raycast(ray, out hit) && Input.GetMouseButtonDown(0) && hit.collider.tag == "Alien" && !attacking)
                     {
                         Grid g = hit.collider.GetComponent<Grid>();
 

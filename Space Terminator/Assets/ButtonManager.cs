@@ -3,9 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
-public class ButtonManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class ButtonManager : MonoBehaviour
 {
     public static ButtonManager instance;
 
@@ -81,17 +80,5 @@ public class ButtonManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         overwatch.interactable = false;
         duck.interactable = false;
         grenade.interactable = false;
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        if(interactable)
-            player.overUI = true;
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        if (interactable)
-            player.overUI = false;
     }
 }
