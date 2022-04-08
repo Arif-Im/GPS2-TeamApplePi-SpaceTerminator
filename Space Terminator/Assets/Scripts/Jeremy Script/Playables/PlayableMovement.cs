@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayableMovement : TacticMove
 {
@@ -9,8 +10,11 @@ public class PlayableMovement : TacticMove
 
     [Header("UI")]
     [SerializeField] GameObject cameraHolder;
-    [SerializeField] GameObject outOfAmmoText;
+    [SerializeField] protected GameObject outOfAmmoText;
     public bool isWalking;
+    private bool playOnce = false;
+
+    protected Grid choosenGrid;
 
     // Start is called before the first frame update
     new void Start()
@@ -34,23 +38,34 @@ public class PlayableMovement : TacticMove
             GetComponent<Grid>().selectable = false;
             transform.gameObject.tag = "Grid";
             Destroy(gameObject.GetComponent<CapsuleCollider>());
+
+            if (turn)
+            {
+                TurnManager.EndTurn();
+                turn = false;
+            }
+
+            //if (turn)
+            //{
+            //    GetComponent<TacticMove>().arrow.SetActive(false);
+            //    unit.DeductPointsOrChangeTurn(unit.GetUnitPoints());
+            //    return;
+            //}
         }
 
-        if (turn && unit.Health <= 0)
-        {
-            GetComponent<TacticMove>().arrow.SetActive(false);
-            TurnManager.EndTurn();
-            return;
-        }
+        //if (turn && unit.Health <= 0)
+        //{
+        //    GetComponent<TacticMove>().arrow.SetActive(false);
+        //    unit.DeductPointsOrChangeTurn(unit.GetUnitPoints());
+        //    return;
+        //}
 
         if (!turn)
             return;
         else
         {
             if(unit.isDucking)
-            {
                 unit.isDucking = false;
-            }
         }
 
         if (!moving)
@@ -59,18 +74,15 @@ public class PlayableMovement : TacticMove
             {
                 StartCoroutine(MoveCamera(transform.position, .5f));
             }
-            
 
             FindSelectableGrid();
 
             if (GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState == AttacksState.Idle)
-            {
                 CheckInput();
-
-            }
         }
         else
         {
+            Debug.Log($"Moving Unit: {unit.gameObject.name}");
             isWalking = true;
             Move(() => {
                 unit.DeductPointsOrChangeTurn(1);
@@ -84,11 +96,22 @@ public class PlayableMovement : TacticMove
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if (Input.GetMouseButtonDown(0) && Physics.Raycast(ray, out hit))
+        if (Input.GetMouseButtonDown(0) && Physics.Raycast(ray, out hit) && hit.collider.tag == "Grid")
         {
-            if (hit.collider.tag == "Grid")
+            Grid g = hit.collider.GetComponent<Grid>();
+
+            if (g.isTouched == false)
             {
-                Grid g = hit.collider.GetComponent<Grid>();
+                if (choosenGrid == null)
+                {
+                    choosenGrid = g;
+                }
+                choosenGrid.isTouched = false;
+                g.isTouched = true;
+                choosenGrid = g;
+            }
+            else
+            {
 
                 if (g.selectable)
                 {
@@ -97,12 +120,22 @@ public class PlayableMovement : TacticMove
             }
         }
 
-        if (activate && Input.GetMouseButtonDown(0) && Physics.Raycast(ray, out hit))
+        if (activate && Input.GetMouseButtonDown(0) && Physics.Raycast(ray, out hit) && hit.collider.tag == "Alien" && !attacking)
         {
-            if (hit.collider.tag == "Alien" && !attacking)
-            {
-                Grid g = hit.collider.GetComponent<Grid>();
+            Grid g = hit.collider.GetComponent<Grid>();
 
+            if (g.isTouched == false)
+            {
+                if (choosenGrid == null)
+                {
+                    choosenGrid = g;
+                }
+                choosenGrid.isTouched = false;
+                g.isTouched = true;
+                choosenGrid = g;
+            }
+            else
+            {
                 if (g.selectable)
                 {
                     if (ammoCount >= 0)
@@ -166,6 +199,7 @@ public class PlayableMovement : TacticMove
     public override void BeginTurn()
     {
         base.BeginTurn();
+        playOnce = false;
         ButtonManager.instance.SetButtonsToCurrentPlayer(this);
     }
 }

@@ -89,6 +89,11 @@ public class TacticMove : MonoBehaviour
         Initialize();
     }
 
+    void Update()
+    {
+
+    }
+
     public void Initialize()
     {
         grids = GameObject.FindGameObjectsWithTag("Grid"); //store all the gameobjects with grid into the array
@@ -198,8 +203,10 @@ public class TacticMove : MonoBehaviour
     {
         if(grid == null)
         {
+            Debug.Log("Grid Bug");
             unit.DeductPointsOrChangeTurn(unit.GetUnitPoints());
         }
+
         path.Clear();
         grid.target = true;
         moving = true;

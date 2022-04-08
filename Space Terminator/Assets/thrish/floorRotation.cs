@@ -17,19 +17,20 @@ public class floorRotation : MonoBehaviour
     private void Start()
     {
 
-        Rotation = Quaternion.Euler(-90, 0, 0);
+        //Rotation = Quaternion.Euler(-90, 0, 0);
         audio = GetComponent<AudioSource>();
 
     }
     Collider[] shits;
     public void floorRotate()
     {
-
+        Debug.Log("Rotate");
         if (leverScript.GetComponent<leverSystem>().isColliding == true)
         {
             rotation_90 = Quaternion.Euler(0, 0, 90);
-            Rotation = Rotation * rotation_90;
-            Debug.Log("Rotate Platform");
+            //Rotation = Rotation * rotation_90;
+            Rotation = Quaternion.Euler(-90, Rotation.y, Rotation.z+90);
+            //Debug.Log("Rotate Platform");
 
             shits = Physics.OverlapBox(transform.position, new Vector3(6, 2, 6));
             foreach(Collider shit in shits)

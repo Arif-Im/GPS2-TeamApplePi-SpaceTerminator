@@ -9,6 +9,7 @@ public class leverSystem : MonoBehaviour
     public Image consoleImagePrefab;
     Image consoleImage;
     Vector2 worldToScreen;
+    public floorRotation rotatingFloor;
     //public GameObject Image;
 
     private void Awake()
@@ -32,14 +33,15 @@ public class leverSystem : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider collision)
+    private void OnTriggerStay(Collider collision)
     {
 
         if (collision.gameObject.GetComponent<Unit>())
         {
 
             //Image.SetActive(true);
-            Debug.Log("Press 'E' ");
+            //Debug.Log("Press 'E' ");
+            GameObject.FindGameObjectWithTag("Interaction Panel").GetComponent<ButtonManager>().lever.onClick.AddListener(rotatingFloor.floorRotate);
             isColliding = true;
             
         }

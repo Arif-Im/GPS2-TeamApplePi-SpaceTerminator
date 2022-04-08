@@ -11,6 +11,7 @@ TagManager:
   - Alien
   - Crit Dice
   - Turn Manager
+  - Interaction Panel
   layers:
   - Default
   - TransparentFX

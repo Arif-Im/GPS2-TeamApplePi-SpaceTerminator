@@ -14,7 +14,7 @@ public class ButtonManager : MonoBehaviour
 
     bool interactable = false;
 
-    Button attack, lever, overwatch, duck, grenade;
+    public Button attack, lever, overwatch, duck, grenade;
 
     private void Awake()
     {
@@ -80,5 +80,10 @@ public class ButtonManager : MonoBehaviour
         overwatch.interactable = false;
         duck.interactable = false;
         grenade.interactable = false;
+    }
+
+    public bool OverGUI()
+    {
+        return GetComponent<RectTransform>().rect.Contains(Input.mousePosition);
     }
 }

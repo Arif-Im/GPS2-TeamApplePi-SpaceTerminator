@@ -16,6 +16,8 @@ public class EnemyMovement : TacticMove
 
     bool isAbsolutePosition = false;
 
+    bool playOnce = false;
+
     new void Start()
     {
         //base.Start();
@@ -27,6 +29,7 @@ public class EnemyMovement : TacticMove
         target = player;
     }
 
+
     void Update()
     {
         Debug.DrawRay(transform.position, transform.forward);
@@ -36,14 +39,27 @@ public class EnemyMovement : TacticMove
             GetComponent<Grid>().selectable = false;
             transform.gameObject.tag = "Grid";
             Destroy(gameObject.GetComponent<CapsuleCollider>());
+
+            if (turn)
+            {
+                TurnManager.EndTurn();
+                turn = false;
+            }
+
+            //if (turn)
+            //{
+            //    GetComponent<TacticMove>().arrow.SetActive(false);
+            //    unit.DeductPointsOrChangeTurn(unit.GetUnitPoints());
+            //    return;
+            //}
         }
 
-        if (turn && unit.Health <= 0)
-        {
-            GetComponent<TacticMove>().arrow.SetActive(false);
-            TurnManager.EndTurn();
-            return;
-        }
+        //if (turn && unit.Health <= 0)
+        //{
+        //    GetComponent<TacticMove>().arrow.SetActive(false);
+        //        playOnce = true;
+        //    return;
+        //}
 
         if (!turn)
             return;
@@ -73,6 +89,7 @@ public class EnemyMovement : TacticMove
         isWalking = true;
         if(moving)
         {
+            Debug.Log($"Moving Unit: {unit.gameObject.name}");
             Move(() => {
                 unit.DeductPointsOrChangeTurn(1);
                 isWalking = false;

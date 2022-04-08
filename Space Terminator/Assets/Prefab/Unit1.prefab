@@ -245,7 +245,6 @@ MonoBehaviour:
   placeable: 0
   isCover: 0
   isCoverEffectArea: 0
-  room: 0
   adjacencyList: []
   visited: 0
   parent: {fileID: 0}

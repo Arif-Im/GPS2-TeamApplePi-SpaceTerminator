@@ -9,7 +9,7 @@ public class Scout : MonoBehaviour
     public Grenade shellPrefab;
     public GameObject shellSpawnPos;
     public GameObject target;
-    float turnSpeed = 2;
+    public float turnSpeed = 2;
     public GameObject parent;
     [SerializeField] float speed = 15;
     bool canShoot = true;

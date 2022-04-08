@@ -15,7 +15,7 @@ public class ChoosenUnits : MonoBehaviour, IDropHandler
         //Debug.Log("OnDrop");
         if(eventData.pointerDrag != null && isUsed == false)
         {
-            eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
+            eventData.pointerDrag.GetComponent<RectTransform>().position = GetComponent<RectTransform>().position;
             unitCode = eventData.pointerDrag.GetComponent<UnitCode>().UNITCODE;
         }
 

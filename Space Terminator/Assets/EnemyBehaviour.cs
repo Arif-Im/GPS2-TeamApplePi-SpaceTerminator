@@ -201,7 +201,7 @@ public class EnemyBehaviour : MonoBehaviour
     {
         if (attackOrOverwatch != 1 || tacticOrDuck != 1) return Node.Status.FAILURE;
 
-        if (Vector3.Distance(this.gameObject.transform.position, enemyMovement.Player.transform.position) > enemyMovement.MoveTile || unit.isDucking || unit.overwatchCooldown > 0)
+        if (Vector3.Distance(this.gameObject.transform.position, enemyMovement.Player.transform.position) > enemyMovement.MoveTile/* || unit.isDucking || unit.overwatchCooldown > 0*/)
         {
             return Node.Status.FAILURE;
         }

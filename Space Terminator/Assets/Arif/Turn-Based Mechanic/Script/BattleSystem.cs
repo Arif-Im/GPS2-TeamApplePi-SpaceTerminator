@@ -29,7 +29,7 @@ public class BattleSystem : MonoBehaviour
             unitList[i].isCurrentTurn = false;
         }
 
-        if (currentUnit >= unitList.Count - 1)
+        if (currentUnit > unitList.Count - 1)
         {
             unitList[0].GetComponent<UnitPoitsSystem>().CurrentPoints = maxPoints;
             unitList[0].isCurrentTurn = true;

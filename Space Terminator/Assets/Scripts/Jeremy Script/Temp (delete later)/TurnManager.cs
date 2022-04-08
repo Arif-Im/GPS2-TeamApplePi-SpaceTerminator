@@ -5,6 +5,8 @@ public enum AttacksState { Idle, UnderAttack, FinishAttacked, FinishRoll }
 
 public class TurnManager : MonoBehaviour
 {
+    public static TurnManager instance;
+
     static Dictionary<string, List<TacticMove>> units = new Dictionary<string, List<TacticMove>>();
     static Queue<string> turnKey = new Queue<string>();
     public static Queue<TacticMove> turnTeam = new Queue<TacticMove>();
@@ -12,6 +14,11 @@ public class TurnManager : MonoBehaviour
 
     bool deploymentState = true;
     bool speedUp = false;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     void Update()
     {

@@ -27,14 +27,24 @@ public class ScoutMovement : PlayableMovement
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if (Input.GetMouseButtonDown(0))
+        if (grenadeMode)
         {
-            if (grenadeMode)
+            if (Input.GetMouseButtonDown(0) && Physics.Raycast(ray, out hit) && hit.collider.tag == "Grid")
             {
-                if (Physics.Raycast(ray, out hit) && hit.collider.tag == "Grid")
-                {
-                    Grid g = hit.collider.GetComponent<Grid>();
+                Grid g = hit.collider.GetComponent<Grid>();
 
+                if (g.isTouched == false)
+                {
+                    if (choosenGrid == null)
+                    {
+                        choosenGrid = g;
+                    }
+                    choosenGrid.isTouched = false;
+                    g.isTouched = true;
+                    choosenGrid = g;
+                }
+                else
+                {
                     if (g.selectable)
                     {
                         scout.Activate(g.gameObject, true, this);
@@ -42,28 +52,74 @@ public class ScoutMovement : PlayableMovement
                     grenadeMode = false;
                 }
             }
-            else
+        }
+        else
+        {
+            if (Input.GetMouseButtonDown(0) && Physics.Raycast(ray, out hit) && hit.collider.tag == "Grid")
             {
-                if (Physics.Raycast(ray, out hit) && hit.collider.tag == "Grid")
-                {
-                    Grid g = hit.collider.GetComponent<Grid>();
+                Grid g = hit.collider.GetComponent<Grid>();
 
+                if (g.isTouched == false)
+                {
+                    if (choosenGrid == null)
+                    {
+                        choosenGrid = g;
+                    }
+                    choosenGrid.isTouched = false;
+                    g.isTouched = true;
+                    choosenGrid = g;
+                }
+                else
+                {
                     if (g.selectable)
                     {
                         MoveToGrid(g);
                     }
                 }
+            }
 
-                if (activate)
+            if (activate)
+            {
+                if (Input.GetMouseButtonDown(0) && Physics.Raycast(ray, out hit) && hit.collider.tag == "Alien" && !attacking)
                 {
-                    if (Physics.Raycast(ray, out hit) && Input.GetMouseButtonDown(0) && hit.collider.tag == "Alien" && !attacking)
-                    {
-                        Grid g = hit.collider.GetComponent<Grid>();
+                    Grid g = hit.collider.GetComponent<Grid>();
 
+                    if (g.isTouched == false)
+                    {
+                        if (choosenGrid == null)
+                        {
+                            choosenGrid = g;
+                        }
+                        choosenGrid.isTouched = false;
+                        g.isTouched = true;
+                        choosenGrid = g;
+                    }
+                    else
+                    {
                         if (g.selectable)
                         {
-                            enemy = g;
-                            InitiateAttack();
+                            if (ammoCount >= 0)
+                            {
+                                Debug.Log("Initiate Attack");
+                                enemy = g;
+                                InitiateAttack();
+
+                            }
+                            else
+                            {
+                                if (Vector3.Distance(g.transform.position, transform.position) <= 1.2f)
+                                {
+                                    InitiatePunch();
+                                }
+                                else
+                                {
+                                    Instantiate(outOfAmmoText, transform.position, Quaternion.identity, transform);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log("G not selectable");
                         }
                     }
                 }

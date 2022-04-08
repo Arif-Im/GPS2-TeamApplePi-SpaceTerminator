@@ -10,8 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 277776345656295194}
   - component: {fileID: 8949611950689719458}
-  - component: {fileID: 4259428078707482259}
-  - component: {fileID: 5638002438752075449}
   - component: {fileID: 7197843747708150185}
   m_Layer: 7
   m_Name: Aim
@@ -42,60 +40,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1032858495963052451}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &4259428078707482259
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1032858495963052451}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5638002438752075449
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1032858495963052451}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7197843747708150185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,6 +55,7 @@ MonoBehaviour:
   shellPrefab: {fileID: -2993145792999838420, guid: 8507a4c85a5eba7499f850f614412769, type: 3}
   shellSpawnPos: {fileID: 1032858495963052451}
   target: {fileID: 0}
+  turnSpeed: 20
   parent: {fileID: 7074888102384876745}
   speed: 15
   activate: 0
@@ -342,26 +287,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unit: {fileID: 0}
   selectableGrid: []
-  moving: 0
   moveTile: 5
   originalMoveTile: 5
   jumpHeight: 2
+  whatIsGrid:
+    serializedVersion: 2
+    m_Bits: 0
+  moving: 0
+  actualTargetGrid: {fileID: 0}
+  attacking: 0
   moveSpeed: 2
   jumpVel: 5
   rotateSpeed: 2
   bulletPrefab: {fileID: 269683263536249119, guid: 88bc595450eb7244e9cbfee38073a856, type: 3}
   punchPrefab: {fileID: 0}
-  whatIsGrid:
-    serializedVersion: 2
-    m_Bits: 0
-  actualTargetGrid: {fileID: 0}
-  attacking: 0
   attackerDamage: 0
   attackState: 0
-  turn: 0
   arrow: {fileID: 6000269563585278080}
   currentStatus: 0
   ammoCount: 3
+  turn: 0
   relocateCam: 1
   isAttack: 0
 --- !u!114 &-6404472890588241391
@@ -378,32 +323,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unit: {fileID: 0}
   selectableGrid: []
-  moving: 0
   moveTile: 5
   originalMoveTile: 5
   jumpHeight: 2
+  whatIsGrid:
+    serializedVersion: 2
+    m_Bits: 8
+  moving: 0
+  actualTargetGrid: {fileID: 0}
+  attacking: 0
   moveSpeed: 2
   jumpVel: 5
   rotateSpeed: 2
   bulletPrefab: {fileID: 1882839498839259184, guid: d714caa563c5eb54691cecdf853334fe, type: 3}
   punchPrefab: {fileID: 2807907003269891355, guid: df81cf372dc805745ba8b9bc7f9dae8b, type: 3}
-  whatIsGrid:
-    serializedVersion: 2
-    m_Bits: 8
-  actualTargetGrid: {fileID: 0}
-  attacking: 0
   attackerDamage: 0
   attackState: 0
-  turn: 0
   arrow: {fileID: 0}
   currentStatus: 0
   ammoCount: 3
+  turn: 0
   relocateCam: 1
   isAttack: 0
-  overUI: 0
   cameraHolder: {fileID: 0}
   outOfAmmoText: {fileID: 8587314200757589567, guid: e0ffd5ada89f69944bb9e0288bb22ab8, type: 3}
   isWalking: 0
+  overUI: 0
   grenadeMode: 0
 --- !u!1 &6000269563585278080
 GameObject:

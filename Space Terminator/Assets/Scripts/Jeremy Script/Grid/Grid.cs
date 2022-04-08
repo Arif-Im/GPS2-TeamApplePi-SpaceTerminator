@@ -52,6 +52,11 @@ public class Grid : MonoBehaviour
             //GetComponent<Renderer>().material.color = Color.red;
             GetComponent<Renderer>().material.color = new Color(1, 0, 0, .55f);
         }
+        else if (isTouched == true)
+        {
+            //Blue
+            GetComponent<Renderer>().material.color = new Color(0.4575472f, 0.6672957f, 1, .55f);
+        }
         else if (isCover)
         {
             GetComponent<Renderer>().material.color = new Color (0, 0, 1, .55f);
@@ -70,11 +75,6 @@ public class Grid : MonoBehaviour
         {
             //GetComponent<Renderer>().material.color = Color.yellow;
             GetComponent<Renderer>().material.color = new Color(1, 0.92f, 0.016f, .55f);
-        }
-        else if (isTouched == true)
-        {
-            //Blue
-            GetComponent<Renderer>().material.color = new Color(0.4575472f, 0.6672957f, 1, .55f);
         }
         else if (placeable == true)
         {

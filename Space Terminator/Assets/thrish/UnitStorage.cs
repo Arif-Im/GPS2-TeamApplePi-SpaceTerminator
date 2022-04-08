@@ -70,7 +70,7 @@ public class UnitStorage : MonoBehaviour
             foreach (GameObject gameObject in units)
             {
                 code = gameObject.GetComponent<UnitCode>().UNITCODE;
-                if (stackMnager.stack.Contains(code) == true && SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Prototype Level"))
+                if (stackMnager.stack.Contains(code) == true/* && SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Prototype Level")*/)
                 {
                     RayHit(gameObject);
                     break;
@@ -84,6 +84,8 @@ public class UnitStorage : MonoBehaviour
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
+
+        Debug.Log("Spawn");
 
         if (Input.GetMouseButtonDown(0))
         {
