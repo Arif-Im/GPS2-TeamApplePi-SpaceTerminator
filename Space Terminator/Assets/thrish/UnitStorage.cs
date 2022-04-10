@@ -64,7 +64,7 @@ public class UnitStorage : MonoBehaviour
         {
             foreach (GameObject gameObject in stackMnager.queue)
             {
-                if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Prototype Level"))
+                if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Main Level"))
                 {
                     RayHit(gameObject);
                     break;

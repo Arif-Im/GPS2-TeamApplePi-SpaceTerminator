@@ -12,6 +12,8 @@ TagManager:
   - Crit Dice
   - Turn Manager
   - Interaction Panel
+  - dropdown
+  - Canvas
   layers:
   - Default
   - TransparentFX

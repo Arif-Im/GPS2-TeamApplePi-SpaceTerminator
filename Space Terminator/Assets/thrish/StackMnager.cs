@@ -84,10 +84,10 @@ public class StackMnager : MonoBehaviour
     private void createScrollBar()
     {
 
-        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Prototype Level") && GameObject.FindGameObjectsWithTag("dropdown").Length == 0)
+        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Main Level") && GameObject.FindGameObjectsWithTag("dropdown").Length == 0)
         {
             dropdown = Instantiate(scrollbar, new Vector2(866 * 2, 380 * 2), Quaternion.identity) as Dropdown;
-            dropdown.transform.parent = GameObject.FindGameObjectsWithTag("canvas")[0].transform;
+            dropdown.transform.parent = GameObject.FindGameObjectsWithTag("Canvas")[0].transform;
             //List<Dropdown.OptionData> newData = new List<Dropdown.OptionData>();
             //scrollbar
         }
