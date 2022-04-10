@@ -7,7 +7,6 @@ public class UnitStorage : MonoBehaviour
 {
 
     public StackMnager stackMnager;
-    public GameObject[] units;
     private Grid choosenGrid;
     [SerializeField] List<GameObject> Grids;
     [SerializeField] List<GameObject> placeableGrids;
@@ -16,20 +15,18 @@ public class UnitStorage : MonoBehaviour
     private void Start()
     {
 
-        GameObject units = new GameObject();
-        
     }
 
     private void Update()
     {
 
         string gridName;
-        
+
         foreach (GameObject grid in Grids)
         {
             gridName = grid.name;
             mainGrid = GameObject.Find(gridName);
-            if (gridName != null && mainGrid != null) 
+            if (gridName != null && mainGrid != null)
             {
                 if (gridName == mainGrid.name)
                 {
@@ -40,20 +37,21 @@ public class UnitStorage : MonoBehaviour
                     {
                         placeableGrids.Add(mainGrid);
                     }
-                    foreach(GameObject gameObject in placeableGrids)
+                    foreach (GameObject gameObject in placeableGrids)
                     {
-                        if (stackMnager.stack.Count <= 0)
+                        if (stackMnager.queue.Count <= 0)
                         {
 
                             gameObject.GetComponent<Grid>().placeable = false;
+                            gameObject.GetComponent<Grid>().occupied = false;
                         }
                     }
-                    
+
                 }
             }
         }
 
-        
+
 
         RayCheckGrid();
 
@@ -64,19 +62,16 @@ public class UnitStorage : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-
-            int code;
-            
-            foreach (GameObject gameObject in units)
+            foreach (GameObject gameObject in stackMnager.queue)
             {
-                code = gameObject.GetComponent<UnitCode>().UNITCODE;
-                if (stackMnager.stack.Contains(code) == true/* && SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Prototype Level")*/)
+                if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Prototype Level"))
                 {
                     RayHit(gameObject);
                     break;
                 }
             }
         }
+
     }
 
     void RayHit(GameObject gameObject)
@@ -85,16 +80,15 @@ public class UnitStorage : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        Debug.Log("Spawn");
-
         if (Input.GetMouseButtonDown(0))
         {
             if (Physics.Raycast(ray, out hit))
             {
-                
+
                 if (hit.collider.tag == "Grid")
                 {
-                    if (hit.collider.GetComponent<Grid>().isTouched == false) {
+                    if (hit.collider.GetComponent<Grid>().isTouched == false)
+                    {
                         Grid g = hit.collider.GetComponent<Grid>();
                         if (choosenGrid == null)
                         {
@@ -104,11 +98,13 @@ public class UnitStorage : MonoBehaviour
                         g.isTouched = true;
                         choosenGrid = g;
                     }
-                    else if (hit.collider.GetComponent<Grid>().isTouched == true)
+                    else if (hit.collider.GetComponent<Grid>().isTouched == true && hit.collider.GetComponent<Grid>().occupied == false)
                     {
                         Instantiate(gameObject, hit.collider.transform.position + new Vector3(0, 1.28f, 0), Quaternion.identity);
-                        stackMnager.stack.Dequeue();
+                        stackMnager.queue.Dequeue();
+                        stackMnager.dropdown.options.RemoveAt(0);
                         hit.collider.GetComponent<Grid>().isTouched = false;
+                        hit.collider.GetComponent<Grid>().occupied = true;
                     }
                 }
             }
