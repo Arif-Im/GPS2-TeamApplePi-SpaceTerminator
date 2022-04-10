@@ -7,6 +7,7 @@ public class UnitStorage : MonoBehaviour
 {
 
     public StackMnager stackMnager;
+    public GameObject[] units;
     private Grid choosenGrid;
     [SerializeField] List<GameObject> Grids;
     [SerializeField] List<GameObject> placeableGrids;
@@ -15,6 +16,8 @@ public class UnitStorage : MonoBehaviour
     private void Start()
     {
 
+        GameObject units = new GameObject();
+        
     }
 
     private void Update()
@@ -39,11 +42,10 @@ public class UnitStorage : MonoBehaviour
                     }
                     foreach(GameObject gameObject in placeableGrids)
                     {
-                        if (stackMnager.queue.Count <= 0)
+                        if (stackMnager.stack.Count <= 0)
                         {
 
                             gameObject.GetComponent<Grid>().placeable = false;
-                            gameObject.GetComponent<Grid>().occupied = false;
                         }
                     }
                     
@@ -62,21 +64,19 @@ public class UnitStorage : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            foreach (GameObject gameObject in stackMnager.queue)
+
+            int code;
+            
+            foreach (GameObject gameObject in units)
             {
-<<<<<<< Updated upstream
                 code = gameObject.GetComponent<UnitCode>().UNITCODE;
                 if (stackMnager.stack.Contains(code) == true/* && SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Prototype Level")*/)
-=======
-                if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Prototype Level"))
->>>>>>> Stashed changes
                 {
                     RayHit(gameObject);
                     break;
                 }
             }
         }
-
     }
 
     void RayHit(GameObject gameObject)
@@ -104,17 +104,11 @@ public class UnitStorage : MonoBehaviour
                         g.isTouched = true;
                         choosenGrid = g;
                     }
-                    else if (hit.collider.GetComponent<Grid>().isTouched == true && hit.collider.GetComponent<Grid>().occupied == false)
+                    else if (hit.collider.GetComponent<Grid>().isTouched == true)
                     {
                         Instantiate(gameObject, hit.collider.transform.position + new Vector3(0, 1.28f, 0), Quaternion.identity);
-<<<<<<< Updated upstream
                         stackMnager.stack.Dequeue();
-=======
-                        stackMnager.queue.Dequeue();
-                        stackMnager.dropdown.options.RemoveAt(0);
->>>>>>> Stashed changes
                         hit.collider.GetComponent<Grid>().isTouched = false;
-                        hit.collider.GetComponent<Grid>().occupied = true;
                     }
                 }
             }

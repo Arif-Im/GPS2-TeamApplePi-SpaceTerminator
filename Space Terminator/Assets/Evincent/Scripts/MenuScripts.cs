@@ -36,7 +36,7 @@ public class MenuScripts : MonoBehaviour
 
     public void gameScene()
     {
-        if (stackMnager.queue.Count == 0)
+        if (stackMnager.stack.Count == 0)
         {
             Debug.Log("You must have atleast 1 unit in your squad");
             
