@@ -11,7 +11,12 @@ TagManager:
   - Alien
   - Crit Dice
   - Turn Manager
+<<<<<<< Updated upstream
   - Interaction Panel
+=======
+  - canvas
+  - dropdown
+>>>>>>> Stashed changes
   layers:
   - Default
   - TransparentFX
