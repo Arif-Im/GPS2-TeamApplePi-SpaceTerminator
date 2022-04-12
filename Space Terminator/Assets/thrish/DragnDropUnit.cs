@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DragnDropUnit : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler
+public class DragnDropUnit : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerUpHandler
 {
 
     private RectTransform rectTransform;
     [SerializeField] private Canvas canvas;
     private CanvasGroup canvasGroup;
+    Vector2 pos;
 
     // Start is called before the first frame update
     void Awake()
@@ -16,7 +17,12 @@ public class DragnDropUnit : MonoBehaviour, IPointerDownHandler, IBeginDragHandl
 
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
+        
+    }
 
+    private void Start()
+    {
+        pos = gameObject.GetComponent<RectTransform>().localPosition;
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -45,6 +51,11 @@ public class DragnDropUnit : MonoBehaviour, IPointerDownHandler, IBeginDragHandl
     {
         //Debug.Log("OnDrag");
         rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
+
     }
 
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        gameObject.GetComponent<RectTransform>().localPosition = pos;
+    }
 }

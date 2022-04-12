@@ -1,11 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ChoosenUnits : MonoBehaviour, IDropHandler
+public class ChoosenUnits : MonoBehaviour, IDropHandler, IPointerExitHandler, IPointerUpHandler
 {
 
     public bool isUsed;
@@ -26,13 +22,50 @@ public class ChoosenUnits : MonoBehaviour, IDropHandler
             pic = eventData.pointerDrag.GetComponent<UnitCode>().PIC;
             unit = eventData.pointerDrag.GetComponent<UnitCode>().PREFAB;
         }
+        else// if(eventData.pointerDrag.GetComponent<RectTransform>().position != gameObject.transform.position)
+        {
+          
+        }
+
+        if (eventData.pointerDrag != null)
+        {
+            eventData.pointerDrag.GetComponent<RectTransform>().position = GetComponent<RectTransform>().position;
+        }
 
         if (eventData.pointerDrag.GetComponent<DragnDropUnit>())
         {
             isUsed = true;
         }
+        else
+        {
+            isUsed = false;
+        }
 
     }
 
+    public void OnPointerExit(PointerEventData eventData)
+    {
+
+        if (eventData.pointerDrag != null)
+        {
+            isUsed = false;
+            unitCode = 0;
+            pic = null;
+            unit = null;
+        }
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+
+        if (eventData.pointerDrag != null)
+        {
+            isUsed = false;
+            unitCode = 0;
+            pic = null;
+            unit = null;
+        }
+
+    }
 }
 
