@@ -6,7 +6,7 @@ using UnityEngine;
 public class EnemyMovement : TacticMove
 {
     [SerializeField] protected GameObject player;
-    private GameObject cover;
+    public GameObject cover;
 
     protected GameObject target;
 
@@ -42,11 +42,11 @@ public class EnemyMovement : TacticMove
             transform.gameObject.tag = "Grid";
             Destroy(gameObject.GetComponent<CapsuleCollider>());
 
-            if (turn)
-            {
-                TurnManager.EndTurn();
-                turn = false;
-            }
+            //if (turn)
+            //{
+            //    TurnManager.EndTurn();
+            //    turn = false;
+            //}
 
             //if (turn)
             //{
@@ -54,6 +54,9 @@ public class EnemyMovement : TacticMove
             //    unit.DeductPointsOrChangeTurn(unit.GetUnitPoints());
             //    return;
             //}
+
+            //TurnManager.RemoveUnit(this);
+
         }
 
         //if (turn && unit.Health <= 0)
@@ -123,7 +126,7 @@ public class EnemyMovement : TacticMove
     {
         GameObject[] targets = GameObject.FindGameObjectsWithTag("Player");
         GameObject nearest = null;
-        float dist = 15;
+        float dist = Mathf.Infinity;
         foreach(GameObject obj in targets)
         {
             float d = Vector3.Distance(transform.position, obj.transform.position);
@@ -134,14 +137,14 @@ public class EnemyMovement : TacticMove
             }
         }
         player = nearest;
-        if (turn)
-        {
-            if (player == null)
-            {
-                unit.DeductPointsOrChangeTurn(2);
-                turn = false;
-            }
-        }
+        //if (turn)
+        //{
+        //    if (player == null)
+        //    {
+        //        unit.DeductPointsOrChangeTurn(2);
+        //        turn = false;
+        //    }
+        //}
     }
 
     public void FindRandomPosition(out GameObject target)

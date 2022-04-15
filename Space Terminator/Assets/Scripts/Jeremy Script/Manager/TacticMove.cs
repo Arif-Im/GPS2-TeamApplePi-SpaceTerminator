@@ -79,6 +79,7 @@ public class TacticMove : MonoBehaviour
     public int MoveTile { get => moveTile; }
 
     public bool isAttack;
+    private int foundTiles;
 
     private void Awake()
     {
@@ -124,6 +125,9 @@ public class TacticMove : MonoBehaviour
         }
 
         //if (grid == null) { Debug.Log("GetTargetTile: grid = null"); }
+
+        if (grid == null)
+            TurnManager.EndTurn();
 
         return grid;
     }
@@ -360,16 +364,16 @@ public class TacticMove : MonoBehaviour
 
             if (Vector3.Distance(transform.position, target) >= 0.05f) //keep going until you reach the grid
             {
-                bool jump = transform.position.y != target.y;
+                //bool jump = transform.position.y != target.y;
 
-                if (jump)
-                {
-                    Jump(target);
-                } else
-                {
+                //if (jump)
+                //{
+                //    Jump(target);
+                //} else
+                //{
                     CalculateHeading(target);
                     SetHorizontalVel();
-                }
+                //}
               
 
                 transform.forward = heading; //set facing direction
@@ -573,8 +577,29 @@ public class TacticMove : MonoBehaviour
 
         while (openList.Count > 0)
         {
+            foundTiles++;
+
             Grid t = FindLowestF(openList);
             closedList.Add(t);
+
+            if (foundTiles >= 20)
+            {
+                float closestGrid = Mathf.Infinity;
+
+                foreach (Grid grid in closedList)
+                {
+                    if (Vector2.Distance(grid.transform.position, target.transform.position) < closestGrid)
+                    {
+                        closestGrid = Vector2.Distance(grid.transform.position, target.transform.position);
+                        actualTargetGrid = grid;
+                    }
+                }
+
+                Vector3 targetPos = actualTargetGrid.transform.position;
+                gameObject.transform.position = new Vector3(targetPos.x, targetPos.y + 1.02f, targetPos.z);
+                unit.DeductPointsOrChangeTurn(unit.GetUnitPoints());
+                break;
+            }
 
             if (t == target)
             {
@@ -615,6 +640,7 @@ public class TacticMove : MonoBehaviour
 
     public virtual void BeginTurn()
     {
+        foundTiles = 0;
         //Debug.Log("Begin Turn");
         gameObject.GetComponent<UnitPoitsSystem>().CurrentPoints = gameObject.GetComponent<UnitPoitsSystem>().maxPoints;
 

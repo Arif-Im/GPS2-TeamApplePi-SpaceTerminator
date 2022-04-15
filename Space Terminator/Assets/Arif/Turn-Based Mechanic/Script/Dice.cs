@@ -9,7 +9,7 @@ public enum DiceRoll { Idle, Rolling, EndRoll }
 public class Dice : MonoBehaviour
 {
     Sprite[] diceSide;
-    SpriteRenderer sr;
+    Image sr;
     int finalSide;
 
     public int FinalSide { get => finalSide; }
@@ -17,7 +17,7 @@ public class Dice : MonoBehaviour
 
     private void Start()
     {
-        sr = GetComponent<SpriteRenderer>();
+        sr = GetComponent<Image>();
         diceSide = Resources.LoadAll<Sprite>("Dice Sides");
     }
 

@@ -128,6 +128,10 @@ public class Unit : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
+        if (currentHealth <= 0)
+        {
+            TurnManager.RemoveUnit(this.GetComponent<TacticMove>());
+        }
     }
 
     private void OnTriggerEnter(Collider other)

@@ -178,6 +178,11 @@ public class EnemyBehaviour : MonoBehaviour
             return Node.Status.FAILURE;
         }
 
+        //if(enemyMovement.Player != null)
+        //{
+        //    return Node.Status.FAILURE;
+        //}
+
         if (unit.isDucking)
         {
             unit.isDucking = false;
@@ -201,7 +206,7 @@ public class EnemyBehaviour : MonoBehaviour
     {
         if (attackOrOverwatch != 1 || tacticOrDuck != 1) return Node.Status.FAILURE;
 
-        if (Vector3.Distance(this.gameObject.transform.position, enemyMovement.Player.transform.position) > enemyMovement.MoveTile/* || unit.isDucking || unit.overwatchCooldown > 0*/)
+        if (Vector3.Distance(this.gameObject.transform.position, enemyMovement.Player.transform.position) > enemyMovement.MoveTile)
         {
             return Node.Status.FAILURE;
         }
@@ -247,6 +252,8 @@ public class EnemyBehaviour : MonoBehaviour
 
     public Node.Status GoToTarget()
     {
+        if(enemyMovement.Player == null) return Node.Status.FAILURE;
+
         if (!enemyMovement.Moving && enemyMovement.Path.Count <= 0)
         {
             return Node.Status.SUCCESS;
@@ -267,7 +274,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     public Node.Status LowHealth()
     {
-        if (unit.HealthPercentage >= 50 || enemyMovement.GetTargetTile(gameObject).isCover)
+        if (unit.HealthPercentage >= 50 || enemyMovement.GetTargetTile(gameObject).isCover || enemyMovement.cover == null)
         {
             return Node.Status.FAILURE;
         }
