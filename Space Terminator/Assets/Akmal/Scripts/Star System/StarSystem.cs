@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class StarSystem : MonoBehaviour
 {
@@ -34,5 +35,15 @@ public class StarSystem : MonoBehaviour
             stars[1].SetActive(true);
             stars[2].SetActive(true);
         }
+    }
+
+    public void RestartButton()
+    {
+        SceneManager.LoadScene("LobbyMenu");
+    }
+
+    public void MenuButton()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }
