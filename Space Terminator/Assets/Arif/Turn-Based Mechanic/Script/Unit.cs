@@ -23,7 +23,7 @@ public class Unit : MonoBehaviour
     public int duckingCooldown = 0;
 
     public float Health { get => currentHealth; }
-
+    public bool isDamaged = false;
     public float HealthPercentage 
     {
         get
@@ -164,6 +164,7 @@ public class Unit : MonoBehaviour
                 if (isDucking) return;
                 healthBar.UpdateHealth(currentHealth / maxHealth);
                 TakeDamage(other.gameObject.GetComponent<Bullet>().Damage);
+                StartCoroutine(DamageAnim());
             }
         }
     }
@@ -175,6 +176,13 @@ public class Unit : MonoBehaviour
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, GetComponent<TacticMove>().MoveTile);
         }
+    }
+
+    IEnumerator DamageAnim()
+    {
+        isDamaged = true;
+        yield return new WaitForSeconds(.3f);
+        isDamaged = false;
     }
 
     public void BurnDamage()

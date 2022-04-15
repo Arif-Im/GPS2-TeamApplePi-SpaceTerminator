@@ -226,6 +226,7 @@ MonoBehaviour:
   rollToHit: 3
   overwatchCooldown: 0
   duckingCooldown: 0
+  isDamaged: 0
   unitPointsSystem: {fileID: 0}
   isDucking: 0
   isOverwatch: 0
@@ -281,6 +282,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitCode: 103
+  pic: {fileID: 0}
+  prefab: {fileID: 0}
 --- !u!114 &-1841974622579871860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -324,26 +327,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unit: {fileID: 0}
   selectableGrid: []
-  moving: 0
   moveTile: 5
   originalMoveTile: 5
   jumpHeight: 2
+  whatIsGrid:
+    serializedVersion: 2
+    m_Bits: 0
+  moving: 0
+  actualTargetGrid: {fileID: 0}
+  attacking: 0
   moveSpeed: 2
   jumpVel: 5
   rotateSpeed: 2
   bulletPrefab: {fileID: 269683263536249119, guid: 88bc595450eb7244e9cbfee38073a856, type: 3}
   punchPrefab: {fileID: 0}
-  whatIsGrid:
-    serializedVersion: 2
-    m_Bits: 0
-  actualTargetGrid: {fileID: 0}
-  attacking: 0
   attackerDamage: 0
   attackState: 0
-  turn: 0
   arrow: {fileID: 4352120188508147939}
   currentStatus: 0
   ammoCount: 3
+  isPunching: 0
+  turn: 0
   relocateCam: 1
   isAttack: 0
 --- !u!114 &4544226931661708635
@@ -360,32 +364,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unit: {fileID: 0}
   selectableGrid: []
-  moving: 0
   moveTile: 5
   originalMoveTile: 5
   jumpHeight: 2
+  whatIsGrid:
+    serializedVersion: 2
+    m_Bits: 8
+  moving: 0
+  actualTargetGrid: {fileID: 0}
+  attacking: 0
   moveSpeed: 2
   jumpVel: 5
   rotateSpeed: 2
   bulletPrefab: {fileID: 1882839498839259184, guid: d714caa563c5eb54691cecdf853334fe, type: 3}
   punchPrefab: {fileID: 2807907003269891355, guid: df81cf372dc805745ba8b9bc7f9dae8b, type: 3}
-  whatIsGrid:
-    serializedVersion: 2
-    m_Bits: 8
-  actualTargetGrid: {fileID: 0}
-  attacking: 0
   attackerDamage: 0
   attackState: 0
-  turn: 0
-  arrow: {fileID: 0}
+  arrow: {fileID: 4352120188508147939}
   currentStatus: 0
   ammoCount: 3
+  isPunching: 0
+  turn: 0
   relocateCam: 1
   isAttack: 0
-  overUI: 0
   cameraHolder: {fileID: 0}
   outOfAmmoText: {fileID: 8587314200757589567, guid: e0ffd5ada89f69944bb9e0288bb22ab8, type: 3}
   isWalking: 0
+  isDead: 0
   grenadeMode: 0
 --- !u!1 &7895532639326887162
 GameObject:
@@ -529,6 +534,7 @@ MonoBehaviour:
   shellPrefab: {fileID: 461137061300694899, guid: 876153dc891dba040b19230f16c2e068, type: 3}
   shellSpawnPos: {fileID: 8136359604404114968}
   target: {fileID: 0}
+  turnSpeed: 2
   parent: {fileID: 7895532639326887162}
   speed: 15
   activate: 0
@@ -722,8 +728,46 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00d65f4ed15c15b4db0c60c5f6b81439, type: 3}
+--- !u!1 &6440158181954967604 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 00d65f4ed15c15b4db0c60c5f6b81439, type: 3}
+  m_PrefabInstance: {fileID: 6170318995821782373}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5921064807086162574 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 00d65f4ed15c15b4db0c60c5f6b81439, type: 3}
   m_PrefabInstance: {fileID: 6170318995821782373}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &8201187312754805122
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6440158181954967604}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 209da3a27684c764488fddd4fbd4218f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &5543221388388922894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6440158181954967604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91f7ed7bfdea12340a9ef30a5c2392fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isAlien: 0
+  isPlayer: 1

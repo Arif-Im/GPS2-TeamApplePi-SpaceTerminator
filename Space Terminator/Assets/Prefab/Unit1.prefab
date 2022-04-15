@@ -139,12 +139,14 @@ MonoBehaviour:
   arrow: {fileID: 4669023863867616700}
   currentStatus: 0
   ammoCount: 2
+  isPunching: 0
   turn: 0
   relocateCam: 1
   isAttack: 0
   cameraHolder: {fileID: 0}
   outOfAmmoText: {fileID: 8587314200757589567, guid: e0ffd5ada89f69944bb9e0288bb22ab8, type: 3}
   isWalking: 0
+  isDead: 0
 --- !u!114 &4662047177211716488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,6 +170,7 @@ MonoBehaviour:
   rollToHit: 3
   overwatchCooldown: 0
   duckingCooldown: 0
+  isDamaged: 0
   unitPointsSystem: {fileID: 0}
   isDucking: 0
   isOverwatch: 0
@@ -223,6 +226,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitCode: 101
+  pic: {fileID: 0}
+  prefab: {fileID: 0}
 --- !u!114 &4585415448449352349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -285,6 +290,7 @@ MonoBehaviour:
   arrow: {fileID: 4669023863867616700}
   currentStatus: 0
   ammoCount: 3
+  isPunching: 0
   turn: 0
   relocateCam: 1
   isAttack: 0

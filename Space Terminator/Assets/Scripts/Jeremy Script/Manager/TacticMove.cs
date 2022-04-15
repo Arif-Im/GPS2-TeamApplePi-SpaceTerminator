@@ -53,6 +53,7 @@ public class TacticMove : MonoBehaviour
     public GameObject arrow;
     public StatusID currentStatus;
     public int ammoCount = 3;
+    public bool isPunching;
 
     [Space]
 
@@ -245,14 +246,18 @@ public class TacticMove : MonoBehaviour
             time += Time.deltaTime * rotateSpeed;
         }
 
-        yield return null;
         isAttack = true;
+        yield return null;
+        isAttack = false;
+
+        yield return new WaitForSeconds(.25f);
+        
 
         for(int x = 0; x < 3; x++)
         {
             if (bulletPrefab != null)
-                SpawnBullet(this.gameObject, GetTargetTile(this.gameObject).isCoverEffectArea);
-            yield return new WaitForSeconds(0.1f);
+                SpawnBullet(this.gameObject, GetTargetTile(this.gameObject).isCoverEffectArea, bulletPrefab);
+            yield return new WaitForSeconds(0.15f);
         }
 
         GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState = AttacksState.FinishAttacked;
@@ -301,8 +306,10 @@ public class TacticMove : MonoBehaviour
 
         yield return null;
 
-        Instantiate(punchPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z + 0.5f), transform.rotation);
 
+        isPunching = true;
+        SpawnBullet(this.gameObject, GetTargetTile(this.gameObject).isCoverEffectArea, punchPrefab);
+        yield return new WaitForSeconds(0.1f);
         attacking = false;
         GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState = AttacksState.FinishAttacked;
 
@@ -329,9 +336,9 @@ public class TacticMove : MonoBehaviour
         }
     }
 
-    public void SpawnBullet(GameObject shooter, bool inCoverEffect)
+    public void SpawnBullet(GameObject shooter, bool inCoverEffect, GameObject whatPref)
     {
-        GameObject bullet = Instantiate(bulletPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z + 0.5f), transform.rotation);
+        GameObject bullet = Instantiate(whatPref, new Vector3(transform.position.x, transform.position.y, transform.position.z + 0.5f), transform.rotation);
         bullet.GetComponent<Bullet>().InCoverEffect = inCoverEffect;
         bullet.GetComponent<Bullet>().Shooter = shooter;
         bullet.GetComponent<Bullet>().UnitRollToHit = unit.rollToHit;
@@ -641,6 +648,7 @@ public class TacticMove : MonoBehaviour
         }
 
         turn = false;
+        arrow.SetActive(false);
     }
 
     public IEnumerator MoveCamera(Vector3 pos, float timeToMove)

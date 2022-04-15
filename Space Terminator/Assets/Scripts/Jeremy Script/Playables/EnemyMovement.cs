@@ -17,6 +17,7 @@ public class EnemyMovement : TacticMove
     bool isAbsolutePosition = false;
 
     bool playOnce = false;
+    public bool isDead = false;
 
     new void Start()
     {
@@ -36,6 +37,7 @@ public class EnemyMovement : TacticMove
 
         if (unit.Health <= 0)
         {
+            isDead = true;
             GetComponent<Grid>().selectable = false;
             transform.gameObject.tag = "Grid";
             Destroy(gameObject.GetComponent<CapsuleCollider>());
@@ -121,7 +123,7 @@ public class EnemyMovement : TacticMove
     {
         GameObject[] targets = GameObject.FindGameObjectsWithTag("Player");
         GameObject nearest = null;
-        float dist = Mathf.Infinity;
+        float dist = 15;
         foreach(GameObject obj in targets)
         {
             float d = Vector3.Distance(transform.position, obj.transform.position);
@@ -132,6 +134,14 @@ public class EnemyMovement : TacticMove
             }
         }
         player = nearest;
+        if (turn)
+        {
+            if (player == null)
+            {
+                unit.DeductPointsOrChangeTurn(2);
+                turn = false;
+            }
+        }
     }
 
     public void FindRandomPosition(out GameObject target)

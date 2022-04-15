@@ -189,6 +189,7 @@ MonoBehaviour:
   rollToHit: 3
   overwatchCooldown: 0
   duckingCooldown: 0
+  isDamaged: 0
   unitPointsSystem: {fileID: 0}
   isDucking: 0
   isOverwatch: 0
@@ -244,6 +245,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitCode: 102
+  pic: {fileID: 0}
+  prefab: {fileID: 0}
 --- !u!114 &-7020960363657269253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -306,6 +309,7 @@ MonoBehaviour:
   arrow: {fileID: 6000269563585278080}
   currentStatus: 0
   ammoCount: 3
+  isPunching: 0
   turn: 0
   relocateCam: 1
   isAttack: 0
@@ -339,16 +343,17 @@ MonoBehaviour:
   punchPrefab: {fileID: 2807907003269891355, guid: df81cf372dc805745ba8b9bc7f9dae8b, type: 3}
   attackerDamage: 0
   attackState: 0
-  arrow: {fileID: 0}
+  arrow: {fileID: 6000269563585278080}
   currentStatus: 0
   ammoCount: 3
+  isPunching: 0
   turn: 0
   relocateCam: 1
   isAttack: 0
   cameraHolder: {fileID: 0}
   outOfAmmoText: {fileID: 8587314200757589567, guid: e0ffd5ada89f69944bb9e0288bb22ab8, type: 3}
   isWalking: 0
-  overUI: 0
+  isDead: 0
   grenadeMode: 0
 --- !u!1 &6000269563585278080
 GameObject:
@@ -534,11 +539,49 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f4090b768401204b9547bf8064e6d42, type: 3}
+--- !u!1 &1137219387259509934 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 7f4090b768401204b9547bf8064e6d42, type: 3}
+  m_PrefabInstance: {fileID: 218810304573170175}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &325358330261931540 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7f4090b768401204b9547bf8064e6d42, type: 3}
   m_PrefabInstance: {fileID: 218810304573170175}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &8234035184627457125
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1137219387259509934}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e3641b5c6456363489b85504b1821697, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &6430099841912792008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1137219387259509934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91f7ed7bfdea12340a9ef30a5c2392fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isAlien: 0
+  isPlayer: 1
 --- !u!1001 &5985501950232649171
 PrefabInstance:
   m_ObjectHideFlags: 0

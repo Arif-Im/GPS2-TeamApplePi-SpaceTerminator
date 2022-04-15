@@ -21,12 +21,17 @@ public class AnimationManager : MonoBehaviour
         {
             anim.SetBool("isWalking", GetComponentInParent<EnemyMovement>().isWalking);
             anim.SetBool("isAttacking", GetComponentInParent<TacticMove>().isAttack);
+            anim.SetBool("isDead", GetComponentInParent<EnemyMovement>().isDead);
+            anim.SetBool("isDamaged", GetComponentInParent<Unit>().isDamaged);
         }
         
         if (isPlayer)
         {
             anim.SetBool("isWalking", GetComponentInParent<PlayableMovement>().isWalking);
             anim.SetBool("isAttacking", GetComponentInParent<TacticMove>().isAttack);
+            anim.SetBool("isDead", GetComponentInParent<PlayableMovement>().isDead);
+            anim.SetBool("isPunching", GetComponentInParent<TacticMove>().isPunching);
+            anim.SetBool("isDamaged", GetComponentInParent<Unit>().isDamaged);
         }
 
     }

@@ -13,6 +13,7 @@ public class PlayableMovement : TacticMove
     [SerializeField] protected GameObject outOfAmmoText;
     public bool isWalking;
     private bool playOnce = false;
+    public bool isDead = false;
 
     protected Grid choosenGrid;
 
@@ -21,6 +22,8 @@ public class PlayableMovement : TacticMove
     {
         unit = GetComponent<Unit>();
         TurnManager.AddUnit(this);
+
+
     }
 
     // Update is called once per frame
@@ -35,6 +38,7 @@ public class PlayableMovement : TacticMove
 
         if (unit.Health <= 0)
         {
+            isDead = true;
             GetComponent<Grid>().selectable = false;
             transform.gameObject.tag = "Grid";
             Destroy(gameObject.GetComponent<CapsuleCollider>());
@@ -147,7 +151,9 @@ public class PlayableMovement : TacticMove
                     }
                     else
                     {
-                        if (Vector3.Distance(g.transform.position, transform.position) <= 1.2f)
+                        enemy = g;
+
+                        if (Vector3.Distance(g.transform.position, transform.position) <= 4f)
                         {
                             InitiatePunch();
                         }
