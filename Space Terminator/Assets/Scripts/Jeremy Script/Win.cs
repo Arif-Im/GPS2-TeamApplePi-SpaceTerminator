@@ -21,7 +21,8 @@ public class Win : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            Debug.Log("You won)");
+            Debug.Log("You won");
+            StarSystem.instance.ReachPointB();
         }
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class EnemyMovement : TacticMove
 {
-    [SerializeField] protected GameObject player;
+    public GameObject player;
     public GameObject cover;
 
     protected GameObject target;

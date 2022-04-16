@@ -12,7 +12,7 @@ public class TurnManager : MonoBehaviour
     public static ConditionalQueue<TacticMove> turnTeam = new ConditionalQueue<TacticMove>();
     public AttacksState attackState;
 
-    bool deploymentState = true;
+    public bool deploymentState = true;
     bool speedUp = false;
 
     private void Awake()

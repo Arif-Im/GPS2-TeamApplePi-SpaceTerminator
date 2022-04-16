@@ -55,6 +55,8 @@ public class Unit : MonoBehaviour
     {
         currentHealth = maxHealth;
         overwatchCooldown = 0;
+        if (gameObject.tag == "Player")
+            StarSystem.instance.AddTroop();
     }
 
     private void Update()
@@ -131,6 +133,8 @@ public class Unit : MonoBehaviour
         if (currentHealth <= 0)
         {
             TurnManager.RemoveUnit(this.GetComponent<TacticMove>());
+            if (gameObject.tag == "Player")
+                StarSystem.instance.RemoveTroop();
         }
     }
 
@@ -169,6 +173,15 @@ public class Unit : MonoBehaviour
                 healthBar.UpdateHealth(currentHealth / maxHealth);
                 TakeDamage(other.gameObject.GetComponent<Bullet>().Damage);
                 StartCoroutine(DamageAnim());
+            }
+        }
+
+        if (gameObject.tag == "Player")
+        {
+            if (other.gameObject.CompareTag("Documents"))
+            {
+                StarSystem.instance.CollectedDocuments();
+                other.gameObject.SetActive(false);
             }
         }
     }

@@ -206,7 +206,7 @@ public class EnemyBehaviour : MonoBehaviour
     {
         if (attackOrOverwatch != 1 || tacticOrDuck != 1) return Node.Status.FAILURE;
 
-        if (Vector3.Distance(this.gameObject.transform.position, enemyMovement.Player.transform.position) > enemyMovement.MoveTile)
+        if (Vector3.Distance(this.gameObject.transform.position, enemyMovement.Player.transform.position) > enemyMovement.MoveTile || enemyMovement.player == null)
         {
             return Node.Status.FAILURE;
         }
@@ -246,6 +246,7 @@ public class EnemyBehaviour : MonoBehaviour
     public virtual Node.Status StartPursuit()
     {
         enemyMovement.FindNearestPlayer();
+        if (enemyMovement.player == null) return Node.Status.FAILURE;
         enemyMovement.SetTargetAndMoveCondition(enemyMovement.Player, false);
         return Node.Status.SUCCESS;
     }
