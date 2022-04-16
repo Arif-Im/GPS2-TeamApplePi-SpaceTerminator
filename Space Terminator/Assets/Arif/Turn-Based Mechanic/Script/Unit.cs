@@ -62,6 +62,7 @@ public class Unit : MonoBehaviour
     private void Update()
     {
         healthBar.UpdateHealth(currentHealth / maxHealth);
+        healthBar.UpdateTextHealth(currentHealth);
         Overwatch();
 
         //if (currentHealth <= 0)
@@ -171,6 +172,7 @@ public class Unit : MonoBehaviour
                 }
                 if (isDucking) return;
                 healthBar.UpdateHealth(currentHealth / maxHealth);
+                healthBar.UpdateTextHealth(currentHealth);
                 TakeDamage(other.gameObject.GetComponent<Bullet>().Damage);
                 StartCoroutine(DamageAnim());
             }
@@ -210,6 +212,7 @@ public class Unit : MonoBehaviour
         currentHealth -= 3;
         if (healthBar != null && floatingText != null)
           healthBar.UpdateHealth(currentHealth / maxHealth);
+        healthBar.UpdateTextHealth(currentHealth);
     
     }
 }
