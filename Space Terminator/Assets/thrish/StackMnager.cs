@@ -88,6 +88,7 @@ public class StackMnager : MonoBehaviour
         {
             dropdown = Instantiate(scrollbar, new Vector2(866 * 2, 380 * 2), Quaternion.identity) as Dropdown;
             dropdown.transform.parent = GameObject.FindGameObjectsWithTag("Canvas")[0].transform;
+            dropdown.transform.SetAsFirstSibling();
             //List<Dropdown.OptionData> newData = new List<Dropdown.OptionData>();
             //scrollbar
         }

@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Audio;
 
 public class AudioController : MonoBehaviour
 {
     public AudioMixer theMixer;
+    //[SerializeField] Slider sliderVolume;
 
     void Start()
     {
@@ -22,5 +24,10 @@ public class AudioController : MonoBehaviour
             theMixer.SetFloat("SFXVol", PlayerPrefs.GetFloat("SFXVol"));
         }
     }
+
+    //public void SetVolume()
+    //{
+    //    theMixer.SetFloat("Master", Mathf.Log10(sliderVolume.value) * 20);
+    //}
 
 }
