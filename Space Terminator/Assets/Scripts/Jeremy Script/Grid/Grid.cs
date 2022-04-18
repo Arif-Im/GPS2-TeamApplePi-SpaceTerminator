@@ -84,7 +84,7 @@ public class Grid : MonoBehaviour
         else
         {
             //GetComponent<Renderer>().material.color = Color.white;
-            GetComponent<Renderer>().material.color = new Color(1, 1, 1, .55f);
+            GetComponent<Renderer>().material.color = Color.clear;
         }
     }
 

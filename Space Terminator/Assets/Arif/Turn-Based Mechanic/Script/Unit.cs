@@ -62,7 +62,7 @@ public class Unit : MonoBehaviour
     private void Update()
     {
         healthBar.UpdateHealth(currentHealth / maxHealth);
-        healthBar.UpdateTextHealth(currentHealth);
+        //healthBar.UpdateTextHealth(currentHealth);
         Overwatch();
 
         //if (currentHealth <= 0)
@@ -112,6 +112,8 @@ public class Unit : MonoBehaviour
     {
         unitPointsSystem.minusPoints(amount);
 
+        if (GetUnitPoints() > 0 && gameObject.tag == "Player") return;
+
         if(GetUnitPoints() < 1 && GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState == AttacksState.Idle)
         {
             if(overwatchCooldown > 0)
@@ -122,9 +124,8 @@ public class Unit : MonoBehaviour
             {
                 duckingCooldown -= 1;
             }
-            //ButtonManager.instance.ResetButtons();
             GetComponent<TacticMove>().arrow.SetActive(false);
-            TurnManager.EndTurn();
+            TurnManager.EndTurn(GetComponent<Unit>());
         }
     }
 
@@ -133,6 +134,8 @@ public class Unit : MonoBehaviour
         currentHealth -= damage;
         if (currentHealth <= 0)
         {
+            isOverwatch = false;
+            isDucking = false;
             TurnManager.RemoveUnit(this.GetComponent<TacticMove>());
             if (gameObject.tag == "Player")
                 StarSystem.instance.RemoveTroop();
@@ -172,7 +175,7 @@ public class Unit : MonoBehaviour
                 }
                 if (isDucking) return;
                 healthBar.UpdateHealth(currentHealth / maxHealth);
-                healthBar.UpdateTextHealth(currentHealth);
+                //healthBar.UpdateTextHealth(currentHealth);
                 TakeDamage(other.gameObject.GetComponent<Bullet>().Damage);
                 StartCoroutine(DamageAnim());
             }

@@ -14,6 +14,9 @@ TagManager:
   - Interaction Panel
   - dropdown
   - Canvas
+  - FOW
+  - objectives
+  - Documents
   layers:
   - Default
   - TransparentFX

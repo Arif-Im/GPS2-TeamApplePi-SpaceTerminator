@@ -12,7 +12,6 @@ public class PlayableMovement : TacticMove
     [SerializeField] GameObject cameraHolder;
     [SerializeField] protected GameObject outOfAmmoText;
     public bool isWalking;
-    private bool playOnce = false;
     public bool isDead = false;
 
     protected Grid choosenGrid;
@@ -43,26 +42,12 @@ public class PlayableMovement : TacticMove
             transform.gameObject.tag = "Grid";
             Destroy(gameObject.GetComponent<CapsuleCollider>());
 
-            if (turn)
-            {
-                TurnManager.EndTurn();
-                turn = false;
-            }
-
             //if (turn)
             //{
-            //    GetComponent<TacticMove>().arrow.SetActive(false);
-            //    unit.DeductPointsOrChangeTurn(unit.GetUnitPoints());
-            //    return;
+            //    TurnManager.EndTurn();
+            //    turn = false;
             //}
         }
-
-        //if (turn && unit.Health <= 0)
-        //{
-        //    GetComponent<TacticMove>().arrow.SetActive(false);
-        //    unit.DeductPointsOrChangeTurn(unit.GetUnitPoints());
-        //    return;
-        //}
 
         if (!turn)
             return;
@@ -86,7 +71,7 @@ public class PlayableMovement : TacticMove
         }
         else
         {
-            Debug.Log($"Moving Unit: {unit.gameObject.name}");
+            //Debug.Log($"Moving Unit: {unit.gameObject.name}");
             isWalking = true;
             Move(() => {
                 unit.DeductPointsOrChangeTurn(1);
@@ -205,7 +190,7 @@ public class PlayableMovement : TacticMove
     public override void BeginTurn()
     {
         base.BeginTurn();
-        playOnce = false;
+        Debug.Log("Begin Player Turn");
         ButtonManager.instance.SetButtonsToCurrentPlayer(this);
     }
 }

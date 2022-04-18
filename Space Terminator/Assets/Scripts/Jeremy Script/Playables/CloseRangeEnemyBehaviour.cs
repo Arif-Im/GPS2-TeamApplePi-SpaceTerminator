@@ -144,7 +144,7 @@ public class CloseRangeEnemyBehaviour : EnemyBehaviour
 
     public virtual Node.Status StartPatrol()
     {
-        //enemyMovement.FindSelectableGrid();
+        enemyMovement.FindSelectableGrid();
         enemyMovement.FindRandomPosition(out GameObject target);
         if(target == null)
         {

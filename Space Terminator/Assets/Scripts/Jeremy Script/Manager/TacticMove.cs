@@ -127,7 +127,7 @@ public class TacticMove : MonoBehaviour
         //if (grid == null) { Debug.Log("GetTargetTile: grid = null"); }
 
         if (grid == null)
-            TurnManager.EndTurn();
+            TurnManager.EndTurn(GetComponent<Unit>());
 
         return grid;
     }
@@ -582,7 +582,7 @@ public class TacticMove : MonoBehaviour
             Grid t = FindLowestF(openList);
             closedList.Add(t);
 
-            if (foundTiles >= 20)
+            if (foundTiles >= 10)
             {
                 float closestGrid = Mathf.Infinity;
 
@@ -596,8 +596,8 @@ public class TacticMove : MonoBehaviour
                 }
 
                 Vector3 targetPos = actualTargetGrid.transform.position;
-                gameObject.transform.position = new Vector3(targetPos.x, targetPos.y + 1.02f, targetPos.z);
-                unit.DeductPointsOrChangeTurn(unit.GetUnitPoints());
+                gameObject.transform.position = new Vector3(targetPos.x, 1.02f, targetPos.z);
+                unit.DeductPointsOrChangeTurn(1);
                 break;
             }
 

@@ -16,12 +16,10 @@ public class EnemyMovement : TacticMove
 
     bool isAbsolutePosition = false;
 
-    bool playOnce = false;
     public bool isDead = false;
 
     new void Start()
     {
-        //base.Start();
         anim = GetComponent<Animator>();
         unitPoints = GetComponent<UnitPoitsSystem>();
         TurnManager.AddUnit(this);
@@ -42,29 +40,7 @@ public class EnemyMovement : TacticMove
             transform.gameObject.tag = "Grid";
             Destroy(gameObject.GetComponent<CapsuleCollider>());
 
-            //if (turn)
-            //{
-            //    TurnManager.EndTurn();
-            //    turn = false;
-            //}
-
-            //if (turn)
-            //{
-            //    GetComponent<TacticMove>().arrow.SetActive(false);
-            //    unit.DeductPointsOrChangeTurn(unit.GetUnitPoints());
-            //    return;
-            //}
-
-            //TurnManager.RemoveUnit(this);
-
         }
-
-        //if (turn && unit.Health <= 0)
-        //{
-        //    GetComponent<TacticMove>().arrow.SetActive(false);
-        //        playOnce = true;
-        //    return;
-        //}
 
         if (!turn)
             return;
@@ -137,14 +113,6 @@ public class EnemyMovement : TacticMove
             }
         }
         player = nearest;
-        //if (turn)
-        //{
-        //    if (player == null)
-        //    {
-        //        unit.DeductPointsOrChangeTurn(2);
-        //        turn = false;
-        //    }
-        //}
     }
 
     public void FindRandomPosition(out GameObject target)

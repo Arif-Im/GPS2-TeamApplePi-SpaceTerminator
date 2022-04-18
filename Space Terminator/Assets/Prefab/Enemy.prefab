@@ -144,6 +144,7 @@ MonoBehaviour:
   relocateCam: 1
   isAttack: 0
   player: {fileID: 0}
+  cover: {fileID: 0}
   isWalking: 0
   isDead: 0
 --- !u!114 &2685813776902128219
@@ -251,7 +252,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 10
   m_CollisionDetection: 0
 --- !u!114 &2369412465784436473
 MonoBehaviour:

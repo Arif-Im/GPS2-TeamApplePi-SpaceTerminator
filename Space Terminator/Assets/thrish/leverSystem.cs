@@ -28,9 +28,7 @@ public class leverSystem : MonoBehaviour
     {
         worldToScreen = Camera.main.WorldToScreenPoint(transform.position);
         if (consoleImage != null)
-        {
-            consoleImage.transform.position = worldToScreen;
-        }
+            consoleImage.transform.position = worldToScreen + Vector2.up * 2;
     }
 
     private void OnTriggerStay(Collider collision)
@@ -38,18 +36,24 @@ public class leverSystem : MonoBehaviour
 
         if (collision.gameObject.GetComponent<Unit>())
         {
-
-            //Image.SetActive(true);
-            //Debug.Log("Press 'E' ");
-            GameObject.FindGameObjectWithTag("Interaction Panel").GetComponent<ButtonManager>().lever.onClick.AddListener(rotatingFloor.floorRotate);
             isColliding = true;
-            
         }
         else
         {
             isColliding = false;
         }
 
+    }
+
+    private void OnTriggerEnter(Collider collision)
+    {
+        if (collision.gameObject.GetComponent<Unit>())
+            GameObject.FindGameObjectWithTag("Interaction Panel").GetComponent<ButtonManager>().lever.onClick.AddListener(rotatingFloor.floorRotate);
+    }
+
+    private void OnTriggerExit(Collider collision)
+    {
+        GameObject.FindGameObjectWithTag("Interaction Panel").GetComponent<ButtonManager>().lever.onClick.RemoveListener(rotatingFloor.floorRotate);
     }
 
     public void SpawnConsoleImage()
