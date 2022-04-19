@@ -46,4 +46,10 @@ public class MenuScripts : MonoBehaviour
             SceneManager.LoadScene(2);
         }
     }
+
+    public void BckMainMenu()
+    {
+        SceneManager.LoadScene("LobbyMenu");
+    }
+
 }
