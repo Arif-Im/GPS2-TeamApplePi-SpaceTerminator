@@ -61,6 +61,7 @@ public class leverSystem : MonoBehaviour
         //Debug.Log("Spawn Image");
         consoleImage = Instantiate(consoleImagePrefab, worldToScreen, Quaternion.identity);
         consoleImage.transform.parent = CanvasController.singleton.GetComponent<Canvas>().transform;
+        consoleImage.transform.SetAsFirstSibling();
         //return consoleImage;
     }
 
