@@ -19,7 +19,6 @@ public class floorRotation : MonoBehaviour
     private void Start()
     {
 
-        Rotation = Quaternion.Euler(-90, 0, 0);
         audio = GetComponent<AudioSource>();
 
     }
