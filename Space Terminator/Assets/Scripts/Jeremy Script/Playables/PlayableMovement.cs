@@ -27,6 +27,11 @@ public class PlayableMovement : TacticMove
     void Update()
     {
         PlayerMove();
+
+        if(Input.GetKeyDown(KeyCode.S))
+        {
+            TurnManager.EndTurn();
+        }
     }
 
     public void PlayerMove()

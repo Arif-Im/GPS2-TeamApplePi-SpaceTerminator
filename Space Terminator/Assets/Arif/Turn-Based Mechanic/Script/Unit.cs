@@ -41,6 +41,8 @@ public class Unit : MonoBehaviour
     public bool isCurrentTurn;
     public bool interrupted;
 
+    [SerializeField] LayerMask whatIsEnemy;
+
     public int GetUnitPoints()
     {
         return unitPointsSystem.CurrentPoints;
@@ -68,8 +70,6 @@ public class Unit : MonoBehaviour
         }
         Overwatch();
     }
-
-    [SerializeField] LayerMask whatIsEnemy;
 
     public void Overwatch()
     {

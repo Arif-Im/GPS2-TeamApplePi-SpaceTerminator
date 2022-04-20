@@ -91,11 +91,6 @@ public class TacticMove : MonoBehaviour
         Initialize();
     }
 
-    void Update()
-    {
-
-    }
-
     public void Initialize()
     {
         grids = GameObject.FindGameObjectsWithTag("Grid"); //store all the gameobjects with grid into the array
@@ -123,8 +118,6 @@ public class TacticMove : MonoBehaviour
         {
             grid = target.GetComponent<Grid>();
         }
-
-        //if (grid == null) { Debug.Log("GetTargetTile: grid = null"); }
 
         if (grid == null)
             TurnManager.EndTurn();
@@ -206,17 +199,12 @@ public class TacticMove : MonoBehaviour
 
     public void MoveToGrid(Grid grid)
     {
-        //if(grid == null)
-        //{
-        //    Debug.Log("Grid Bug");
-        //    unit.DeductPointsOrChangeTurn(unit.GetUnitPoints());
-        //}
-
         path.Clear();
         grid.target = true;
         moving = true;
 
         Grid next = grid;
+
         //loop until there is no more grid
         while (next != null)
         {
@@ -328,16 +316,13 @@ public class TacticMove : MonoBehaviour
         if (grids != null)
         {
             foreach (GameObject grid in grids)
-            {
                 grid.GetComponent<Grid>().isCoverEffectArea = false;
-            }
         }
 
         targetEnemy.GetComponent<TacticMove>().unit.interrupted = false;
+
         if (actionPoint != null)
-        {
             actionPoint.Invoke();
-        }
     }
 
     public void SpawnBullet(GameObject shooter, bool inCoverEffect, GameObject whatPref)
@@ -364,17 +349,8 @@ public class TacticMove : MonoBehaviour
 
             if (Vector3.Distance(transform.position, target) >= 0.05f) //keep going until you reach the grid
             {
-                //bool jump = transform.position.y != target.y;
-
-                //if (jump)
-                //{
-                //    Jump(target);
-                //} else
-                //{
-                    CalculateHeading(target);
-                    SetHorizontalVel();
-                //}
-              
+                CalculateHeading(target);
+                SetHorizontalVel();
 
                 transform.forward = heading; //set facing direction
                                      //play walk animation here
@@ -382,7 +358,6 @@ public class TacticMove : MonoBehaviour
             }
             else
             {
-                //CheckStandingGrid();
                 transform.position = target;
                 path.Pop();
             }
@@ -394,9 +369,6 @@ public class TacticMove : MonoBehaviour
             moving = false;
                  
             onReachTarget?.Invoke();
-            //fallingDown = false;
-            //jumpingUp = false;
-            //movingEdge = true;
         }
     }
 
@@ -426,8 +398,6 @@ public class TacticMove : MonoBehaviour
         }
 
         selectableGrid.Clear();
-
-        //CheckStandingGrid();
     }
 
     void Jump(Vector3 target)
@@ -547,7 +517,15 @@ public class TacticMove : MonoBehaviour
             next = next.parent;
         }
 
-        if (tempPath.Count <= moveTile)
+        if (tempPath.Count <= 0)
+        {
+            if (isAbsolutePos)
+                return t;
+            else
+                return t.parent;
+        }
+
+        if (tempPath.Count <= moveTile && !t.occupied)
         {
             if (isAbsolutePos)
                 return t;

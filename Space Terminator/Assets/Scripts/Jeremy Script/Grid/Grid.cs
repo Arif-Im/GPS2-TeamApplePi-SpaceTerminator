@@ -42,6 +42,14 @@ public class Grid : MonoBehaviour
 
     void Update()
     {
+        if (Physics.Raycast(transform.position, Vector2.up, out RaycastHit hit))
+        {
+            if (hit.collider.tag == "Player" || hit.collider.tag == "Alien")
+                occupied = true;
+        }
+        else
+            occupied = false;
+
         CheckGridStatus();
     }
 
