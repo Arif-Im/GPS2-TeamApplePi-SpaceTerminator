@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Grid : MonoBehaviour
 {
-    [SerializeField] GameObject directionMarker;
+    [SerializeField] LayerMask whatIsPlayer;
 
     public bool playerPresent = false;
 
@@ -35,6 +35,8 @@ public class Grid : MonoBehaviour
     void Start()
     {
 
+        GetComponent<Renderer>().material.color = Color.clear;
+
         isTouched = false;
         placeable = false;
 
@@ -57,8 +59,7 @@ public class Grid : MonoBehaviour
     {
         if (occupied)
         {
-            //GetComponent<Renderer>().material.color = Color.red;
-            GetComponent<Renderer>().material.color = new Color(1, 0, 0, .55f);
+            //GetComponent<Renderer>().material.color = new Color(1, 0, 0, .55f);
         }
         else if (isTouched == true)
         {
@@ -67,7 +68,8 @@ public class Grid : MonoBehaviour
         }
         else if (isCover)
         {
-            GetComponent<Renderer>().material.color = new Color (0, 0, 1, .55f);
+            if(Physics.OverlapSphere(transform.position, 10, whatIsPlayer).Length > 0)
+                GetComponent<Renderer>().material.color = new Color(0, 0, 1, .55f);
         }
         else if (isCoverEffectArea)
         {

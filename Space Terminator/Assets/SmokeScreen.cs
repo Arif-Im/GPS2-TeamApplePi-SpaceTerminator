@@ -20,6 +20,7 @@ public class SmokeScreen : Grenade
             }
             GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState = AttacksState.Idle;
             scoutMovement.unit.DeductPointsOrChangeTurn(scoutMovement.unit.GetUnitPoints());
+            Instantiate(VFX, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
         }
     }

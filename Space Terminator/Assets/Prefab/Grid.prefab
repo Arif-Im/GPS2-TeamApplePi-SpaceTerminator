@@ -108,7 +108,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c601971bb5f08864bbcd122eb1d35399, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  directionMarker: {fileID: 5891686741774952342, guid: 9dc485fbd885df549a678650ae152650, type: 3}
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 128
   playerPresent: 0
   occupied: 0
   selectable: 0
@@ -125,6 +127,3 @@ MonoBehaviour:
   f: 0
   g: 0
   h: 0
-  whatGrid:
-    serializedVersion: 2
-    m_Bits: 8
