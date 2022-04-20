@@ -138,7 +138,12 @@ public class EnemyBehaviour : MonoBehaviour
 
     protected void Update()
     {
-        if (unit.GetComponent<TacticMove>().attacking) return;
+        if(!TurnManager.instance.deploymentState && StarSystem.instance.troopCount <= 0)
+            return;
+
+        if (unit.GetComponent<TacticMove>().attacking) 
+            return;
+
         treeStatus = tree.Process();
     }
 

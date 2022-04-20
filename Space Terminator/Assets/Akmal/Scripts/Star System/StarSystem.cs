@@ -11,7 +11,7 @@ public class StarSystem : MonoBehaviour
     public GameObject[] stars;
     private int objectiveCounts;
 
-    [SerializeField] int troopCount;
+    public int troopCount;
     bool collectedDocuments = false;
     bool reachPointB = false;
 
