@@ -18,7 +18,7 @@ public class StackMnager : MonoBehaviour
     void Awake()
     {
 
-        if (instance != null)
+        if (instance != null && SceneManager.GetActiveScene() != SceneManager.GetSceneByName("LobbyMenu"))
         {
             Destroy(gameObject);
             return;
@@ -35,7 +35,6 @@ public class StackMnager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
 
         PushObject();
         createScrollBar();
@@ -59,7 +58,7 @@ public class StackMnager : MonoBehaviour
                     pic = gameObject.GetComponent<ChoosenUnits>().pic;
                     int code = gameObject.GetComponent<ChoosenUnits>().unitCode;
                     GameObject unit = gameObject.GetComponent<ChoosenUnits>().unit;
-                    if (queue.Contains(unit) == false)
+                    if (queue.Contains(unit) == false/* && queue.Count >= 0*/)
                     {
                         queue.Enqueue(unit);
 

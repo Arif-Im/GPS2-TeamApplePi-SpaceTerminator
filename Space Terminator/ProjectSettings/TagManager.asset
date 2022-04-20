@@ -17,6 +17,7 @@ TagManager:
   - FOW
   - objectives
   - Documents
+  - slots
   layers:
   - Default
   - TransparentFX

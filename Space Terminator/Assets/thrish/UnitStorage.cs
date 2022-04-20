@@ -12,11 +12,6 @@ public class UnitStorage : MonoBehaviour
     [SerializeField] List<GameObject> placeableGrids;
     GameObject mainGrid;
 
-    private void Start()
-    {
-
-    }
-
     private void Update()
     {
 
