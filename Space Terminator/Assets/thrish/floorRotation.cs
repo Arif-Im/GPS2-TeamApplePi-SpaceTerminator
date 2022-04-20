@@ -14,7 +14,7 @@ public class floorRotation : MonoBehaviour
     private new AudioSource audio;
     Collider[] troops;
 
-    bool rotate;
+    public bool rotate;
 
     private void Start()
     {

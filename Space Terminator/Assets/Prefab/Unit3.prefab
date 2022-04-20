@@ -216,11 +216,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 392ef87723a87f44f8075c0242356035, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
-  currentHealth: 10
+  maxHealth: 60
+  currentHealth: 60
   healthBar: {fileID: 8495312429474793247}
-  damage: 10
-  speed: 10
+  damage: 4
+  speed: 20
   state: 0
   punchDamagePoint: 0
   floatingText: {fileID: 6634748694765353139, guid: f5f1d941c335c27479acbfaf0ece3bdf, type: 3}
@@ -377,7 +377,7 @@ MonoBehaviour:
   moveSpeed: 2
   jumpVel: 5
   rotateSpeed: 2
-  bulletPrefab: {fileID: 1882839498839259184, guid: d714caa563c5eb54691cecdf853334fe, type: 3}
+  bulletPrefab: {fileID: 1882839498839259184, guid: 4f8da71b2e07a474784098d8b049b17a, type: 3}
   punchPrefab: {fileID: 2807907003269891355, guid: df81cf372dc805745ba8b9bc7f9dae8b, type: 3}
   attackerDamage: 0
   attackState: 0
@@ -1007,12 +1007,24 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 00d65f4ed15c15b4db0c60c5f6b81439, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 00d65f4ed15c15b4db0c60c5f6b81439, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 00d65f4ed15c15b4db0c60c5f6b81439, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 00d65f4ed15c15b4db0c60c5f6b81439, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 00d65f4ed15c15b4db0c60c5f6b81439, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.432
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 00d65f4ed15c15b4db0c60c5f6b81439, type: 3}
       propertyPath: m_LocalPosition.z

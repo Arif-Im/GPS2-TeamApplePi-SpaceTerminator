@@ -12,7 +12,6 @@ public class ScoutMovement : PlayableMovement
     {
         unit = GetComponent<Unit>();
         scout = GetComponentInChildren<Scout>();
-        //gameObject.GetComponent<MeshRenderer>().enabled = false;
         TurnManager.AddUnit(this);
     }
 

@@ -70,7 +70,7 @@ public class EnemyMovement : TacticMove
         isWalking = true;
         if(moving)
         {
-            Debug.Log($"Moving Unit: {unit.gameObject.name}");
+            //Debug.Log($"Moving Unit: {unit.gameObject.name}");
             Move(() => {
                 unit.DeductPointsOrChangeTurn(1);
                 isWalking = false;
@@ -115,10 +115,10 @@ public class EnemyMovement : TacticMove
         player = nearest;
     }
 
-    public void FindRandomPosition(out GameObject target)
+    public GameObject FindRandomPosition(List<GameObject> g)
     {
-        GameObject chosenGrid = grids[UnityEngine.Random.Range(0, grids.Length)];
-        target = chosenGrid.gameObject;
+        GameObject chosenGrid = g[UnityEngine.Random.Range(0, g.Count)];
+        return chosenGrid.gameObject;
     }
 
     public void FindClosestCoverPosition(out Cover closestCover)

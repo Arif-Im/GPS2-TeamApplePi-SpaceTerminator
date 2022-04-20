@@ -14,10 +14,9 @@ public class Cover : Grid
     {
         if(Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 10, whatIsGrid))
         {
-            //Debug.Log(hit.collider.gameObject.GetComponent<Grid>());
             grid = hit.collider.gameObject.GetComponent<Grid>();
+            grid.walkable = false;
         }
-
 
         CheckCoverPositions(Vector3.forward); //front
         CheckCoverPositions(-Vector3.forward); //back

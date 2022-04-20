@@ -2,15 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConfinedEnemyBehaviour : CloseRangeEnemyBehaviour
+public class ConfinedEnemyBehaviour : EnemyBehaviour
 {
-    [SerializeField] List<Grid> roomList = new List<Grid>();
-    [SerializeField] LayerMask whatIsPlayer;
-    [SerializeField] LayerMask whatIsCover;
+    [SerializeField] List<GameObject> roomList;
+
+    private void Awake()
+    {
+        Initialize();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
+        InitializeTree();
+    }
+
+    public override void InitializeTree()
+    {
+
         //Initialize tree
         tree = new BehaviourTree();
 
@@ -49,28 +58,15 @@ public class ConfinedEnemyBehaviour : CloseRangeEnemyBehaviour
         Sequence cover = new Sequence("Cover");
         Leaf lowHealth = new Leaf("Low Health", LowHealth);
 
-        //choose attack or overwatch
-        Sequence tactic = new Sequence("Tactic");
-        Leaf chooseAttackOrOverwatch = new Leaf("Choose Attack Or Overwatch", ChooseAttackOrOverwatch);
-
         //ducking sequence
         Sequence duck = new Sequence("Duck");
         Leaf canDuck = new Leaf("Can Duck", CanDuck);
         Leaf startDucking = new Leaf("Start Ducking", StartDucking);
 
-        Selector chooseTactic = new Selector("Choose Tactic");
-
-        Sequence move = new Sequence("Move");
-
-        Selector chooseMove = new Selector("Choose Move");
-
-        Selector state = new Selector("State");
-
         //add leaves to idle sequence
         idle.AddChild(stayIdle);
 
         //add leaves to attack sequence
-        attack.AddChild(checkAP);
         attack.AddChild(canAttackPlayer);
         attack.AddChild(computeTarget);
         attack.AddChild(attackPlayer);
@@ -79,29 +75,30 @@ public class ConfinedEnemyBehaviour : CloseRangeEnemyBehaviour
         overwatch.AddChild(startOverwatch);
 
         //add leaves to pursuit sequence
-        pursuit.AddChild(checkAP);
         pursuit.AddChild(startPursuit);
         pursuit.AddChild(computeTarget);
         pursuit.AddChild(goToTarget);
 
         //add leaves to cover sequence
-        cover.AddChild(checkAP);
         cover.AddChild(lowHealth);
         cover.AddChild(computeTarget);
         cover.AddChild(goToTarget);
 
         //add leaves to duck sequence
-        duck.AddChild(checkAP);
         duck.AddChild(canDuck);
         duck.AddChild(computeTarget);
         duck.AddChild(startDucking);
 
         patrol.AddChild(isPlayerNearby);
-        patrol.AddChild(checkAP);
         patrol.AddChild(startPatrol);
         patrol.AddChild(computeTarget);
         patrol.AddChild(goToTarget);
 
+        //choose attack or overwatch
+        Sequence tactic = new Sequence("Tactic");
+        Leaf chooseAttackOrOverwatch = new Leaf("Choose Attack Or Overwatch", ChooseAttackOrOverwatch);
+
+        Selector chooseTactic = new Selector("Choose Tactic");
         chooseTactic.AddChild(attack);
         chooseTactic.AddChild(overwatch);
 
@@ -110,12 +107,16 @@ public class ConfinedEnemyBehaviour : CloseRangeEnemyBehaviour
         tactic.AddChild(chooseTactic);
         tactic.AddChild(pursuit);
 
+        Sequence move = new Sequence("Move");
+
+        Selector chooseMove = new Selector("Choose Move");
         chooseMove.AddChild(patrol);
         chooseMove.AddChild(tactic);
 
         move.AddChild(chooseMove);
 
         //add sequences to state selector
+        Selector state = new Selector("State");
         state.AddChild(idle);
         state.AddChild(duck);
         state.AddChild(cover);
@@ -128,49 +129,31 @@ public class ConfinedEnemyBehaviour : CloseRangeEnemyBehaviour
         tree.PrintTree();
     }
 
-    public override Node.Status CanAttack()
+    public Node.Status IsPlayerFar()
     {
-        if (attackOrOverwatch != 1 || tacticOrDuck != 1) return Node.Status.FAILURE;
-
-
-        if (Vector3.Distance(this.gameObject.transform.position, enemyMovement.Player.transform.position) > enemyMovement.MoveTile || unit.isDucking || unit.overwatchCooldown > 0)
+        enemyMovement.FindNearestPlayer();
+        if (Vector3.Distance(transform.position, enemyMovement.Player.transform.position) > 5)
         {
-            return Node.Status.FAILURE;
-        }
-
-        if (unit.interrupted) return Node.Status.RUNNING;
-
-        foreach (Grid grid in roomList)
-        {
-            if (Physics.Raycast(grid.transform.position, Vector3.up, 1, whatIsPlayer))
-            {
-                return Node.Status.SUCCESS;
-            }
-        }
-
-        return Node.Status.FAILURE;
-    }
-
-    public override Node.Status CanDuck()
-    {
-        tacticOrDuck = UnityEngine.Random.Range(1, 3);
-
-        if (tacticOrDuck == 1 && enemyMovement.GetTargetTile(gameObject).isCover && !unit.isDucking)
-        {
-            foreach (Grid grid in roomList)
-            {
-                if (Physics.Raycast(grid.transform.position, Vector3.up, 1, whatIsCover))
-                {
-                    return Node.Status.SUCCESS;
-                }
-            }
+            return Node.Status.SUCCESS;
         }
         return Node.Status.FAILURE;
     }
 
-    public override Node.Status StartPatrol()
+    public Node.Status StartPatrol()
     {
-        Grid target = roomList[Random.Range(0, roomList.Count)];
+        Collider[] gridColliders = Physics.OverlapSphere(transform.position, 5, enemyMovement.whatIsGrid);
+        List<GameObject> gridGameObjects = new List<GameObject>();
+
+        foreach (Collider gridCollider in gridColliders)
+        {
+            for (int i = 0; i < roomList.Count; i++)
+            {
+                if (gridCollider.gameObject == roomList[i])
+                    gridGameObjects.Add(gridCollider.gameObject);
+            }
+        }
+
+        GameObject target = enemyMovement.FindRandomPosition(gridGameObjects);
 
         if (target == null)
         {

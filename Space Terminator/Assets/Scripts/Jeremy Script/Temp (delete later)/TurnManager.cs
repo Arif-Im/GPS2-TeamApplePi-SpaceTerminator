@@ -8,8 +8,8 @@ public class TurnManager : MonoBehaviour
     public static TurnManager instance;
 
     static Dictionary<string, List<TacticMove>> units = new Dictionary<string, List<TacticMove>>();
-    static Queue<string> turnKey = new Queue<string>();
-    public static Queue<TacticMove> turnTeam = new Queue<TacticMove>();
+    static ConditionalQueue<string> turnKey = new ConditionalQueue<string>();
+    public static ConditionalQueue<TacticMove> turnTeam = new ConditionalQueue<TacticMove>();
     public AttacksState attackState;
 
     public bool deploymentState = true;
@@ -70,13 +70,11 @@ public class TurnManager : MonoBehaviour
         }
     }
 
-    public static void EndTurn(Unit u)
+    public static void EndTurn()
     {
         TacticMove unit = turnTeam.Dequeue();
         ButtonManager.instance.ResetButtons();
         unit.EndTurn();
-
-        if (u == unit) return;
 
         if (turnTeam.Count > 0)
         {
@@ -115,12 +113,8 @@ public class TurnManager : MonoBehaviour
     }
     public static void RemoveUnit(TacticMove unit)
     {
-        //turnKey.Dequeue(unit.tag);
         if (units[unit.tag].Contains(unit))
-        {
             units[unit.tag].Remove(unit);
-        }
-        //turnTeam.Dequeue(unit);
     }
 
     private void SetTimeScale(float scale)

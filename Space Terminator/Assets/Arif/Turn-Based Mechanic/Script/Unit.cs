@@ -62,17 +62,11 @@ public class Unit : MonoBehaviour
     private void Update()
     {
         healthBar.UpdateHealth(currentHealth / maxHealth);
-        //healthBar.UpdateTextHealth(currentHealth);
+        if (gameObject.tag == "Player")
+        {
+            healthBar.UpdateTextHealth(currentHealth);
+        }
         Overwatch();
-
-        //if (currentHealth <= 0)
-        //{
-        //Destroy(gameObject);
-        //unitPointsSystem.CurrentPoints = 0;
-        //GetComponent<Grid>().selectable = false;
-        //transform.gameObject.tag = "Grid";
-        //Destroy(gameObject.GetComponent<CapsuleCollider>());
-        //}
     }
 
     [SerializeField] LayerMask whatIsEnemy;
@@ -125,7 +119,7 @@ public class Unit : MonoBehaviour
                 duckingCooldown -= 1;
             }
             GetComponent<TacticMove>().arrow.SetActive(false);
-            TurnManager.EndTurn(GetComponent<Unit>());
+            TurnManager.EndTurn();
         }
     }
 
@@ -136,7 +130,12 @@ public class Unit : MonoBehaviour
         {
             isOverwatch = false;
             isDucking = false;
-            TurnManager.RemoveUnit(this.GetComponent<TacticMove>());
+
+            if(TryGetComponent(out ScoutMovement scoutMovement))
+                TurnManager.RemoveUnit(scoutMovement);
+            else
+                TurnManager.RemoveUnit(this.GetComponent<TacticMove>());
+
             if (gameObject.tag == "Player")
                 StarSystem.instance.RemoveTroop();
         }
@@ -175,7 +174,10 @@ public class Unit : MonoBehaviour
                 }
                 if (isDucking) return;
                 healthBar.UpdateHealth(currentHealth / maxHealth);
-                //healthBar.UpdateTextHealth(currentHealth);
+                if (gameObject.tag == "Player")
+                {
+                    healthBar.UpdateTextHealth(currentHealth);
+                }
                 TakeDamage(other.gameObject.GetComponent<Bullet>().Damage);
                 StartCoroutine(DamageAnim());
             }
@@ -215,7 +217,10 @@ public class Unit : MonoBehaviour
         currentHealth -= 3;
         if (healthBar != null && floatingText != null)
           healthBar.UpdateHealth(currentHealth / maxHealth);
-        healthBar.UpdateTextHealth(currentHealth);
+        if(gameObject.tag == "Player")
+        {
+            healthBar.UpdateTextHealth(currentHealth);
+        }
     
     }
 }

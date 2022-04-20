@@ -65,7 +65,6 @@ public class CloseRangeEnemyBehaviour : EnemyBehaviour
         idle.AddChild(stayIdle);
 
         //add leaves to attack sequence
-        attack.AddChild(checkAP);
         attack.AddChild(canAttackPlayer);
         attack.AddChild(computeTarget);
         attack.AddChild(attackPlayer);
@@ -74,25 +73,21 @@ public class CloseRangeEnemyBehaviour : EnemyBehaviour
         overwatch.AddChild(startOverwatch);
 
         //add leaves to pursuit sequence
-        pursuit.AddChild(checkAP);
         pursuit.AddChild(startPursuit);
         pursuit.AddChild(computeTarget);
         pursuit.AddChild(goToTarget);
 
         //add leaves to cover sequence
-        cover.AddChild(checkAP);
         cover.AddChild(lowHealth);
         cover.AddChild(computeTarget);
         cover.AddChild(goToTarget);
 
         //add leaves to duck sequence
-        duck.AddChild(checkAP);
         duck.AddChild(canDuck);
         duck.AddChild(computeTarget);
         duck.AddChild(startDucking);
 
         patrol.AddChild(isPlayerNearby);
-        patrol.AddChild(checkAP);
         patrol.AddChild(startPatrol);
         patrol.AddChild(computeTarget);
         patrol.AddChild(goToTarget);
@@ -131,22 +126,27 @@ public class CloseRangeEnemyBehaviour : EnemyBehaviour
         //print out total states
         tree.PrintTree();
     }
-    public virtual Node.Status IsPlayerFar()
+    public Node.Status IsPlayerFar()
     {
         enemyMovement.FindNearestPlayer();
-        //enemyMovement.Initialize();
-        if (Vector3.Distance(transform.position, enemyMovement.Player.transform.position) > 2)
+        if (Vector3.Distance(transform.position, enemyMovement.Player.transform.position) > 5)
         {
             return Node.Status.SUCCESS;
         }
         return Node.Status.FAILURE;
     }
 
-    public virtual Node.Status StartPatrol()
+    public Node.Status StartPatrol()
     {
-        enemyMovement.FindSelectableGrid();
-        enemyMovement.FindRandomPosition(out GameObject target);
-        if(target == null)
+        Collider[] gridColliders = Physics.OverlapSphere(transform.position, 5, enemyMovement.whatIsGrid);
+        List<GameObject> gridGameObjects = new List<GameObject>();
+
+        foreach(Collider gridCollider in gridColliders)
+            gridGameObjects.Add(gridCollider.gameObject);
+
+        GameObject target = enemyMovement.FindRandomPosition(gridGameObjects);
+
+        if (target == null)
         {
             Debug.Log("target null");
             return Node.Status.RUNNING;

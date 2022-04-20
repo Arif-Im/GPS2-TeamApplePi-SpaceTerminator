@@ -21,8 +21,6 @@ public class PlayableMovement : TacticMove
     {
         unit = GetComponent<Unit>();
         TurnManager.AddUnit(this);
-
-
     }
 
     // Update is called once per frame
@@ -31,7 +29,7 @@ public class PlayableMovement : TacticMove
         PlayerMove();
     }
 
-    public virtual void PlayerMove()
+    public void PlayerMove()
     {
         Debug.DrawRay(transform.position, transform.forward);
 
@@ -41,12 +39,6 @@ public class PlayableMovement : TacticMove
             GetComponent<Grid>().selectable = false;
             transform.gameObject.tag = "Grid";
             Destroy(gameObject.GetComponent<CapsuleCollider>());
-
-            //if (turn)
-            //{
-            //    TurnManager.EndTurn();
-            //    turn = false;
-            //}
         }
 
         if (!turn)

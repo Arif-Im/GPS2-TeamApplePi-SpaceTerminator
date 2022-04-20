@@ -92,7 +92,6 @@ public class EnemyBehaviour : MonoBehaviour
         idle.AddChild(stayIdle);
 
         //add leaves to attack sequence
-        attack.AddChild(checkAP);
         attack.AddChild(canAttackPlayer);
         attack.AddChild(computeTarget);
         attack.AddChild(attackPlayer);
@@ -101,19 +100,16 @@ public class EnemyBehaviour : MonoBehaviour
         overwatch.AddChild(startOverwatch);
 
         //add leaves to pursuit sequence
-        pursuit.AddChild(checkAP);
         pursuit.AddChild(startPursuit);
         pursuit.AddChild(computeTarget);
         pursuit.AddChild(goToTarget);
 
         //add leaves to cover sequence
-        cover.AddChild(checkAP);
         cover.AddChild(lowHealth);
         cover.AddChild(computeTarget);
         cover.AddChild(goToTarget);
 
         //add leaves to duck sequence
-        duck.AddChild(checkAP);
         duck.AddChild(canDuck);
         duck.AddChild(computeTarget);
         duck.AddChild(startDucking);
@@ -151,7 +147,7 @@ public class EnemyBehaviour : MonoBehaviour
     {
         if (!unit.gameObject.GetComponent<TacticMove>().turn || unit.GetUnitPoints() <= 0)
         {
-            TurnManager.EndTurn(GetComponent<Unit>());
+            TurnManager.EndTurn();
             return Node.Status.FAILURE;
         }
         return Node.Status.SUCCESS;
@@ -177,11 +173,6 @@ public class EnemyBehaviour : MonoBehaviour
         {
             return Node.Status.FAILURE;
         }
-
-        //if(enemyMovement.Player != null)
-        //{
-        //    return Node.Status.FAILURE;
-        //}
 
         if (unit.isDucking)
         {
@@ -273,7 +264,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     #region Cover
 
-    public Node.Status LowHealth()
+    public virtual Node.Status LowHealth()
     {
         if (unit.HealthPercentage >= 50 || enemyMovement.GetTargetTile(gameObject).isCover || enemyMovement.cover == null)
         {
@@ -295,14 +286,15 @@ public class EnemyBehaviour : MonoBehaviour
 
     #region Duck
 
-    public virtual Node.Status CanDuck()
+    public Node.Status CanDuck()
     {
         tacticOrDuck = UnityEngine.Random.Range(1, 3);
 
-        if (tacticOrDuck == 1 && enemyMovement.GetTargetTile(gameObject).isCover && !unit.isDucking)
+        if (tacticOrDuck == 2 && enemyMovement.GetTargetTile(gameObject).isCover && !unit.isDucking)
         {
             return Node.Status.SUCCESS;
         }
+        tacticOrDuck = 1;
         return Node.Status.FAILURE;
     }
 

@@ -24,7 +24,7 @@ public class TacticMove : MonoBehaviour
     [SerializeField] int moveTile = 5; //can move 5 tiles per turn
     [SerializeField] int originalMoveTile = 5; //can move 5 tiles per turn
     [SerializeField] float jumpHeight = 2; //can jump 2 tiles
-    [SerializeField] LayerMask whatIsGrid;
+    public LayerMask whatIsGrid;
     public bool moving = false;
     public Grid actualTargetGrid;
     public bool attacking;
@@ -127,7 +127,7 @@ public class TacticMove : MonoBehaviour
         //if (grid == null) { Debug.Log("GetTargetTile: grid = null"); }
 
         if (grid == null)
-            TurnManager.EndTurn(GetComponent<Unit>());
+            TurnManager.EndTurn();
 
         return grid;
     }
@@ -206,11 +206,11 @@ public class TacticMove : MonoBehaviour
 
     public void MoveToGrid(Grid grid)
     {
-        if(grid == null)
-        {
-            Debug.Log("Grid Bug");
-            unit.DeductPointsOrChangeTurn(unit.GetUnitPoints());
-        }
+        //if(grid == null)
+        //{
+        //    Debug.Log("Grid Bug");
+        //    unit.DeductPointsOrChangeTurn(unit.GetUnitPoints());
+        //}
 
         path.Clear();
         grid.target = true;
@@ -582,7 +582,7 @@ public class TacticMove : MonoBehaviour
             Grid t = FindLowestF(openList);
             closedList.Add(t);
 
-            if (foundTiles >= 10)
+            if (foundTiles >= 50)
             {
                 float closestGrid = Mathf.Infinity;
 
@@ -604,7 +604,16 @@ public class TacticMove : MonoBehaviour
             if (t == target)
             {
                 actualTargetGrid = FindEndGrid(t, isAbsolutePosition);
-                MoveToGrid(actualTargetGrid);
+                if (actualTargetGrid == null)
+                {
+                    actualTargetGrid = t;
+                    gameObject.transform.position = new Vector3(t.transform.position.x, 1.02f, t.transform.position.z);
+                    unit.DeductPointsOrChangeTurn(1);
+                }
+                else
+                {
+                    MoveToGrid(actualTargetGrid);
+                }
                 return;
             }
 

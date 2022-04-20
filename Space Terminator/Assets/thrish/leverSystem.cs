@@ -28,7 +28,7 @@ public class leverSystem : MonoBehaviour
     {
         worldToScreen = Camera.main.WorldToScreenPoint(transform.position);
         if (consoleImage != null)
-            consoleImage.transform.position = worldToScreen + Vector2.up * 2;
+            consoleImage.transform.position = worldToScreen + (Vector2.up * 2);
     }
 
     private void OnTriggerStay(Collider collision)
