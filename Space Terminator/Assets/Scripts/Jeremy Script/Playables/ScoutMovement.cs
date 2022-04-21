@@ -6,6 +6,7 @@ public class ScoutMovement : PlayableMovement
 {
     Scout scout;
     public bool grenadeMode = false;
+    public bool isAttacking = false;
 
     // Start is called before the first frame update
     new void Start()
@@ -18,6 +19,7 @@ public class ScoutMovement : PlayableMovement
     // Update is called once per frame
     void Update()
     {
+
         PlayerMove();
     }
 

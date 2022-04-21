@@ -27,11 +27,31 @@ public class AnimationManager : MonoBehaviour
         
         if (isPlayer)
         {
-            anim.SetBool("isWalking", GetComponentInParent<PlayableMovement>().isWalking);
-            anim.SetBool("isAttacking", GetComponentInParent<TacticMove>().isAttack);
-            anim.SetBool("isDead", GetComponentInParent<PlayableMovement>().isDead);
-            anim.SetBool("isPunching", GetComponentInParent<TacticMove>().isPunching);
-            anim.SetBool("isDamaged", GetComponentInParent<Unit>().isDamaged);
+            var parentName = transform.name;
+
+            if (parentName == "Assault" || parentName == "Unit4")
+            {
+                anim.SetBool("isWalking", GetComponentInParent<PlayableMovement>().isWalking);
+                //anim.SetBool("isWalking", GetComponentInParent<ScoutMovement>().isWalking);
+                anim.SetBool("isAttacking", GetComponentInParent<TacticMove>().isAttack);
+                anim.SetBool("isDead", GetComponentInParent<PlayableMovement>().isDead);
+                //anim.SetBool("isDead", GetComponentInParent<ScoutMovement>().isDead);
+                anim.SetBool("isPunching", GetComponentInParent<TacticMove>().isPunching);
+                anim.SetBool("isDamaged", GetComponentInParent<Unit>().isDamaged);
+                anim.SetBool("isOverwatch", GetComponent<Unit>().isOverwatch);
+            }
+           
+           
+            if (parentName == "Scout" || parentName == "Heavy")
+            {
+                anim.SetBool("isWalking", GetComponentInParent<ScoutMovement>().isWalking);
+                anim.SetBool("isAttacking", GetComponentInParent<ScoutMovement>().isAttacking);
+                anim.SetBool("isDead", GetComponentInParent<ScoutMovement>().isDead);
+                anim.SetBool("isPunching", GetComponentInParent<TacticMove>().isPunching);
+                anim.SetBool("isDamaged", GetComponentInParent<Unit>().isDamaged);
+                anim.SetBool("isOverwatch", GetComponent<Unit>().isOverwatch);
+            }
+           
         }
 
     }

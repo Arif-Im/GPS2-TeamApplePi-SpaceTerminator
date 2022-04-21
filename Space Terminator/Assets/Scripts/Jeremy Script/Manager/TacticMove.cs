@@ -359,6 +359,16 @@ public class TacticMove : MonoBehaviour
             else
             {
                 transform.position = target;
+                if (g.haz == Hazard.burn)
+                {
+                    currentStatus = StatusID.burn;
+                    statusCount = 3;
+                }
+                if (g.haz == Hazard.intoxicated)
+                {
+                    currentStatus = StatusID.intoxicated;
+                    statusCount = 1;
+                }
                 path.Pop();
             }
 

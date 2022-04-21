@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Hazard
+{
+    none, burn, intoxicated
+}
+
 public class Grid : MonoBehaviour
 {
     [SerializeField] LayerMask whatIsPlayer;
@@ -31,6 +36,8 @@ public class Grid : MonoBehaviour
     
     public Grid CoverOrigin { get;  set; }
     public Cover CoverObject { get; set; }
+
+    public Hazard haz;
 
     void Start()
     {
@@ -90,6 +97,14 @@ public class Grid : MonoBehaviour
         {
             //Blue
             GetComponent<Renderer>().material.color = Color.blue;
+        }
+        else if (selectable && haz == Hazard.burn)
+        {
+            GetComponent<Renderer>().material.color = new Color(1, 0, 0, .3f);
+        }
+        else if (selectable && haz == Hazard.intoxicated)
+        {
+            GetComponent<Renderer>().material.color = new Color(0, 1, 0, .3f);
         }
         else
         {

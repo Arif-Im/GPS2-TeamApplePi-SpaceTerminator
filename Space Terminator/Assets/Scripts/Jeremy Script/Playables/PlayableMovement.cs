@@ -13,6 +13,7 @@ public class PlayableMovement : TacticMove
     [SerializeField] protected GameObject outOfAmmoText;
     public bool isWalking;
     public bool isDead = false;
+    public bool isAttackingEnemy = false;
 
     protected Grid choosenGrid;
 
@@ -26,6 +27,7 @@ public class PlayableMovement : TacticMove
     // Update is called once per frame
     void Update()
     {
+        isAttackingEnemy = isAttack;
         PlayerMove();
 
         if(Input.GetKeyDown(KeyCode.S))

@@ -147,6 +147,7 @@ MonoBehaviour:
   outOfAmmoText: {fileID: 8587314200757589567, guid: e0ffd5ada89f69944bb9e0288bb22ab8, type: 3}
   isWalking: 0
   isDead: 0
+  isAttackingEnemy: 0
 --- !u!114 &4662047177211716488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,6 +260,7 @@ MonoBehaviour:
   f: 0
   g: 0
   h: 0
+  haz: 0
 --- !u!114 &5691752362613972422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -313,7 +315,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7262990479653465346
 Transform:
   m_ObjectHideFlags: 0
