@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CloseRangeEnemyBehaviour : EnemyBehaviour
 {
+    float failsafe;
+
     private void Awake()
     {
         Initialize();
@@ -126,6 +128,37 @@ public class CloseRangeEnemyBehaviour : EnemyBehaviour
         //print out total states
         tree.PrintTree();
     }
+
+    new void Update()
+    {
+        base.Update();
+
+        if(GetComponent<TacticMove>().turn)
+        {
+            if (failsafe < 0)
+                TurnManager.EndTurn();
+            else
+                failsafe -= Time.deltaTime;
+        }
+    }
+
+    public override Node.Status Idle()
+    {
+        failsafe = 3;
+
+        if (unit.gameObject.GetComponent<TacticMove>().turn)
+        {
+            return Node.Status.FAILURE;
+        }
+
+        if (unit.isDucking)
+        {
+            unit.isDucking = false;
+        }
+
+        return Node.Status.SUCCESS;
+    }
+
     public Node.Status IsPlayerFar()
     {
         enemyMovement.FindNearestPlayer();
@@ -142,14 +175,18 @@ public class CloseRangeEnemyBehaviour : EnemyBehaviour
         List<GameObject> gridGameObjects = new List<GameObject>();
 
         foreach(Collider gridCollider in gridColliders)
+        {
+            if (gridCollider.GetComponent<Grid>().occupied || /*!gridCollider.GetComponent<Grid>().selectable ||*/ !gridCollider.GetComponent<Grid>().walkable)
+                continue;
             gridGameObjects.Add(gridCollider.gameObject);
+        }
 
         GameObject target = enemyMovement.FindRandomPosition(gridGameObjects);
 
         if (target == null)
         {
-            Debug.Log("target null");
-            return Node.Status.RUNNING;
+            TurnManager.EndTurn();
+            return Node.Status.FAILURE;
         }
         else
         {

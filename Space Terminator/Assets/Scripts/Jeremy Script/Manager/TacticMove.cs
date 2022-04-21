@@ -251,6 +251,7 @@ public class TacticMove : MonoBehaviour
                 SpawnBullet(this.gameObject, GetTargetTile(this.gameObject).isCoverEffectArea, bulletPrefab);
             yield return new WaitForSeconds(0.15f);
         }
+        //ammoCount--;
 
         GameObject.FindGameObjectWithTag("Turn Manager").GetComponent<TurnManager>().attackState = AttacksState.FinishAttacked;
         isAttack = false;

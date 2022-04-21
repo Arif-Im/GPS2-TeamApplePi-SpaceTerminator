@@ -13,6 +13,8 @@ public class EnemyBehaviour : MonoBehaviour
     protected int attackOrOverwatch = 1;
     protected int tacticOrDuck = 1;
 
+    public bool isAttacking = false;
+
     protected Node.Status treeStatus = Node.Status.RUNNING;
 
     private void Awake()
@@ -172,7 +174,7 @@ public class EnemyBehaviour : MonoBehaviour
     #region Behaviours
 
     #region Idle
-    public Node.Status Idle()
+    public virtual Node.Status Idle()
     {
         if(unit.gameObject.GetComponent<TacticMove>().turn)
         {
@@ -216,6 +218,7 @@ public class EnemyBehaviour : MonoBehaviour
     {
         if (enemyMovement.attacking == false)
         {
+            StartCoroutine(ResetAttack());
             StartCoroutine(enemyMovement.Shoot(enemyMovement.Player.gameObject.GetComponent<Grid>(), () => unit.DeductPointsOrChangeTurn(unit.GetUnitPoints())));
             return Node.Status.SUCCESS;
         }
@@ -234,6 +237,13 @@ public class EnemyBehaviour : MonoBehaviour
             return Node.Status.SUCCESS;
         }
         return Node.Status.FAILURE;
+    }
+
+    IEnumerator ResetAttack()
+    {
+        isAttacking = true;
+        yield return new WaitForSeconds(1.5f);
+        isAttacking = false;
     }
 
     #endregion

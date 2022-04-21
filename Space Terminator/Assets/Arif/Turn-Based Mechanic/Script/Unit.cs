@@ -32,6 +32,8 @@ public class Unit : MonoBehaviour
         }
     }
 
+    public GameObject overwatchMarker;
+
     public float PunchDamage { get => punchDamagePoint; }
 
 
@@ -57,8 +59,22 @@ public class Unit : MonoBehaviour
     {
         currentHealth = maxHealth;
         overwatchCooldown = 0;
+
         if (gameObject.tag == "Player")
             StarSystem.instance.AddTroop();
+
+        //overwatchMarker.transform.parent = null;
+        //overwatchMarker.transform.localScale = Vector3.one * GetComponent<TacticMove>().MoveTile;
+        //overwatchMarker.transform.parent = this.transform;
+
+        //if(gameObject.tag == "Player")
+        //{
+        //    overwatchMarker.GetComponent<Renderer>().material.color = new Color(0, 100, 100, .55f);
+        //}
+        //else
+        //{
+        //    overwatchMarker.GetComponent<Renderer>().material.color = new Color(100, 100, 0, .55f);
+        //}
     }
 
     private void Update()
@@ -68,6 +84,14 @@ public class Unit : MonoBehaviour
         {
             healthBar.UpdateTextHealth(currentHealth);
         }
+        if(currentHealth <= 0)
+        {
+            if(gameObject.tag == "Player")
+                StarSystem.instance.RemoveTroop();
+            TurnManager.RemoveUnit(this.GetComponent<TacticMove>());
+            this.enabled = false;
+        }
+
         Overwatch();
     }
 
@@ -85,7 +109,10 @@ public class Unit : MonoBehaviour
                 isOverwatch = false; // stops overwatch when attacking
                 break;
             }
+            //overwatchMarker.SetActive(true);
         }
+        //else
+        //    overwatchMarker.SetActive(false);
     }
 
     public void Activate(Action action)

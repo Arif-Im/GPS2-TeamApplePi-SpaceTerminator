@@ -17,7 +17,7 @@ public class UnitStorage : MonoBehaviour
 
         if (stackMnager.queue.Count == 0)
         {
-            Destroy(GameObject.FindGameObjectsWithTag("dropdown")[0]);
+            Destroy(GameObject.FindGameObjectWithTag("dropdown"));
         }
 
         string gridName;

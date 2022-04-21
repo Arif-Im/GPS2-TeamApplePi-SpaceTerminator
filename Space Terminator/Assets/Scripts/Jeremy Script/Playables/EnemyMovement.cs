@@ -117,7 +117,8 @@ public class EnemyMovement : TacticMove
 
     public GameObject FindRandomPosition(List<GameObject> g)
     {
-        GameObject chosenGrid = g[UnityEngine.Random.Range(0, g.Count)];
+        int rand = UnityEngine.Random.Range(0, g.Count);
+        GameObject chosenGrid = g[rand];
         return chosenGrid.gameObject;
     }
 

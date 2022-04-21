@@ -68,6 +68,14 @@ public class Grid : MonoBehaviour
         {
             //GetComponent<Renderer>().material.color = new Color(1, 0, 0, .55f);
         }
+        else if (haz == Hazard.burn)
+        {
+            GetComponent<Renderer>().material.color = new Color(1, 0, 0, 2.5f);
+        }
+        else if (haz == Hazard.intoxicated)
+        {
+            GetComponent<Renderer>().material.color = new Color(0, 1, 0, 2.5f);
+        }
         else if (isTouched == true)
         {
             //Blue
@@ -83,11 +91,11 @@ public class Grid : MonoBehaviour
             //cyan
             GetComponent<Renderer>().material.color = new Color(0, 1, 1, .55f);
         }
-        else if (target)
-        {
-            //GetComponent<Renderer>().material.color = Color.green;
-            GetComponent<Renderer>().material.color = new Color(0, 1, 0, .55f);
-        }
+        //else if (target)
+        //{
+        //    //GetComponent<Renderer>().material.color = Color.green;
+        //    GetComponent<Renderer>().material.color = new Color(0, 1, 0, .55f);
+        //}
         else if (selectable)
         {
             //GetComponent<Renderer>().material.color = Color.yellow;
@@ -97,14 +105,6 @@ public class Grid : MonoBehaviour
         {
             //Blue
             GetComponent<Renderer>().material.color = Color.blue;
-        }
-        else if (selectable && haz == Hazard.burn)
-        {
-            GetComponent<Renderer>().material.color = new Color(1, 0, 0, .3f);
-        }
-        else if (selectable && haz == Hazard.intoxicated)
-        {
-            GetComponent<Renderer>().material.color = new Color(0, 1, 0, .3f);
         }
         else
         {
