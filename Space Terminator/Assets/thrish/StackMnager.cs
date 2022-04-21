@@ -85,8 +85,9 @@ public class StackMnager : MonoBehaviour
 
         if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Main Level") && GameObject.FindGameObjectsWithTag("dropdown").Length == 0)
         {
-            dropdown = Instantiate(scrollbar, new Vector2(956 * 2, 380 * 2), Quaternion.identity) as Dropdown;
+            dropdown = Instantiate(scrollbar, new Vector2(710, 280), Quaternion.identity) as Dropdown;
             dropdown.transform.parent = GameObject.FindGameObjectsWithTag("Canvas")[0].transform;
+            dropdown.transform.localScale = new Vector3(1,1,1);
             dropdown.transform.SetAsFirstSibling();
             //List<Dropdown.OptionData> newData = new List<Dropdown.OptionData>();
             //scrollbar
