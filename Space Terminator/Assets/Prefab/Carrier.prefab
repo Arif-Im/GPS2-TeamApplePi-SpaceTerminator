@@ -305,7 +305,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c601971bb5f08864bbcd122eb1d35399, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  directionMarker: {fileID: 0}
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 0
   playerPresent: 0
   occupied: 0
   selectable: 1
@@ -322,6 +324,7 @@ MonoBehaviour:
   f: 0
   g: 0
   h: 0
+  haz: 0
 --- !u!54 &2586629930665640068
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -456,11 +459,49 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f55225b4ceef8242a7e51ebccb54f75, type: 3}
+--- !u!1 &2049174080398147034 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 2f55225b4ceef8242a7e51ebccb54f75, type: 3}
+  m_PrefabInstance: {fileID: 1202823020173623435}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1674195932274616160 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2f55225b4ceef8242a7e51ebccb54f75, type: 3}
   m_PrefabInstance: {fileID: 1202823020173623435}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &2298454107208747772
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2049174080398147034}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f16f17c88f116b041afc3b2617f7968a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &5398138230862364139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2049174080398147034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91f7ed7bfdea12340a9ef30a5c2392fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isAlien: 1
+  isPlayer: 0
 --- !u!1001 &3950791533719718199
 PrefabInstance:
   m_ObjectHideFlags: 0
