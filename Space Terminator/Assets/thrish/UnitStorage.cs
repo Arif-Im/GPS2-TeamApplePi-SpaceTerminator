@@ -15,10 +15,15 @@ public class UnitStorage : MonoBehaviour
     private void Update()
     {
 
-        if (stackMnager.queue.Count == 0)
+        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Main Level"))
         {
-            Destroy(GameObject.FindGameObjectsWithTag("dropdown")[0]);
+            if (stackMnager.queue.Count == 0)
+            {
+                Destroy(GameObject.FindGameObjectsWithTag("dropdown")[0]);
+            }
         }
+
+        
 
         string gridName;
 
