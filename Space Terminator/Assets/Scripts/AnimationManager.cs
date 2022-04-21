@@ -38,7 +38,7 @@ public class AnimationManager : MonoBehaviour
                 //anim.SetBool("isDead", GetComponentInParent<ScoutMovement>().isDead);
                 anim.SetBool("isPunching", GetComponentInParent<TacticMove>().isPunching);
                 anim.SetBool("isDamaged", GetComponentInParent<Unit>().isDamaged);
-                anim.SetBool("isOverwatch", GetComponent<Unit>().isOverwatch);
+                anim.SetBool("isOverwatch", GetComponentInParent<Unit>().isOverwatch);
             }
            
            
@@ -49,7 +49,7 @@ public class AnimationManager : MonoBehaviour
                 anim.SetBool("isDead", GetComponentInParent<ScoutMovement>().isDead);
                 anim.SetBool("isPunching", GetComponentInParent<TacticMove>().isPunching);
                 anim.SetBool("isDamaged", GetComponentInParent<Unit>().isDamaged);
-                anim.SetBool("isOverwatch", GetComponent<Unit>().isOverwatch);
+                anim.SetBool("isOverwatch", GetComponentInParent<Unit>().isOverwatch);
             }
            
         }
