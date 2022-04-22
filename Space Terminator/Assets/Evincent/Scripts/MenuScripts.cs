@@ -21,17 +21,32 @@ public class MenuScripts : MonoBehaviour
     IEnumerator nextDecision(GameObject nextObject)
     {
 
+        //animator.SetBool("change", true);
+        //yield return new WaitForSeconds(1f);
+        //self.gameObject.SetActive(false);
+        //nextObject.gameObject.SetActive(true);
+        //nextAnim.SetBool("back", true);
+        //yield return new WaitForSeconds(1f);
+        //animator.SetBool("change", false);
+        //animator.SetBool("back", false);
+        //nextAnim.SetBool("change", false);
+        //nextAnim.SetBool("back", false);
         animator.SetBool("change", true);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
         self.gameObject.SetActive(false);
         nextObject.gameObject.SetActive(true);
         nextAnim.SetBool("back", true);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
         animator.SetBool("change", false);
         animator.SetBool("back", false);
-        nextAnim.SetBool("change", false);
         nextAnim.SetBool("back", false);
+        nextAnim.SetBool("change", false);
 
+    }
+    public void testing(GameObject nextOne)
+    {
+        self.gameObject.SetActive(false);
+        nextOne.gameObject.SetActive(true);
     }
 
     public void gameScene()
